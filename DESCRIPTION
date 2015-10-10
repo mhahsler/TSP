@@ -1,0 +1,23 @@
+Package: TSP
+Type: Package
+Title: Traveling Salesperson Problem (TSP)
+Version: 1.1-3.1
+Date: 2015-x-x
+Authors@R: c(
+	person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
+	    email = "mhahsler@lyle.smu.edu"),
+	person("Kurt", "Hornik", role = c("aut", "cph")))
+Description: Basic infrastructure and some algorithms for the traveling
+    salesperson problem (also traveling salesman problem; TSP). 
+    The package provides some simple algorithms and
+    an interface to the Concorde TSP solver and its implementation of the 
+    Chained-Lin-Kernighan heuristic. Concorde
+    itself is not included in the package and has to be obtained separately
+    from http://www.math.uwaterloo.ca/tsp/concorde.html.
+Classification/ACM: G.1.6, G.2.1, G.4
+URL: http://lyle.smu.edu/IDA/seriation
+Depends: R (>= 2.14.0)
+Imports: graphics, foreach, utils, methods, stats, grDevices
+Suggests: maps, sp, maptools, testthat
+License: GPL-3
+Copyright: All code is Copyright (C) Michael Hahsler and Kurt Hornik.

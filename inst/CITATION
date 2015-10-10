@@ -1,0 +1,29 @@
+
+citation(auto = meta)
+
+
+bibentry(bibtype = "article",
+         title = paste("TSP -- {I}nfrastructure for the traveling",
+			"salesperson problem"),
+         author = {
+             c(person("Michael", "Hahsler",
+                               email = "michael@hahsler.net"),
+                        person("Kurt", "Hornik",
+                               email = "Kurt.Hornik@R-project.org"))
+         },
+         year = 2007,
+         journal = "Journal of Statistical Software",
+         volume = 23,
+         number = 2,
+         pages = "1--21",
+         url = "http://www.jstatsoft.org/v23/i02/",
+         month = "December",
+         issn = "1548-7660",
+         textVersion = {
+             paste(paste("Michael Hahsler, and Kurt Hornik (2007),",
+                         "TSP - Infrastructure for the traveling", 
+			 "salesperson problem."),
+                   "Journal of Statistical Software 23/2.",
+                   "URL: http://www.jstatsoft.org/v23/i02/.",
+                   sep = "  ")
+         })

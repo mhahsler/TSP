@@ -1,0 +1,83 @@
+useDynLib(TSP)
+
+importFrom(stats, as.dist, dist)
+importFrom(utils, read.table, write.table)
+importFrom(methods, is)
+importFrom(grDevices, gray.colors)
+importFrom(graphics, image.default, plot, polygon)
+importFrom(foreach, foreach, "%dopar%")
+
+export(TSP, 
+       ATSP,
+       ETSP,
+       TOUR, 
+       reformulate_ATSP_as_TSP,
+       n_of_cities, 
+       insert_dummy,
+       cut_tour,
+       tour_length,
+       solve_TSP,
+       linkern_help, 
+       concorde_help, 
+       concorde_path,
+       read_TSPLIB, 
+       write_TSPLIB,
+       ## as.matrix,
+       as.TSP,
+       as.ATSP,
+       as.ETSP,
+       as.TOUR
+       )
+
+## TSP/ATSP/ETSP
+S3method(print, TSP)
+S3method(n_of_cities, TSP)
+S3method(labels, TSP)
+S3method(image, TSP)
+
+S3method(print, ATSP)
+S3method(n_of_cities, ATSP)
+S3method(labels, ATSP)
+S3method(image, ATSP)
+
+S3method(print, ETSP)
+S3method(n_of_cities, ETSP)
+S3method(labels, ETSP)
+S3method(image, ETSP)
+S3method(plot, ETSP)
+
+S3method(tour_length, TOUR)
+S3method(tour_length, TSP)
+S3method(tour_length, ATSP)
+S3method(tour_length, ETSP)
+
+S3method(insert_dummy, TSP)
+S3method(insert_dummy, ATSP)
+S3method(insert_dummy, ETSP)
+
+S3method(write_TSPLIB, TSP)
+S3method(write_TSPLIB, ATSP)
+S3method(write_TSPLIB, ETSP)
+
+S3method(solve_TSP, TSP)
+S3method(solve_TSP, ATSP)
+S3method(solve_TSP, ETSP)
+
+## coercions
+S3method(as.TSP, dist)
+S3method(as.TSP, matrix)
+S3method(as.dist, TSP)
+
+S3method(as.ATSP, dist)
+S3method(as.ATSP, matrix)
+S3method(as.matrix, ATSP)
+
+S3method(as.ETSP, data.frame)
+S3method(as.ETSP, matrix)
+S3method(as.matrix, ETSP)
+S3method(as.TSP, ETSP)
+
+## TOUR
+S3method(print, TOUR)
+S3method(cut_tour, TOUR)
+S3method(as.TOUR, integer)
