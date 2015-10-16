@@ -20,7 +20,7 @@ Chained-Lin-Kernighan heuristic.
 ## Example
 
 This example loads a data set with 312 cities (USA and Canada) and 
-```
+```R
 ## load library and read data
 R> library("TSP")
 R> data("USCA312")
