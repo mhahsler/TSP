@@ -1,12 +1,14 @@
-Changes in version 1.1-4 (x/x/2015)
+Changes in version 1.1-3.1 (x/x/2015)
     * fixed bug in arbitrary insertion for TSPs with two or less cities
       (bug report by Shrinidhee Shevade).
-    * concorde and linkern help: exe argument was removed. The exe control 
-      argument for both methods in solve_TSP is now deprecated. 
+    * concorde and linkern help: exe argument was removed. The exe control
+      argument for both methods in solve_TSP is now deprecated.
       Use concorde_path(path) instead.
+    * concorde and linkern gained a control argument verbose to
+      suppress the output.
 
 Changes in version 1.1-3 (9/2/2015)
-    * two-opt now works correctly with asymetric TSPs 
+    * two-opt now works correctly with asymmetric TSPs
       (bug report by Luis Martinez).
 
 Changes in version 1.1-2 (7/30/2015)
@@ -20,16 +22,16 @@ Changes in version 1.1-0 (3/14/2015)
     * default method is now arbitrary_insertion with two_opt refinement.
     * we use foreach (use doParallel) to compute repetitions in parallel
     * ETSP (Euclidean TSP) added.
-    * generic and arguments for tour_lengh have changed 
+    * generic and arguments for tour_lengh have changed
       (fist argument is now a tour).
-    * method "2-opt" was renamed to "two_opt" so it can also be used as a 
+    * method "2-opt" was renamed to "two_opt" so it can also be used as a
         proper variable name.
     * solve_TSP gained methods "identity" and "random".
     * solve_TSP gained options "repetition" and "two_opt".
 
 Changes in version 1.0-10 (2/3/2015)
     * added check for argument cut in cut_tour
-    * Finding concord and linkern is now case 
+    * Finding concord and linkern is now case
         insensitive (Reported by Mark Otto)
 
 Changes in version 1.0-9 (7/16/2014)
@@ -51,7 +53,7 @@ Changes in version 1.0-5 (11/10/2011)
     * Bugfix: labels in creator ATSP() (reported by Tiffany Chen)
 
 Changes in version 1.0-4 (8/31/2011)
-    * Fixed bug with missing row/column labels in as.ATSP() 
+    * Fixed bug with missing row/column labels in as.ATSP()
 	(reported by Ian Deters)
 
 Changes in version 1.0-3 (5/26/2011)
@@ -61,4 +63,4 @@ Changes in version 1.0-2 (1/14/2011)
     * Fixed Windows/R bug with temp files.
     * Fixed the code for SpatialLines thanks to Roger Bivand.
 
-Initial version 0.1-2 (9/18/2006) 
+Initial version 0.1-2 (9/18/2006)

@@ -26,9 +26,14 @@ tsp_concorde <- function(x, control = NULL){
   if(!is.null(control$exe)) warning("exe is deprecated. Use concorde_path() instead!")
 
   ## get parameters
-  clo         <- if(!is.null(control$clo))        control$clo         else ""
-  precision   <- if(!is.null(control$precision))  control$precision   else 6
-  exe         <- .find_exe(control$exe, "concorde")
+  control <- .get_parameters(control, list(
+    clo = "",
+    precision = 6,
+    exe = .find_exe(control$exe, "concorde"),
+    verbose = TRUE
+  ))
+
+  precision <- control$precision
 
   ## check x
   if(inherits(x, "TSP")){
@@ -47,9 +52,10 @@ tsp_concorde <- function(x, control = NULL){
       prec <- floor(log10(MAX / max_x))
       if(prec < precision) {
         precision <- prec
-        warning(paste("Concorde can only handle distances < 2^15 for",
-          "less than 10 cities. Reducing precision to",
-          precision), immediate. = TRUE)
+        if(control$verbose)
+          warning(paste("Concorde can only handle distances < 2^15 for",
+            "less than 10 cities. Reducing precision to",
+            precision), immediate. = TRUE)
       }
     }else{
       ## regular constraint on integer is 2^31 - 1
@@ -58,8 +64,9 @@ tsp_concorde <- function(x, control = NULL){
       prec <- floor(log10(MAX / max_x / n_of_cities(x)))
       if(prec < precision) {
         precision <- prec
-        warning(paste("Concorde can only handle distances < 2^31.",
-          "Reducing precision for Concorde to", precision), immediate. = TRUE)
+        if(control$verbose)
+          warning(paste("Concorde can only handle distances < 2^31.",
+            "Reducing precision for Concorde to", precision), immediate. = TRUE)
       }
     }
   }else if(inherits(x, "ETSP")) {
@@ -89,7 +96,12 @@ tsp_concorde <- function(x, control = NULL){
   ## do the call and read back result
   ## we do not check return values of concorde since they are not
   ## very consistent
-  system(paste(exe, "-x", clo, "-o", tmp_file_out, tmp_file_in))
+  system2(control$exe,
+    args =  paste("-x", control$clo, "-o", tmp_file_out, tmp_file_in),
+    stdout = if(control$verbose) "" else FALSE,
+    stderr = if(control$verbose) "" else FALSE,
+    )
+
 
   if(!file.access(tmp_file_out) == 0)
     stop("Problems with reading Concorde's output.\nIs concorde properly installed?\nFor details see ? Concorde")
@@ -110,20 +122,22 @@ tsp_concorde <- function(x, control = NULL){
 
 tsp_linkern <- function(x, control = NULL){
 
-  if(!is.null(control$exe)) warning("exe is deprecated. Use concorde_path() instead!")
+  if(!is.null(control$exe))
+    warning("exe is deprecated. Use concorde_path() instead!")
 
   ## get parameters
-  clo         <- if(!is.null(control$clo))        control$clo         else ""
-  precision   <- if(!is.null(control$precision))  control$precision   else 6
-  exe         <- .find_exe(control$exe, "linkern")
-  verbatim    <- if(!is.null(control$verbatim))   control$verbatim    else FALSE
+  control <- .get_parameters(control, list(
+    exe = .find_exe(control$exe, "linkern"),
+    clo = "",
+    precision = 6,
+    verbose = TRUE
+  ))
 
-  verbatim    <- if(!verbatim) "-Q" else ""
-
-
+  precision <- control$precision
 
   ## have to set -r for small instances <8
-  if(n_of_cities(x) <=8) clo <- paste(clo, "-k", n_of_cities(x))
+  if(n_of_cities(x) <=8)
+    control$clo <- paste(control$clo, "-k", n_of_cities(x))
 
   ## check x
   if(inherits(x, "TSP")) {
@@ -134,8 +148,9 @@ tsp_linkern <- function(x, control = NULL){
     prec <- floor(log10(MAX / max_x / n_of_cities(x)))
     if(prec < precision) {
       precision <- prec
-      warning(paste("Linken can only handle distances < 2^31.",
-        "Reducing precision to", precision), immediate. = TRUE)
+      if(control$verbose)
+        warning(paste("Linken can only handle distances < 2^31.",
+          "Reducing precision to", precision), immediate. = TRUE)
     }
   }else if(inherits(x, "ETSP")) {
     ## nothing to do
@@ -161,7 +176,10 @@ tsp_linkern <- function(x, control = NULL){
   ## do the call and read back result
   ## we do not check return values of concorde since they are not
   ## very consistent
-  system(paste(exe, verbatim, "-o", tmp_file_out , clo, tmp_file_in))
+  system2(control$exe, args =  paste("-o",
+    tmp_file_out, control$clo, tmp_file_in),
+    stdout = if(control$verbose) "" else FALSE,
+    stderr = if(control$verbose) "" else FALSE)
 
   if(!file.access(tmp_file_out) == 0)
     stop("Problems with reading linkern's output. Is linkern properly installed?")
@@ -180,11 +198,13 @@ tsp_linkern <- function(x, control = NULL){
 
 ## get help page
 concorde_help <- function() {
-  system(paste(.find_exe(NULL, "concorde"), ""))
+  cat("The following options can be specified in solve_TSP with method \"concorde\" using clo in control:\n\n")
+  system2(.find_exe(NULL, "concorde"), args = "")
 }
 
 linkern_help <- function() {
-  system(paste(.find_exe(NULL, "linkern"), ""))
+  cat("The following options can be specified in solve_TSP with method \"linkern\" using clo in control:\n\n")
+  system2(.find_exe(NULL, "linkern"), args = "")
 }
 
 ## path
@@ -194,23 +214,25 @@ concorde_path <- local({
     if(missing(path)) {
       if(!is.null(.path)) return(.path)
       else {
-        p <- Sys.which("concorde")
-        if(p != "") return(p)
-        warning("concorde not found! Please set the path manually.")
-        return(NULL)
+        ## find concorde and/or linkern
+        p <- dirname(Sys.which("concorde"))
+        if(p == "") p <- dirname(Sys.which("linkern"))
+        if(p == "") stop("Can not find executables for concorde or linkern. Please install the executables or set path manually.")
+        return(p)
       }
     } else {
-      .path <<- path
       if(!is.null(path)) {
         ex <- c(list.files(path, pattern = "concorde",
           ignore.case = TRUE),
           list.files(path, pattern = "linkern",
             ignore.case = TRUE))
         if(length(ex) < 1)
-          warning(paste("no executable (concorde, linkern) found in",
+          stop(paste("no executable (concorde and/or linkern) found in",
             path))
         cat("found:", ex, "\n")
       }
+      .path <<- path
+
       invisible(.path)
 
     }
