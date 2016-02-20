@@ -1,5 +1,5 @@
 #######################################################################
-# TSP - Traveling Salesperson Problem 
+# TSP - Traveling Salesperson Problem
 # Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
@@ -22,26 +22,27 @@
 
 tsp_two_opt <- function(x, control = NULL){
 
-    ## improve a given tour or create a random tour
-    initial <- function() {
-        if(!is.null(control$tour)) as.integer(control$tour) 
-        else sample(n_of_cities(x))
-    }
+  control <- .get_parameters(control, list(
+    tour = NULL,
+    rep = 1
+  ))
 
-    ## best of several tries
-    rep <- if(!is.null(control$rep)) control$rep 
-            else 1
-    
-    xx <- as.matrix(x)
+  ## improve a given tour or create a random tour
+  ## we use a function since for rep >1 we want several random
+  ## initial tours
+  initial <- function() {
+    if(!is.null(control$tour)) as.integer(control$tour)
+    else sample(n_of_cities(x))
+  }
 
-    if(rep > 1) {
-        tour <- replicate(rep, .Call("two_opt", xx, initial(), 
-          PACKAGE="TSP"), 
-            simplify = FALSE)
-        lengths <- sapply(tour, FUN = function(t) tour_length(x, t))
-        tour <- tour[[which.min(lengths)]]
-    }else tour <- .Call("two_opt", xx, initial(), PACKAGE="TSP")
+  xx <- as.matrix(x)
 
-    tour
+  if(control$rep > 1) {
+    tour <- replicate(control$rep, .Call("two_opt", xx, initial(),
+      PACKAGE="TSP"), simplify = FALSE)
+    lengths <- sapply(tour, FUN = function(t) tour_length(x, t))
+    tour <- tour[[which.min(lengths)]]
+  }else tour <- .Call("two_opt", xx, initial(), PACKAGE="TSP")
+
+  tour
 }
-

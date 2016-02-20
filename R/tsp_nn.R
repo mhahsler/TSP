@@ -1,5 +1,5 @@
 #######################################################################
-# TSP - Traveling Salesperson Problem 
+# TSP - Traveling Salesperson Problem
 # Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
@@ -22,16 +22,18 @@
 
 tsp_nn <- function(x, control = NULL) {
     ## parameter x comes checked from solve_TSP/solve_ATSP
-  
+
     n <- n_of_cities(x)
 
     ## we use a matrix for now (coveres TSP and ATSP)
     x <- as.matrix(x)
 
+    control <- .get_parameters(control, list(
+      start = sample(n, 1)
+    ))
     start <- control$start
-    if(is.null(start)) start <- sample(n, 1)
-    if(start < 0 || start > n) stop(paste("illegal value for", 
-            sQuote("start")))
+    if(start < 0 || start > n)
+      stop(paste("illegal value for", sQuote("start")))
 
     placed <- logical(n)
     order <- integer(n)
@@ -61,15 +63,15 @@ tsp_nn <- function(x, control = NULL) {
 
 tsp_repetitive_nn <- function(x, control){
   n <- n_of_cities(x)
-  
+
   #tours <- lapply(1:n, function(i) tsp_nn(x, control = list(start = i)))
   ## no backend would warn!
   i <- 0L ## for R CMD check (no global binding for i)
   suppressWarnings(
     tours <- foreach(i = 1:n) %dopar% tsp_nn(x, control = list(start = i))
   )
-  
+
   lengths <- sapply(tours, FUN = function(i) tour_length(x, i))
-  
+
   tours[[which.min(lengths)]]
 }
