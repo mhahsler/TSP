@@ -16,6 +16,7 @@ Description: Basic infrastructure and some algorithms for the traveling
     from http://www.math.uwaterloo.ca/tsp/concorde.html.
 Classification/ACM: G.1.6, G.2.1, G.4
 URL: http://lyle.smu.edu/IDA/seriation
+BugReports: https://github.com/mhahsler/TSP/issues
 Depends: R (>= 2.14.0)
 Imports: graphics, foreach, utils, methods, stats, grDevices
 Suggests: maps, sp, maptools, testthat
