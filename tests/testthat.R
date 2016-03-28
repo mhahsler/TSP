@@ -1,3 +1,6 @@
 library("testthat")
-test_package("TSP")
+
+library("TSP")
+test_check("TSP")
+
 

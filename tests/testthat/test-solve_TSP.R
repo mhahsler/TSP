@@ -9,8 +9,14 @@ m <- rbind(
   c(0, 1, 0, 1),
   c(1, Inf, 1, 0)
 )
+
 d <- as.dist(m)
 tsp <- TSP(d)
+tsp
+
+## from matrix should give the same result
+expect_equal(as.numeric(tsp), as.numeric(TSP(as.matrix(d))))
+
 
 ## test error on NA
 tsp_na <- tsp
@@ -18,7 +24,7 @@ tsp_na[4] <- NA
 expect_error(o <- solve_TSP(tsp_na))
 
 ## test Inf
-methods <- c("nearest_insertion", "cheapest_insertion", "farthest_insertion", 
+methods <- c("nearest_insertion", "cheapest_insertion", "farthest_insertion",
   "arbitrary_insertion", "nn", "repetitive_nn", "two_opt", "random", "identity")
 
 tours <- lapply(methods, FUN = function(m) solve_TSP(tsp, method = m))
