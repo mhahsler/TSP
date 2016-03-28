@@ -20,10 +20,7 @@ expect_equal(length(path), n_of_cities(USCA50))
 context("reformulate")
 ## reformualte
 atsp <- as.ATSP(USCA50)
-<<<<<<< HEAD
 expect_equal(tour_length(USCA50), tour_length(atsp))
 
-=======
->>>>>>> 911848df6919fc92524f6a4aa6a0408d0247234c
 tsp <- reformulate_ATSP_as_TSP(atsp)
 expect_equal(n_of_cities(atsp)*2, n_of_cities(tsp))
