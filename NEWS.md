@@ -1,6 +1,7 @@
 # Changes in version 1.1-4.1 (xx/xx/2016)
 
 * fixed TSP labels.
+* fixed tour_length for ETSP and added tests.
 
 # Changes in version 1.1-4 (2/21/2016)
 
