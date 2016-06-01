@@ -15,7 +15,7 @@ Chained-Lin-Kernighan heuristic.
 ## Installation
 
 * __Stable CRAN version:__ install from within R.
-* __Current development version:__ Download package from [AppVeyor](https://ci.appveyor.com/project/mhahsler/TSP/build/artifacts) or install via `intall_github("mhahsler/TSP")` (requires R package `devtools`) 
+* __Current development version:__ Download package from [AppVeyor](https://ci.appveyor.com/project/mhahsler/TSP/build/artifacts) or install via `install_github("mhahsler/TSP")` (requires R package `devtools`) 
 
 ## Example
 
@@ -45,9 +45,11 @@ An online example application of TSP can be found on [shinyapps](https://shrinid
 
 ## Further Information
 
+* Development version of [TSP on github](https://github.com/mhahsler/TSP).
 * Michael Hahsler and Kurt Hornik, [TSP - Infrastructure for the Traveling Salesperson Problem,](http://dx.doi.org/10.18637/jss.v023.i02) _Journal of Statistical Software,_ 22(2), 2007.
 * [TSP package vignette](http://cran.r-project.org/web/packages/TSP/vignettes/TSP.pdf) with complete examples.
 * [Reference manual](http://cran.r-project.org/web/packages/TSP/TSP.pdf)
 * [Concorde TSP solver home page](http://www.tsp.gatech.edu/concorde.html)
 
+_Maintainer:_ [Michael Hahsler](http://michael.hahsler.net)
 
