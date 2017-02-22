@@ -56,6 +56,6 @@ An online example application of TSP can be found on [shinyapps](https://shrinid
 ## References
 
 * Michael Hahsler and Kurt Hornik, [TSP - Infrastructure for the Traveling Salesperson Problem,](http://dx.doi.org/10.18637/jss.v023.i02) _Journal of Statistical Software,_ 22(2), 2007.
-* [TSP package vignette](http://cran.r-project.org/web/packages/TSP/vignettes/TSP.pdf) with complete examples.
-* [Reference manual](http://cran.r-project.org/web/packages/TSP/TSP.pdf)
+* [TSP package vignette](https://cran.r-project.org/package=TSP/vignettes/TSP.pdf) with complete examples.
+* [Reference manual](https://cran.r-project.org/package=TSP/TSP.pdf)
 * [Concorde TSP solver home page](http://www.tsp.gatech.edu/concorde.html)
