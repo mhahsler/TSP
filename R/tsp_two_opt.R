@@ -38,11 +38,10 @@ tsp_two_opt <- function(x, control = NULL){
   xx <- as.matrix(x)
 
   if(control$rep > 1) {
-    tour <- replicate(control$rep, .Call("two_opt", xx, initial(),
-      PACKAGE="TSP"), simplify = FALSE)
+    tour <- replicate(control$rep, .Call(R_two_opt, xx, initial()), simplify = FALSE)
     lengths <- sapply(tour, FUN = function(t) tour_length(x, t))
     tour <- tour[[which.min(lengths)]]
-  }else tour <- .Call("two_opt", xx, initial(), PACKAGE="TSP")
+  }else tour <- .Call(R_two_opt, xx, initial())
 
   tour
 }
