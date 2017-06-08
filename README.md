@@ -20,7 +20,8 @@ install.packages("TSP")
 ```
 __Current development version:__ Download package from [AppVeyor](https://ci.appveyor.com/project/mhahsler/TSP/build/artifacts) or install from GitHub (needs devtools).
 ```R 
-install_git("mhahsler/TSP")
+library("devtools")
+install_github("mhahsler/TSP")
 ```
 
 ## Usage
