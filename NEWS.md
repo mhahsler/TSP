@@ -1,3 +1,7 @@
+# TSP 1.1-5.1 (xx/xx/2018)
+
+* bugfix: start for insertion algorithms is now coerced to integer.
+
 # TSP 1.1-5 (02/21/2017)
 
 * fixed TSP labels.

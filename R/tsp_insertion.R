@@ -47,7 +47,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
   control <- .get_parameters(control, list(
       start = sample(n, 1)
     ))
-  start <- control$start
+  start <- as.integer(control$start)
   if(start < 0 || start > n)
     stop(paste("illegal value for", sQuote("start")))
 
