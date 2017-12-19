@@ -91,7 +91,7 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
   x_ <- .replaceInf(x)
 
   ## work horses
-  .solve_TSP_worker <- function() {
+  .solve_TSP_worker <- function(x_, method, control) {
     order <- switch(method,
       identity = seq(n_of_cities(x_)),
       random = sample(n_of_cities(x_)),
@@ -127,10 +127,10 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
   }
   if(method == "repetitive_nn") n <- 1L
 
-  if(n==1L) return(.solve_TSP_worker())
+  if(n==1L) return(.solve_TSP_worker(x_, method, control))
 
-  #l <- replicate(n, .solve_TSP_worker(), simplify = FALSE)
-  l <- foreach(i = 1:n) %dopar% .solve_TSP_worker()
+  #l <- replicate(n, .solve_TSP_worker(x_, method, control), simplify = FALSE)
+  l <- foreach(i = 1:n) %dopar% .solve_TSP_worker(x_, method, control)
 
 
   l <- l[[which.min(sapply(l, attr, "tour_length"))]]
