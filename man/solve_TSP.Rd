@@ -205,8 +205,6 @@ An object of class \code{TOUR}.
 }
 \author{Michael Hahsler}
 \references{
-Concorde home page, \url{http://www.tsp.gatech.edu/concorde/}
-
 David Appletgate, Robert Bixby, Vasek Chvatal, William Cook (2001): TSP cuts
 which do not conform to the template paradigm, Computational Combinatorial
 Optimization, M. Junger and D. Naddef (editors), Springer.

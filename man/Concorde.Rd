@@ -52,10 +52,10 @@ are used by the interface.
 \author{Michael Hahsler}
 \references{
 Concorde home page,
-\url{http://www.tsp.gatech.edu/concorde/}
+\url{http://www.math.uwaterloo.ca/tsp/concorde/}
 
 Concorde download page,
-\url{http://www.tsp.gatech.edu/concorde/downloads/downloads.htm}
+\url{http://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm}
 
 David Appletgate, Robert Bixby, Vasek Chvatal, William Cook (2001):
 TSP cuts which do not conform to the template paradigm,
