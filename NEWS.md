@@ -1,3 +1,8 @@
+# TSP 1.1-6.1 (xx/xx/2018)
+
+## Bugfixes
+* concorde_path now normalizes the path (translates . and ~).
+
 # TSP 1.1-6 (04/29/2018)
 
 ## Bugfixes

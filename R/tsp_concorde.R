@@ -222,6 +222,7 @@ concorde_path <- local({
       }
     } else {
       if(!is.null(path)) {
+        path <- normalizePath(path) ### translate all special characters
         ex <- c(list.files(path, pattern = "concorde",
           ignore.case = TRUE),
           list.files(path, pattern = "linkern",
