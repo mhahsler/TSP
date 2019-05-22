@@ -1,5 +1,5 @@
 #######################################################################
-# TSP - Traveling Salesperson Problem 
+# TSP - Traveling Salesperson Problem
 # Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
@@ -22,9 +22,10 @@
 
 reformulate_ATSP_as_TSP <- function(x, infeasible = Inf, cheap = -Inf) {
     if(!is(x, "ATSP")) stop("x is not an ATSP object!")
-    
+
+    method <- attr(x, "method")
     m <- as.matrix(x)
-    
+
     ## scale matrix and add cheap links
     diag(m) <- cheap
 
@@ -36,7 +37,9 @@ reformulate_ATSP_as_TSP <- function(x, infeasible = Inf, cheap = -Inf) {
     ## create labels (* for virtual cities)
     lab <- c(labels(x), paste(labels(x), "*", sep = ""))
     dimnames(tsp) <- list(lab, lab)
-    
+    attr(tsp, "method") <- method
+
+
     ## return as TSP
     TSP(tsp)
 }

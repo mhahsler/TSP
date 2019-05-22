@@ -2,6 +2,8 @@
 
 ## Bugfixes
 * concorde_path now normalizes the path (translates . and ~).
+* reformulate_ATSP_as_TSP now keeps the method attribute (i.e., used distance measure)
+* TSP and ATSP gained parameter method to store the name of the used distance metric.
 
 # TSP 1.1-6 (04/29/2018)
 

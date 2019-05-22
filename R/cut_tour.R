@@ -1,5 +1,5 @@
 #######################################################################
-# TSP - Traveling Salesperson Problem 
+# TSP - Traveling Salesperson Problem
 # Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
@@ -19,13 +19,13 @@
 
 
 cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
-   
+
     if(is.character(cut)) cut <- which(labels(x) == cut)
     else cut <- which(x == cut) ## city id
-    if(length(cut)!=1) stop("cut has to exist in the tour!")
+    if(length(cut)!=1) stop("cut has to exist and be unique in the tour!")
 
     exclude_cut <- if(exclude_cut) 1 else 0
-    
+
     path <- c(x,x)[(cut + exclude_cut):(length(x) + cut - 1)]
     path
 }
@@ -34,4 +34,4 @@ cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
 cut_tour <- function(x, cut, exclude_cut = TRUE)
     UseMethod("cut_tour")
 
-    
+

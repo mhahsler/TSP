@@ -11,13 +11,13 @@
 \alias{as.matrix.ATSP}
 \title{Class ATSP -- Asymmetric traveling salesperson problem}
 \description{
-  Constructor to create an instance of the 
-  asymmetric traveling salesperson problem (ATSP) and 
+  Constructor to create an instance of the
+  asymmetric traveling salesperson problem (ATSP) and
   some auxiliary methods.
 }
 \usage{
 ## constructor
-ATSP(x, labels = NULL)
+ATSP(x, labels = NULL, method = NULL)
 
 ## coercion
 as.ATSP(x)
@@ -30,20 +30,21 @@ as.ATSP(x)
 }
 \arguments{
   \item{x, object}{ an object (a square matrix)
-      to be converted into an \code{ATSP} or, for the methods, 
+      to be converted into an \code{ATSP} or, for the methods,
       an object of class \code{ATSP}.}
-  \item{labels}{optional city labels. If not given, labels are taken 
+  \item{labels}{optional city labels. If not given, labels are taken
       from \code{x}.}
+  \item{method}{optional name of the distance metric.}
   \item{col}{ color scheme for image. }
   \item{order}{ order of cities as an integer vector or an object of class
       \code{TOUR}.}
   \item{\ldots}{ further arguments are passed on.}
       }
 \details{
-Objects of class \code{ATSP} are internally represented by a matrix 
+Objects of class \code{ATSP} are internally represented by a matrix
 (use \code{as.matrix()} to get just the matrix).
 
-ATSPs can be transformed into (larger) symmetric TSPs using 
+ATSPs can be transformed into (larger) symmetric TSPs using
 \code{reformulate_ATSP_as_TSP()}.
 }
 \value{
@@ -74,7 +75,7 @@ labels(atsp)
 ## calculate a tour
 tour <- solve_TSP(atsp, method = "nn")
 tour
-  
+
 tour_length(tour)
 
 image(atsp, tour)

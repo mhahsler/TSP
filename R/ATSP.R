@@ -1,5 +1,5 @@
 #######################################################################
-# TSP - Traveling Salesperson Problem 
+# TSP - Traveling Salesperson Problem
 # Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
@@ -19,12 +19,14 @@
 
 
 ## create a (asymmetric) ATSP problem
-ATSP <- function(x, labels = NULL) {
+ATSP <- function(x, labels = NULL, method = NULL) {
     if(inherits(x, "ATSP")) return(x)
 
     atsp <- as.ATSP(x)
-    
+
     if(!is.null(labels)) dimnames(atsp) <- list(labels, labels)
+    if(!is.null(method)) attr(atsp, "method") <- method
+
     atsp
 }
 
@@ -36,9 +38,9 @@ as.ATSP.matrix <- function(x){
 
     ## check for NAs
     if(any(is.nan(x))) stop(paste(sQuote("NAs"), "not supported"))
-    
+
     ## make sure we have labels
-    if(is.null(dimnames(x))) 
+    if(is.null(dimnames(x)))
         dimnames(x) <- list(1:dim(x)[1], 1: dim(x)[1])
     if(is.null(colnames(x)))  colnames(x) <- rownames(x)
     if(is.null(rownames(x)))  rownames(x) <- colnames(x)
@@ -52,12 +54,12 @@ as.ATSP.matrix <- function(x){
 
 as.ATSP.dist <- function(x){
     method <- attr(x, "method")
-    x <- as.ATSP(as.matrix(x)) 
-    
+    x <- as.ATSP(as.matrix(x))
+
     ## make sure data is numeric
     mode(x) <- "numeric"
     class(x) <- c("ATSP", class(x))
-    
+
     attr(x, "method") <- method
     x
 }
@@ -67,9 +69,9 @@ as.ATSP.dist <- function(x){
 print.ATSP <- function(x, ...) {
     method <- attr(x, "method")
     if(is.null(method)) method <- "unknown"
-    
+
     cat("object of class", sQuote(class(x)[1]), " (asymmetric TSP) \n")
-    cat(n_of_cities(x), "cities", 
+    cat(n_of_cities(x), "cities",
         paste("(distance ", sQuote(method),")", sep=""), "\n")
 }
 
@@ -84,7 +86,7 @@ labels.ATSP <- function(object, ...) dimnames(object)[[1]]
 image.ATSP <- function(x, order, col = gray.colors(64), ...) {
     p <- n_of_cities(x)
     if(missing(order)) order <- 1:p
-    
+
     graphics::image.default(1:p, 1:p, x[order, order], col = col, ...)
 }
 

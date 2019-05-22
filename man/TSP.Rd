@@ -15,7 +15,7 @@
 }
 \usage{
 ## constructor
-TSP(x, labels = NULL)
+TSP(x, labels = NULL, method = NULL)
 
 ## coercion
 as.TSP(x)
@@ -28,10 +28,11 @@ as.TSP(x)
 }
 \arguments{
   \item{x, object}{ an object (currently \code{dist} or a symmetric
-      matrix) to be converted into a \code{TSP} or, for the methods, 
+      matrix) to be converted into a \code{TSP} or, for the methods,
       an object of class \code{TSP}.}
-  \item{labels}{optional city labels. If not given, labels are taken 
+  \item{labels}{optional city labels. If not given, labels are taken
       from \code{x}.}
+  \item{method}{optional name of the distance metric. If \code{x} is a \code{dist} object, then the method is taken from that object. }
   \item{col}{ color scheme for image. }
   \item{order}{ order of cities for the image as
       an integer vector or an object of class \code{TOUR}.}
@@ -63,7 +64,7 @@ d <- dist(iris[-5])
 tsp <- TSP(d)
 tsp
 
-## use some methods 
+## use some methods
 n_of_cities(tsp)
 labels(tsp)
 image(tsp)

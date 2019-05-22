@@ -19,10 +19,11 @@
 
 
 ## create a TSP problem
-TSP <- function(x, labels = NULL) {
+TSP <- function(x, labels = NULL, method = NULL) {
     if(inherits(x, "TSP")) return(x)
     x <- as.TSP(x)
     if(!is.null(labels)) attr(x, "Labels") <- labels
+    if(!is.null(method)) attr(x, "method") <- method
     x
 }
 
@@ -64,7 +65,7 @@ as.TSP.matrix <- function(x){
 
 as.dist.TSP <- function(m, ...) {
   class(m) <- "dist"
-  m
+  as.dist(m, ...)
 }
 
 
