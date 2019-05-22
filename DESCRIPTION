@@ -14,8 +14,8 @@ Description: Basic infrastructure and some algorithms for the traveling
     Chained-Lin-Kernighan heuristic. The code for Concorde
     itself is not included in the package and has to be obtained separately.
 Classification/ACM: G.1.6, G.2.1, G.4
-URL: http://lyle.smu.edu/IDA/seriation
-BugReports: https://github.com/mhahsler/TSP
+URL:  https://github.com/mhahsler/TSP
+BugReports: https://github.com/mhahsler/TSP/issues
 Depends: R (>= 2.14.0)
 Imports: graphics, foreach, utils, methods, stats, grDevices
 Suggests: maps, sp, maptools, testthat
