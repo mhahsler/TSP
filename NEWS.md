@@ -1,4 +1,10 @@
-# TSP 1.1-7 (05/22/2018)
+# TSP 1.1-7.1 (xx/xx/2019)
+
+## New Feature
+* solve_TSP for ATSP gained parameter as_TSP to solve the ATSP reformulated as a TSP.
+* Concorde and linkern can now solve ATSP using a reformulation as a TSP.
+
+# TSP 1.1-7 (05/22/2019)
 
 ## Bugfixes
 * concorde_path now normalizes the path (translates . and ~).

@@ -2,12 +2,17 @@
 \alias{solve_TSP}
 \alias{solve_TSP.TSP}
 \alias{solve_TSP.ATSP}
+\alias{solve_TSP.ETSP}
 \title{TSP solver interface}
 \description{
   Common interface to all TSP solvers in this package.
 }
 \usage{
 solve_TSP(x, method = NULL, control = NULL, ...)
+
+\S3method{solve_TSP}{TSP}(x, method = NULL, control = NULL, ...)
+\S3method{solve_TSP}{ETSP}(x, method = NULL, control = NULL, ...)
+\S3method{solve_TSP}{ATSP}(x, method = NULL, control = NULL, as_TSP = FALSE, ...)
 }
 \arguments{
   \item{x}{ the TSP given as an object of class \code{TSP}, \code{ATSP}
@@ -16,6 +21,7 @@ solve_TSP(x, method = NULL, control = NULL, ...)
     algorithm with two_opt refinement. }
   \item{control}{ a list of arguments passed on to the TSP solver
     selected by \code{method}.}
+  \item{as_TSP}{ should the ATSP reformulated as a TSP for the solver?}
   \item{...}{ additional arguments are added to \code{control}.}
 }
 \details{
@@ -41,6 +47,11 @@ To enable parallel execution an appropriate parallel backend needs to be registe
 \code{ETSP} are currently solved by first calculating a dissimilarity matrix (a
 \code{TSP}). Only concorde and linkern can solve the TSP directly on the
 \code{ETSP}.
+
+Some solvers (including Concorde) cannot directly solve \code{ATSP} directly. \code{ATSP}
+can be reformulated as larger \code{TSP} and solved this way. For convenience, \code{solve_TSP()} has
+an extra argument \code{as_TSP} which can be set to \code{TRUE} to automatically solve the
+\code{ATSP} reformulated as a \code{TSP} (see \code{\link{reformulate_ATSP_as_TSP}}).
 
 Currently the following methods are available:
 \describe{

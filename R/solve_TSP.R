@@ -26,8 +26,30 @@ solve_TSP.TSP <- function(x, method = NULL, control = NULL, ...) {
 }
 
 ## ATSP
-solve_TSP.ATSP <- function(x, method = NULL, control = NULL, ...) {
-  .solve_TSP(x, method, control, ...)
+solve_TSP.ATSP <- function(x, method = NULL, control = NULL, as_TSP = FALSE, ...) {
+
+  m <- pmatch(tolower(method), c("concorde", "linkern"))
+  if(!as_TSP && !is.na(m) && length(m) > 0L) {
+    warning("NOTE: Solver cannot solve the ATSP directly. Reformulating ATSP as TSP. Use 'as_TSP = TRUE' to supress this warning.\n")
+    as_TSP <- TRUE
+  }
+
+  # reformulate ATSP as TSP
+  if(as_TSP) {
+    x_atsp <- x
+    x <- reformulate_ATSP_as_TSP(x_atsp)
+  }
+
+  tour <- .solve_TSP(x, method, control, ...)
+
+  if(as_TSP) {
+    tour <- TOUR(tour[tour<=n_of_cities(x_atsp)], method = attr(tour, "method"), tsp = x_atsp)
+    # Tour may be reversed
+    tour_rev  <- TOUR(rev(tour), method = attr(tour, "method"), tsp = x_atsp)
+    if(tour_length(tour) > tour_length(tour_rev)) tour <- tour_rev
+  }
+
+  tour
 }
 
 ## ETSP
