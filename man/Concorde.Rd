@@ -11,7 +11,8 @@
   the Concorde solver (Applegate et al. 2001), one of the most
   advanced and fastest TSP solvers using branch-and-cut, and
   the Chained Lin-Kernighan (Applegate et al. 2003)
-  implementation are provided in \pkg{TSP}.
+  implementation are provided in \pkg{TSP}. Concorde can solve TSPs and ETSPs directly. ATSPs are
+  reformulated as larger TSP's and then solved.
 
   The Concorde TSP Solver package is freely available for academic
   research and has to
