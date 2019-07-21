@@ -2,7 +2,6 @@ library(TSP)
 library(testthat)
 
 context("solve_TSP")
-## INF
 m <- rbind(
   c(0, 1, 0, 1),
   c(1, 0, 1, Inf),
@@ -55,15 +54,23 @@ tsp1 <- TSP(dist(1))
 tours1 <- lapply(methods, FUN = function(m) solve_TSP(tsp1, method = m))
 expect_true(all(sapply(tours1, attr, "tour_length") == 0))
 
-context("solve_TSP (Concorde)")
-## Concorde (only if installed)
-if(Sys.which("concore") != "") {
-  o <- solve_TSP(tsp, method="concorde")
-  expect_equivalent(tour_length(tsp, o), 4)
-}
+## test ATSP (just for errors)
 
-## Linken (only if installed)
-if(Sys.which("linkern") != "") {
-  o <- solve_TSP(tsp, method="linkern")
-  expect_equivalent(tour_length(tsp, o), 4)
-}
+#data <- matrix(runif(5^2), ncol = 5, dimnames = list(1:5, 1:5))
+data <- structure(c(0.13930352916941, 0.897691324818879, 0.509101516567171,
+  0.430898967897519, 0.141799068776891, 0.0334562903735787, 0.902805947931483,
+  0.203576791565865, 0.435874363640323, 0.0641707226168364, 0.101683554705232,
+  0.631239329231903, 0.555331876967102, 0.0829615572001785, 0.272443652851507,
+  0.215095571940765, 0.532841097796336, 0.795302660670131, 0.43256876245141,
+  0.582661165855825, 0.250269076088443, 0.164849652675912, 0.638499777996913,
+  0.857200765516609, 0.0134391817264259), .Dim = c(5L, 5L), .Dimnames = list(
+    c("1", "2", "3", "4", "5"), c("1", "2", "3", "4", "5")))
+# best solution is 0.8082826
+
+atsp <- ATSP(data)
+
+methods <- c("nearest_insertion", "cheapest_insertion", "farthest_insertion",
+  "arbitrary_insertion", "nn", "repetitive_nn", "two_opt", "random", "identity")
+
+tours <- lapply(methods, FUN = function(m) solve_TSP(atsp, method = m))
+names(tours) <- methods
