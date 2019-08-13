@@ -30,7 +30,8 @@ tsp_concorde <- function(x, control = NULL){
     clo = "",
     precision = 6,
     exe = .find_exe(control$exe, "concorde"),
-    verbose = TRUE
+    verbose = TRUE,
+    keep_files = FALSE
   ))
 
   precision <- control$precision
@@ -112,7 +113,8 @@ tsp_concorde <- function(x, control = NULL){
   order <- order[-1] + 1L
 
   ## tidy up
-  unlink(c(tmp_file_in, tmp_file_out))
+  if(!control$keep_files) unlink(c(tmp_file_in, tmp_file_out))
+  else cat("File are in:", wd, "\n\n")
 
   order
 }
@@ -130,7 +132,8 @@ tsp_linkern <- function(x, control = NULL){
     exe = .find_exe(control$exe, "linkern"),
     clo = "",
     precision = 6,
-    verbose = TRUE
+    verbose = TRUE,
+    keep_files = FALSE
   ))
 
   precision <- control$precision
@@ -190,7 +193,8 @@ tsp_linkern <- function(x, control = NULL){
   order <- order + as.integer(1)
 
   ## tidy up
-  unlink(c(tmp_file_in, tmp_file_out))
+  if(!control$keep_files) unlink(c(tmp_file_in, tmp_file_out))
+  else cat("File are in:", wd, "\n\n")
 
   order
 }
