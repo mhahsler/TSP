@@ -3,6 +3,7 @@
 ## New Feature
 * solve_TSP for ATSP gained parameter as_TSP to solve the ATSP reformulated as a TSP.
 * Concorde and linkern can now solve ATSP using a reformulation as a TSP.
+* cut_tour can now cut a tour into multiple paths.
 
 # TSP 1.1-7 (05/22/2019)
 
