@@ -25,7 +25,6 @@ Retuns a named vector with city ids forming the path. If multiple cuts are used 
 \examples{
 data("USCA50")
 
-
 ## find a path starting at Austin, TX
 tour <- solve_TSP(USCA50)
 path <- cut_tour(tour, cut = "Austin, TX", exclude_cut = FALSE)

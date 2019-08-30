@@ -33,6 +33,8 @@ cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
 
     } else { ## multiple paths, return as a list
 
+        path_names <- labels(x)[cut]
+
         ## make first cut the begining. Note we keeb the boundary at the begining and the end!
         path <- c(x,x)[cut[1]:(length(x) + cut[1])]
         cut2 <- c(cut - cut[1] + 1L, length(x))
@@ -40,7 +42,7 @@ cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
         path <- lapply(2:length(cut2), FUN =
                 function(i) path[(cut2[i-1L] + as.numeric(exclude_cut)):(cut2[i]-1L)])
 
-
+        names(path) <- path_names
     }
 
     path
