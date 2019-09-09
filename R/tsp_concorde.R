@@ -41,7 +41,11 @@ tsp_concorde <- function(x, control = NULL){
 
     ## fix neg. values
     min_x <- min(x)
-    if(min_x<0) x <- x - min_x
+    if(min_x<0) {
+      warning("TSP contains negative distances. Shifting distances by subtracting the minimum.",
+        immediate. = TRUE)
+      x <- x - min_x
+    }
 
     ## get max (excluding) to check for possible integer overflows
     max_x <- max(x)
@@ -55,7 +59,7 @@ tsp_concorde <- function(x, control = NULL){
         precision <- prec
         if(control$verbose)
           warning(paste("Concorde can only handle distances < 2^15 for",
-            "less than 10 cities. Reducing precision to",
+            "less than 10 cities. Reducing precision for write_TSPLIB to",
             precision), immediate. = TRUE)
       }
     }else{
@@ -67,7 +71,7 @@ tsp_concorde <- function(x, control = NULL){
         precision <- prec
         if(control$verbose)
           warning(paste("Concorde can only handle distances < 2^31.",
-            "Reducing precision for Concorde to", precision), immediate. = TRUE)
+            "Reducing precision for write_TSPLIB to", precision), immediate. = TRUE)
       }
     }
   }else if(inherits(x, "ETSP")) {

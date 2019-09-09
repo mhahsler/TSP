@@ -41,6 +41,10 @@ executables for concorde and linkern, or (2) make sure that the executables are
 in the search path stored in the \code{PATH} environment variable
 (see \code{link{Sys.setenv}}).
 
+\code{\link{solve_TSP}} uses \code{\link{write_TSPLIB}} to write the TSP for Concorde and tries to
+find the appropriate \code{precision} value to convert the provided distances into the needed
+integer value range. The \code{precision} value can also be specified in \code{control} in \code{\link{solve_TSP}} with method Concorde. Warning messages will alert the user if precision has to be changed.
+
 To get a list of all available command line options which can be used via the
 \code{clo} option for \code{solve_TSP} use \code{concorde_help()} and
 \code{linkern_help()}.  Several options (\option{-x}, \option{-o},
@@ -48,7 +52,8 @@ To get a list of all available command line options which can be used via the
 are used by the interface.
 }
 \seealso{
-\code{\link{solve_TSP}}
+\code{\link{solve_TSP}},
+\code{\link{write_TSPLIB}}
 }
 \author{Michael Hahsler}
 \references{
@@ -61,7 +66,7 @@ Concorde download page,
 David Appletgate, Robert Bixby, Vasek Chvatal, William Cook (2001):
 TSP cuts which do not conform to the template paradigm,
 Computational Combinatorial Optimization, M. Junger and D. Naddef (editors),
-Springer.
+Springer-Verlag.
 
 David Applegate and William Cook and Andre Rohe (2003):
 Chained Lin-Kernighan for Large Traveling Salesman Problems,
