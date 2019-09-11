@@ -42,8 +42,7 @@ in the search path stored in the \code{PATH} environment variable
 (see \code{link{Sys.setenv}}).
 
 \code{\link{solve_TSP}} uses \code{\link{write_TSPLIB}} to write the TSP for Concorde and tries to
-find the appropriate \code{precision} value to convert the provided distances into the needed
-integer value range. The \code{precision} value can also be specified in \code{control} in \code{\link{solve_TSP}} with method Concorde. Warning messages will alert the user if precision has to be changed.
+find the appropriate \code{precision} value (digits after the decimal point) to convert the provided distances into the needed integer value range. The \code{precision} value can also be specified in \code{control} in \code{\link{solve_TSP}} with method Concorde. Warning messages will alert the user if the conversion to integer values results into rounding errors that are worse then what is specified in the \code{precision} control parameter.
 
 To get a list of all available command line options which can be used via the
 \code{clo} option for \code{solve_TSP} use \code{concorde_help()} and

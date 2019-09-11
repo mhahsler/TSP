@@ -18,6 +18,34 @@
 
 
 
+
+## prepare distances as integers in the appropriate range [0..MAX]
+.prepare_dist_concorde <- function(x, MAX, precision) {
+  ## handle inf
+  x <- .replaceInf(x)
+
+  ## fix neg. values
+  min_x <- min(x)
+  if(min_x<0) {
+    warning("TSP contains negative distances. Shifting distances by subtracting the minimum.",
+      immediate. = TRUE)
+    x <- x - min_x
+  }
+
+  ## get max (excluding) to check for possible integer overflows
+  max_x <- max(x)
+  prec <- floor(log10(MAX / max_x))
+  x <- x * 10^prec
+
+  if(prec < precision && any((x %% 1) != 0))
+    warning(paste0("Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ", prec, ". This may lead to rounding errors."),
+      immediate. = TRUE)
+
+  storage.mode(x) <- "integer" ## so write.TSBLIB does not do precision changes
+
+  x
+}
+
 ## interface to the Concorde algorithm
 ## (can only handle TSP and no neg. distances!)
 
@@ -28,52 +56,17 @@ tsp_concorde <- function(x, control = NULL){
   ## get parameters
   control <- .get_parameters(control, list(
     clo = "",
-    precision = 6,
     exe = .find_exe(control$exe, "concorde"),
+    precision = 6,
     verbose = TRUE,
     keep_files = FALSE
   ))
 
-  precision <- control$precision
-
   ## check x
   if(inherits(x, "TSP")){
+    if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^31 - 1
+    x <- .prepare_dist_concorde(x, MAX, control$precision)
 
-    ## fix neg. values
-    min_x <- min(x)
-    if(min_x<0) {
-      warning("TSP contains negative distances. Shifting distances by subtracting the minimum.",
-        immediate. = TRUE)
-      x <- x - min_x
-    }
-
-    ## get max (excluding) to check for possible integer overflows
-    max_x <- max(x)
-    if(n_of_cities(x) < 10){
-      ## <10 cities: concorde can only handle max 2^15
-      MAX <- 2^15
-      if(max_x > MAX) stop("Concorde can only handle distances < 2^15 for less than 10 cities")
-
-      prec <- floor(log10(MAX / max_x))
-      if(prec < precision) {
-        precision <- prec
-        if(control$verbose)
-          warning(paste("Concorde can only handle distances < 2^15 for",
-            "less than 10 cities. Reducing precision for write_TSPLIB to",
-            precision), immediate. = TRUE)
-      }
-    }else{
-      ## regular constraint on integer is 2^31 - 1
-      MAX <- 2^31 - 1
-
-      prec <- floor(log10(MAX / max_x / n_of_cities(x)))
-      if(prec < precision) {
-        precision <- prec
-        if(control$verbose)
-          warning(paste("Concorde can only handle distances < 2^31.",
-            "Reducing precision for write_TSPLIB to", precision), immediate. = TRUE)
-      }
-    }
   }else if(inherits(x, "ETSP")) {
     ## nothing to do!
   }else stop("Concorde only handles TSP and ETSP.")
@@ -93,8 +86,8 @@ tsp_concorde <- function(x, control = NULL){
   tmp_file_in  <- paste(temp_file, ".dat", sep = "")
   tmp_file_out <- paste(temp_file, ".sol", sep = "")
 
-  write_TSPLIB(x, file = tmp_file_in,
-    precision = precision)
+  ## precision is already handled!
+  write_TSPLIB(x, file = tmp_file_in, precision = 0)
 
   ## change working directory
 
@@ -140,25 +133,16 @@ tsp_linkern <- function(x, control = NULL){
     keep_files = FALSE
   ))
 
-  precision <- control$precision
-
   ## have to set -r for small instances <8
   if(n_of_cities(x) <=8)
     control$clo <- paste(control$clo, "-k", n_of_cities(x))
 
   ## check x
   if(inherits(x, "TSP")) {
-    ## check for possible overflows
-    max_x <- max(abs(x[is.finite(x)]))
-    MAX <- 2^31 - 1
 
-    prec <- floor(log10(MAX / max_x / n_of_cities(x)))
-    if(prec < precision) {
-      precision <- prec
-      if(control$verbose)
-        warning(paste("Linken can only handle distances < 2^31.",
-          "Reducing precision to", precision), immediate. = TRUE)
-    }
+    MAX <- 2^31 - 1
+    x <- .prepare_dist_concorde(x, MAX, control$precision)
+
   }else if(inherits(x, "ETSP")) {
     ## nothing to do
   } else stop("Linkern only works for TSP and ETSP.")
@@ -171,9 +155,7 @@ tsp_linkern <- function(x, control = NULL){
   tmp_file_in  <- paste(temp_file, ".dat", sep = "")
   tmp_file_out <- paste(temp_file, ".sol", sep = "")
 
-  ## prepare data (neg_inf = 0 so everything is > 0)
-  write_TSPLIB(x, file = tmp_file_in,
-    precision = precision)
+  write_TSPLIB(x, file = tmp_file_in, precision = 0)
 
   ## change working directory
   dir <- getwd()

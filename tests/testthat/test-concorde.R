@@ -20,10 +20,25 @@ skip_if_not(
     Sys.which("linkern") != "",
   message = "skipped test for concorde/linkern. Not installed.")
 
-capture_warnings(o <- solve_TSP(tsp, method="concorde"))
+o <- solve_TSP(tsp, method="concorde")
 expect_equivalent(tour_length(tsp, o), 4)
 
-capture_warnings(o <- solve_TSP(tsp, method="linkern"))
+# large numbers should be scaled right.
+o_large <- solve_TSP(tsp*2^15, method="concorde")
+expect_equivalent(o, o_large)
+
+o_large <- solve_TSP(tsp*10^10, method="concorde")
+expect_equivalent(o, o_large)
+
+# expect warning for rounding
+expect_warning(o_large <- solve_TSP(tsp*2^15+0.1, method="concorde"))
+expect_equivalent(o, o_large)
+
+# expect a warning for rounding
+expect_warning(o_round <- solve_TSP(tsp/0.3, method="concorde"))
+expect_equivalent(o, o_round)
+
+o <- solve_TSP(tsp, method="linkern")
 expect_equivalent(tour_length(tsp, o), 4)
 
 # test ATSP
@@ -39,7 +54,7 @@ data <- structure(c(0.13930352916941, 0.897691324818879, 0.509101516567171,
 
 atsp <- ATSP(data)
 
-## Concorde
+## Concorde (gives conversation warning for reformulation of ATSP to TSP)
 expect_warning(o1 <- solve_TSP(atsp, method = "concorde"))
 o2 <- solve_TSP(atsp, method = "concorde", as_TSP = TRUE)
 expect_equal(length(o1), 5L)
@@ -58,3 +73,4 @@ expect_equal(length(o2), 5L)
 # Linkern should find the optimal solution of 0.8082826
 expect_equal(round(tour_length(o1), 7), 0.8082826)
 expect_equal(round(tour_length(o2), 7), 0.8082826)
+
