@@ -8,7 +8,7 @@
   a shortest Hamiltonian path problem (i.e., finding an optimal linear order)
   into a shortest Hamiltonian cycle problem which can be solved by a TSP
   solvers (Garfinkel 1985).
-  
+
   Several dummy cities can be used together with a TSP solvers to perform
   rearrangement clustering (Climer and Zhang 2006).
   }
@@ -24,7 +24,7 @@ insert_dummy(x, n = 1, const = 0, inf = Inf, label =  "dummy")
         reused for all dummy cities.}
 }
 \details{
-  The dummy cities are inserted after the other cities in \code{x}. 
+  The dummy cities are inserted after the other cities in \code{x}.
 
   A \code{const} of 0 is guaranteed to work if the TSP finds the optimal
   solution. For heuristics returning suboptimal solutions, a higher
@@ -46,23 +46,43 @@ problem - A guided tour of combinatorial optimization, Wiley \& Sons.
 
 }
 \examples{
-## make runs comparable
-set.seed(4444)
+## Example 1: Find a short Hamiltonian path
+set.seed(1000)
+x <- data.frame(x = runif(20), y = runif(20), row.names = LETTERS[1:20])
 
+tsp <- TSP(dist(x))
+
+## add a dummy city to cut the tour into a path
+tsp <- insert_dummy(tsp, label = "cut")
+tour <- solve_TSP(tsp)
+tour
+
+plot(x)
+lines(x[cut_tour(tour, cut = "cut"),])
+
+
+## Example 2: Rearrangement clustering of the iris dataset
+set.seed(1000)
 data("iris")
 tsp <- TSP(dist(iris[-5]))
 
-## insert 2 dummy cities
-tsp_dummy <- insert_dummy(tsp, n = 2, label = "boundary")
+## insert 2 dummy cities to creates 2 clusters
+tsp_dummy <- insert_dummy(tsp, n = 3, label = "boundary")
 
 ## get a solution for the TSP
 tour <- solve_TSP(tsp_dummy)
 
-## plot the distance matrix
+## plot the reordered distance matrix with the dummy cities as lines separating
+## the clusters
 image(tsp_dummy, tour)
-
-## draw lines where the dummy cities are located
 abline(h = which(labels(tour)=="boundary"), col = "red")
 abline(v = which(labels(tour)=="boundary"), col = "red")
+
+## plot the original data with paths connecting the points in each cluster
+plot(iris[,c(2,3)], col = iris[,5])
+paths <- cut_tour(tour, cut = "boundary")
+for(p in paths) lines(iris[p, c(2,3)])
+
+## Note: The clustering is not perfect!
 }
 \keyword{manip}

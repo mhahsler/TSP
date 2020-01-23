@@ -55,4 +55,4 @@ insert_dummy.ATSP <- function(x, n = 1, const = 0, inf = Inf, label = "dummy") {
 }
 
 insert_dummy.ETSP <- function(x, n = 1, const = 0, inf = Inf, label = "dummy")
-  stop("Dummy cities cannot be used with ETSP!")
+  stop("Dummy cities cannot be used with ETSP! Convert the problem into a TSP.")

@@ -21,7 +21,7 @@
 ## create a TSP form an ATSP by doubling the cities
 
 reformulate_ATSP_as_TSP <- function(x, infeasible = Inf, cheap = -Inf) {
-    if(!is(x, "ATSP")) stop("x is not an ATSP object!")
+    if(!inherits(x, "ATSP")) stop("x is not an ATSP object!")
 
     method <- attr(x, "method")
     m <- as.matrix(x)

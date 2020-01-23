@@ -23,7 +23,7 @@
 %\usepackage{Sweave}
 %% \VignetteIndexEntry{Introduction to TSP}
 
-\author{Michael Hahsler\\Southern Methodist University \And 
+\author{Michael Hahsler\\Southern Methodist University \And
     Kurt Hornik\\Wirtschaftsuniversit\"at Wien}
 \title{\pkg{TSP} -- Infrastructure for the Traveling
 	Salesperson Problem}
@@ -53,7 +53,7 @@ package features S3 classes for specifying a TSP and its (possibly
 optimal) solution as well as several heuristics to find good
 solutions. In addition, it provides an interface to \emph{Concorde},
 one of the best exact TSP solvers currently available.  }
-\Keywords{combinatorial optimization, traveling salesman problem, \proglang{R}} 
+\Keywords{combinatorial optimization, traveling salesman problem, \proglang{R}}
 \Plainkeywords{combinatorial optimization, traveling salesman problem, R} %% without formatting
 %% The address of (at least) one author should be given
 %% in the following format:
@@ -65,7 +65,7 @@ one of the best exact TSP solvers currently available.  }
 	  P.O. Box 750123 \\
 	  Dallas, TX 75275-0123\\
 	  E-mail: \email{mhahsler@lyle.smu.edu}\\
-      
+
       Kurt Hornik\\
 	  Department of Finance, Accounting and Statistics\\
 	  Wirtschaftsuniversit\"at Wien\\
@@ -85,7 +85,7 @@ set.seed(1234)
 @
 
 %\title{Introduction to \pkg{TSP} -- Infrastructure for the Traveling
-%    Salesperson Problem} 
+%    Salesperson Problem}
 %\author{Michael Hahsler and Kurt Hornik}
 \maketitle
 \sloppy
@@ -211,7 +211,7 @@ constraint of no sub-tours:
 
 \[
 \begin{array}{rl}
-    \text{Minimize }     & \sum_{i=1}^n\sum_{j=1}^n{d_{ij}x_{ij}} 
+    \text{Minimize }     & \sum_{i=1}^n\sum_{j=1}^n{d_{ij}x_{ij}}
                %         = \mathrm{trace}(\mathbf{D}^T\mathbf{X})
                         \\[3mm]
     \text{Subject to }  & \sum_{i=1}^n{x_{ij}=1}, \quad j=1,\ldots,n, \\
@@ -233,7 +233,7 @@ problem.
 The \emph{linear programming (LP) formulation} of the TSP is given by:
 \[
 \begin{array}{rl}
-    \text{Minimize }     & \sum_{i=1}^m{w_ix_i}  = \mathbf{w}^T\mathbf{x}\\[3mm] 
+    \text{Minimize }     & \sum_{i=1}^m{w_ix_i}  = \mathbf{w}^T\mathbf{x}\\[3mm]
     \text{Subject to }   & \mathbf{x} \in \mathcal{S} \\
 \end{array}
 \]
@@ -291,7 +291,7 @@ three cities is:
   \infty    &0          &\infty     & d_{12} &-\infty          &d_{31}    \\
   \infty    &\infty     &0          & d_{13} &d_{23}    &-\infty          \\
   -\infty         &d_{12}    &d_{13}    & 0       &\infty    &\infty      \\
-  d_{21}   &-\infty          &d_{23}    & \infty &0         &\infty       \\  
+  d_{21}   &-\infty          &d_{23}    & \infty &0         &\infty       \\
   d_{31}   &d_{32}    &-\infty          & \infty &\infty   &0             \\
 \end{pmatrix}
 \end{equation*}
@@ -310,7 +310,7 @@ Finding the exact solution to a TSP with $n$ cities requires to check $(n-1)!$
 possible tours. To evaluate all possible tours is infeasible for even small TSP
 instances. To find the optimal tour
 \cite{Held1962} presented the following
-\emph{dynamic programming} formulation: Given a subset of city indices 
+\emph{dynamic programming} formulation: Given a subset of city indices
 (excluding the first city)
 $S \subset \{2, 3, \dots, n\}$ and $l \in S$, let $d^*(S, l)$ denote the length of the
 shortest path from city $1$ to city $l$, visiting all cities in $S$ in-between.
@@ -327,7 +327,7 @@ to city $1$ is
 
 \begin{equation}
     d^{**} = \mathrm{min}_{l \in \{2,3,\dots,n\}}\Bigl( d^*(\{2,3,\dots,n\}, l)
-    + d_{l1}\Bigl). 
+    + d_{l1}\Bigl).
 \end{equation}
 
 Using the last two equations, the quantities $d^*(S,l)$ can be computed
@@ -343,7 +343,7 @@ optimal, if
 \end{equation}
 and, for $2 \le p \le n-1$,
 \begin{equation}
-    d^*(\{i_2, i_3,\dots, i_p, i_{p+1}\}, i_{p+1}) = 
+    d^*(\{i_2, i_3,\dots, i_p, i_{p+1}\}, i_{p+1}) =
     d^*(\{i_2,i_3,\dots,i_p\}, i_p) + d_{i_pi_{p+1}}.
 \end{equation}
 
@@ -358,7 +358,7 @@ the linear programming problem presented in Section~\ref{sec:formulations} and
 iteratively tightens the relaxation till a solution is found. This general
 method for solving linear programming problems with complex and large
 inequality systems is called \emph{cutting plane method} and was introduced by
-\cite{Dantzig1954}. 
+\cite{Dantzig1954}.
 
 Each iteration begins with using instead of the original linear
 inequality description $\mathcal{S}$ the relaxation $A\mathbf{x} \le b$,
@@ -431,7 +431,7 @@ consisting of an arbitrary city and then choose in each step a city $k$
 not yet on the tour.  This city is inserted into the existing tour
 between two consecutive cities $i$ and $j$, such that the insertion cost
 (i.e., the increase in the tour's length)
-$$d(i,k) + d(k,j) - d(i,j)$$ 
+$$d(i,k) + d(k,j) - d(i,j)$$
 is minimized.  The algorithms stop when all cities are on the tour.
 
 The insertion algorithms differ in the way the city to be inserted next
@@ -444,7 +444,7 @@ the city which is nearest to a city on the tour.
 \item[Farthest insertion] The city $k$ is chosen in each step as
 the city which is farthest from any of the cities on the tour.
 
-\item[Cheapest insertion] The city $k$ is chosen in each step 
+\item[Cheapest insertion] The city $k$ is chosen in each step
 such that the cost of inserting the new city is minimal.
 
 \item[Arbitrary insertion] The city $k$ is chosen randomly from all cities
@@ -499,7 +499,7 @@ with variable $k$. Such moves are used till a local optimum is reached.
 By using full backtracking, the optimal solution can always be found, but the
 running time would be immense. Therefore, only limited backtracking is allowed
 in the procedure, which helps to find better local optima or even the optimal
-solution. Further improvements to the procedure are described 
+solution. Further improvements to the procedure are described
 by \cite{Lin1973}.
 
 
@@ -508,7 +508,7 @@ by \cite{Lin1973}.
 
 In package~\pkg{TSP}, a traveling salesperson problem is
 defined by an object of class \class{TSP} (symmetric) or \class{ATSP}
-(asymmetric). \func{solve\_TSP} 
+(asymmetric). \func{solve\_TSP}
 is used to find a solution, which is represented by
 an object of class \class{TOUR}. Figure~\ref{fig:overview} gives an overview
 of this infrastructure.
@@ -573,12 +573,12 @@ as long as it has the correct length.
 All TSP solvers in \pkg{TSP} can be used with the simple common interface:
 
 \begin{quote}
-\code{solve\_TSP(x, method, control)}   
+\code{solve\_TSP(x, method, control)}
 \end{quote}
 where \code{x} is the TSP to be solved, \code{method} is a character
 string indicating the method used to solve the TSP and \code{control}
 can contain a list with additional information used by the solver.
-The available algorithms are shown in Table~\ref{tab:methods}.    
+The available algorithms are shown in Table~\ref{tab:methods}.
 
 \begin{table}
     \caption{Available algorithms in \pkg{TSP}.}
@@ -589,7 +589,7 @@ The available algorithms are shown in Table~\ref{tab:methods}.
     \textbf{Algorithm} & \textbf{Method argument} & \textbf{Applicable to} \\
     \hline
     Nearest neighbor algorithm & \code{"nn"} & TSP/ATSP \\
-    Repetitive nearest neighbor algorithm & \code{"repetitive\_nn"} 
+    Repetitive nearest neighbor algorithm & \code{"repetitive\_nn"}
             & TSP/ATSP \\
     Nearest insertion & \code{"nearest\_insertion"} & TSP/ATSP  \\
     Farthest insertion & \code{"farthest\_insertion"} & TSP/ATSP  \\
@@ -668,12 +668,12 @@ methods <- c("nearest_insertion", "farthest_insertion", "cheapest_insertion",
     "arbitrary_insertion", "nn", "repetitive_nn", "two_opt")
 
 tours <- sapply(methods, FUN = function(m) solve_TSP(USCA50, method = m),
-                simplify = FALSE)         
+                simplify = FALSE)
 ## tours$concorde  <- solve_TSP(tsp, method = "concorde")
 
 tours[[1]]
 
-dotchart(sort(c(sapply(tours, tour_length), optimal = 14497)), 
+dotchart(sort(c(sapply(tours, tour_length), optimal = 14497)),
 xlab = "tour length", xlim = c(0, 20000))
 @
 
@@ -721,8 +721,8 @@ tour
 
 Since the dummy city has distance zero to all other cities, the path length is
 equal to the tour length reported above. The path starts with the first city in
-the list after the `dummy' city  and ends with the city right before it. 
-We use \func{cut\_tour} to create a path and show the 
+the list after the `dummy' city  and ends with the city right before it.
+We use \func{cut\_tour} to create a path and show the
 first and last 6 cities on it.
 
 <<>>=
@@ -734,11 +734,13 @@ tail(labels(path))
 The tour found in the example results in a path from Lihue on Hawaii to
 Prince Rupert in British Columbia. Such a tour can also be visualized
 using the packages \pkg{sp}, \pkg{maps} and \pkg{maptools}
-\citep{TSP:Pebesma+Bivand:2005}.
+\citep{TSP:Pebesma+Bivand:2005}. Note that he \code{if} statement and the \code{plot} in the \code{else} part in the following is not needed and only checks if the appropriate packages are installed when building this document.
 
 <<fig=TRUE, include=FALSE, label=map1, width=8, height=8>>=
-library("maps")
+if(require(sp) && require(maps) && require(maptools)) {
+
 library("sp")
+library("maps")
 library("maptools")
 
 data("USCA312_map")
@@ -747,15 +749,20 @@ plot_path <- function(path){
     plot(as(USCA312_coords, "Spatial"), axes = TRUE)
     plot(USCA312_basemap, add = TRUE, col = "gray")
     points(USCA312_coords, pch = 3, cex = 0.4, col = "red")
-    
+
     path_line <- SpatialLines(list(Lines(list(Line(USCA312_coords[path,])),
 	ID="1")))
     plot(path_line, add=TRUE, col = "black")
-    points(USCA312_coords[c(head(path,1), tail(path,1)),], pch = 19, 
+    points(USCA312_coords[c(head(path,1), tail(path,1)),], pch = 19,
         col = "black")
 }
 
 plot_path(path)
+
+} else {
+    plot(NA, xlim= c(0,1), ylim = c(0,1)); text(.5, .5, "Suggested packages not available")
+
+}
 @
 
 \begin{figure}
@@ -821,7 +828,7 @@ plot_path(path)
 
 The found path is presented in Figure~\ref{fig:map2}. It begins with New
 York and cities in New Jersey and ends in a city in Manitoba, Canada.
-%The path shows the typical behavior 
+%The path shows the typical behavior
 %of the nearest neighbor heuristic with first connecting the cities close by and
 %then making rather big ``jumps'' for the final cities.
 
@@ -836,7 +843,7 @@ tsp
 @
 
 After finding a tour for the TSP, the dummy cities are removed again giving the
-tour for the original ATSP.  
+tour for the original ATSP.
 Note that the tour needs to be reversed if the
 dummy cities appear before and not after the original cities in the solution of
 the TSP.  The following code is not executed here, since it takes several
@@ -891,7 +898,7 @@ We use the nearest insertion heuristic.
 tour <- solve_TSP(atsp, method ="nearest_insertion")
 tour
 
-path_labels <- c("New York, NY", 
+path_labels <- c("New York, NY",
     labels(cut_tour(tour, la_ny)), "Los Angeles, CA")
 path_ids <- match(path_labels, labels(USCA312))
 
@@ -970,7 +977,7 @@ abline(v = which(labels(tour)=="boundary"), col = "red")
 \begin{figure}
 \centering
 \includegraphics[width=9cm, height=9cm, trim=0 20 0 0]{TSP-clustering}
-\caption{Result of rearrangement clustering using three dummy cities and the 
+\caption{Result of rearrangement clustering using three dummy cities and the
 nearest insertion algorithm on the iris data set.}
 \label{fig:clustering}
 \end{figure}
@@ -987,8 +994,8 @@ encoding of the obtained tour labels:
 
 <<>>=
 out <- rle(labels(tour))
-data.frame(Species = out$values, 
-           Lenghts = out$lengths, 
+data.frame(Species = out$values,
+           Lenghts = out$lengths,
            Pos = cumsum(out$lengths))
 @
 
@@ -1008,9 +1015,8 @@ data set and add the path segments which resulted from solving the TSP.
 prc <- prcomp(iris[1:4])
 plot(prc$x, pch = as.numeric(iris[,5]), col =  as.numeric(iris[,5]))
 
-indices <- c(tour, tour[1])
-indices[indices > 150] <- NA
-lines(prc$x[indices,])
+paths <- cut_tour(tour, cut = "boundary")
+for(p in paths) lines(prc$x[p, ])
 @
 
 \begin{figure}

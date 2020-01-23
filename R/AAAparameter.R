@@ -52,7 +52,7 @@
   }
 
   if(defaults$verbose) {
-    cat("Used parameters:\n")
+    cat("Used control parameters:\n")
     #print(defaults)
     cat(rbind(names(defaults)," = ",
       strtrim(gsub("\n"," ",as.character(defaults)), 50)),

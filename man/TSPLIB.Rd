@@ -45,7 +45,8 @@ Currently only the following \code{EDGE_WEIGHT_TYPE}s are implemented:
 }
 \author{Michael Hahsler}
 \references{TSPLIB home page, 
-\url{http://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/}}
+\url{http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/}
+}
 \examples{
 ## Drilling problem from TSP
 drill <- read_TSPLIB(system.file("examples/d493.tsp", package = "TSP"))
