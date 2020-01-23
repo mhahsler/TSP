@@ -51,8 +51,3 @@ cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
 ##generic
 cut_tour <- function(x, cut, exclude_cut = TRUE)
     UseMethod("cut_tour")
-
-
-
-y <- 1:4
-plot(y)
