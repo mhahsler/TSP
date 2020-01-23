@@ -1,4 +1,4 @@
-# TSP 1.1-7.1 (xx/xx/2019)
+# TSP 1.1-8 (01/23/2020)
 
 ## New Feature
 * solve_TSP for ATSP gained parameter as_TSP to solve the ATSP reformulated as a TSP.
