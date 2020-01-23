@@ -13,7 +13,7 @@ etsp
 expect_equal(n_of_cities(etsp), 20L)
 expect_equal(labels(etsp), LETTERS[1:20])
 
-## plot ETSP and solution
+## solve
 tour <- solve_TSP(etsp)
 tour
 
