@@ -734,11 +734,13 @@ tail(labels(path))
 The tour found in the example results in a path from Lihue on Hawaii to
 Prince Rupert in British Columbia. Such a tour can also be visualized
 using the packages \pkg{sp}, \pkg{maps} and \pkg{maptools}
-\citep{TSP:Pebesma+Bivand:2005}.
+\citep{TSP:Pebesma+Bivand:2005}. Note that he \code{if} statement and the \code{plot} in the \code{else} part in the following is not needed and only checks if the appropriate packages are installed when building this document.
 
 <<fig=TRUE, include=FALSE, label=map1, width=8, height=8>>=
-library("maps")
+if(require(sp) && require(maps) && require(maptools)) {
+
 library("sp")
+library("maps")
 library("maptools")
 
 data("USCA312_map")
@@ -756,6 +758,11 @@ plot_path <- function(path){
 }
 
 plot_path(path)
+
+} else {
+    plot(NA, xlim= c(0,1), ylim = c(0,1)); text(.5, .5, "Suggested packages not available")
+
+}
 @
 
 \begin{figure}
