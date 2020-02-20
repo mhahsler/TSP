@@ -1,8 +1,6 @@
 \name{USCA}
 \alias{USCA312}
-\alias{USCA312_map}
-\alias{USCA312_basemap}
-\alias{USCA312_coords}
+\alias{USCA312_GPS}
 \alias{USCA50}
 \docType{data}
 \title{USCA312/USCA50 -- 312/50 cities in the US and Canada}
@@ -11,24 +9,19 @@ The \code{USCA312} dataset contains the distances between 312 cities in the US
 and Canada as an object of class \code{TSP}.  \code{USCA50} is a subset of
 \code{USCA312} containing only the first 50 cities.
 
-The \code{USCA312_map} dataset contains
-spatial data of the 312 cities.
+The \code{USCA312_GPS} dataset contains
+the location (long/lat) of the 312 cities.
 }
 \usage{
 data("USCA312")
-data("USCA312_map")
+data("USCA312_GPS")
 data("USCA50")
 }
 \format{
   \code{USCA312} and \code{USCA50} are objects of class \code{TSP}.
-  \code{USCA312_map} contains in \code{USCA312_coords} the spatial coordinates
-  of the 312 cities and in \code{USCA312_basemap} a part of the
-  map of North America.
+  \code{USCA312_GPS} is a data.frame with city name, long and lat.
 }
-\details{
-For \code{USCA312_map} several packages for geographic data are needed (see
-Examples section).
-
+\note{
 We want to thank Roger Bivand for his help with plotting the map.
 }
 \source{
@@ -43,15 +36,28 @@ data("USCA312")
 tour <- solve_TSP(USCA312)
 tour
 
-# Using the USCA312_map requites the suggested package sp, maps, and maptools.
+data("USCA312_GPS")
+head(USCA312_GPS)
+
+# The following examples requite the suggested package sp, maps, and maptools.
 # We run the example only if the packages are installed.
-# You can load them with library() in your code.
 
 if(require(sp) &&
     require(maps) &&
     require(maptools)) {
 
-  data("USCA312_map")
+  library("sp")
+  library("maps")
+  library("maptools")
+
+  data("USCA312_GPS")
+
+  # create spatial coordinates and a basemap using WGS84 projection.
+  USCA312_coords <- SpatialPointsDataFrame(cbind(USCA312_GPS$long, USCA312_GPS$lat),
+      proj4string=CRS("+proj=longlat +datum=WGS84"), data = USCA312_GPS)
+  USCA312_basemap <- map2SpatialLines(map("world",
+          xlim=c(-166,-47), ylim=c(15,83),
+          plot=FALSE), proj4string=CRS("+proj=longlat +datum=WGS84"))
 
   ## plot map
   plot(as(USCA312_coords, "Spatial"), axes=TRUE)

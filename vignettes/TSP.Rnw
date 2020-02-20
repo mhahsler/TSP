@@ -743,7 +743,14 @@ library("sp")
 library("maps")
 library("maptools")
 
-data("USCA312_map")
+data("USCA312_GPS")
+
+# create spatial coordinates and a basemap using WGS84 projection.
+USCA312_coords <- SpatialPointsDataFrame(cbind(USCA312_GPS$long, USCA312_GPS$lat),
+  proj4string=CRS("+proj=longlat +datum=WGS84"), data = USCA312_GPS)
+USCA312_basemap <- map2SpatialLines(map("world",
+  xlim=c(-166,-47), ylim=c(15,83),
+  plot=FALSE), proj4string=CRS("+proj=longlat +datum=WGS84"))
 
 plot_path <- function(path){
     plot(as(USCA312_coords, "Spatial"), axes = TRUE)
