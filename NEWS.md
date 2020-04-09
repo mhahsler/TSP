@@ -1,3 +1,7 @@
+# TSP 1.1-9-1 (xx/xx/2020)
+
+* Fixed Linkern file management on Windows.
+
 # TSP 1.1-9 (02/02/2020)
 
 * Maintenance release.
