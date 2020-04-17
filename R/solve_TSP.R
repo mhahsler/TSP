@@ -68,8 +68,16 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
 .replaceInf <- function(x, pInf = NULL, nInf = NULL) {
   if(any(is.infinite(x))) {
     range_x <- range(x, na.rm = TRUE, finite = TRUE)
-    if(is.null(pInf)) pInf <- range_x[2] + 2* diff(range_x)
-    if(is.null(nInf)) nInf <- range_x[1] - 2* diff(range_x)
+
+    # data with only a single non-inf value.
+    diff_range <- diff(range_x)
+    if(diff_range == 0) {
+      if(range_x[1] == 0) diff_range <- 1
+      else diff_range <- range_x[1] * 2
+    }
+
+    if(is.null(pInf)) pInf <- range_x[2] + 2*diff_range
+    if(is.null(nInf)) nInf <- range_x[1] - 2*diff_range
     x[x == Inf] <- pInf
     x[x == -Inf] <- nInf
   }

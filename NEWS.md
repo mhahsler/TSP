@@ -1,6 +1,8 @@
 # TSP 1.1-9-1 (xx/xx/2020)
 
 * Fixed Linkern file management on Windows.
+* Converting distances that only contain 0 and Inf (e.g., from an adjacency matrix) 
+  is now fixed for Concorde and Linkern.
 
 # TSP 1.1-9 (02/02/2020)
 

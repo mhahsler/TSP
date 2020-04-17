@@ -49,6 +49,8 @@ To get a list of all available command line options which can be used via the
 \code{linkern_help()}.  Several options (\option{-x}, \option{-o},
 \option{-N},  \option{-Q}) are not available via \code{solve_TSP} since they
 are used by the interface.
+
+If Concorde takes too long, then you can kill the concorde process via your operating system and you can cntinue with R.
 }
 \seealso{
 \code{\link{solve_TSP}},
