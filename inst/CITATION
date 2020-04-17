@@ -16,7 +16,7 @@ bibentry(bibtype = "article",
          number = 2,
          pages = "1--21",
          url = "http://www.jstatsoft.org/v23/i02/",
-         doi = "10.18637/jss.v023.i02"
-	 month = "December",
+         doi = "10.18637/jss.v023.i02",
+	       month = "December",
          issn = "1548-7660"
 	 )
