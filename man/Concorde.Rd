@@ -50,7 +50,7 @@ To get a list of all available command line options which can be used via the
 \option{-N},  \option{-Q}) are not available via \code{solve_TSP} since they
 are used by the interface.
 
-If Concorde takes too long, then you can kill the concorde process via your operating system and you can cntinue with R.
+If Concorde takes too long, then you can kill the concorde process via your operating system and you can continue with R.
 }
 \seealso{
 \code{\link{solve_TSP}},
@@ -64,7 +64,7 @@ Concorde home page,
 Concorde download page,
 \url{http://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm}
 
-David Appletgate, Robert Bixby, Vasek Chvatal, William Cook (2001):
+David Applegate, Robert Bixby, Vasek Chvatal, William Cook (2001):
 TSP cuts which do not conform to the template paradigm,
 Computational Combinatorial Optimization, M. Junger and D. Naddef (editors),
 Springer-Verlag.

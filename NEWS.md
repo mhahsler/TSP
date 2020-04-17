@@ -1,5 +1,6 @@
-# TSP 1.1-9-1 (xx/xx/2020)
+# TSP 1.1-10 (04/17/2020)
 
+## Bugfixes
 * Fixed Linkern file management on Windows.
 * Converting distances that only contain 0 and Inf (e.g., from an adjacency matrix) 
   is now fixed for Concorde and Linkern.
@@ -65,7 +66,7 @@
 * default method is now arbitrary_insertion with two_opt refinement.
 * we use foreach (use doParallel) to compute repetitions in parallel
 * ETSP (Euclidean TSP) added.
-* generic and arguments for tour_lengh have # Changed
+* generic and arguments for tour_length have # Changed
       (fist argument is now a tour).
 * method "2-opt" was renamed to "two_opt" so it can also be used as a
         proper variable name.

@@ -15,7 +15,7 @@ cut_tour(x, cut, exclude_cut = TRUE)
     the city at the cut is included in the path as the first city.}
 }
 \value{
-Retuns a named vector with city ids forming the path. If multiple cuts are used then a list
+Returns a named vector with city ids forming the path. If multiple cuts are used then a list
   with paths is returned.
 }
 \seealso{

@@ -20,12 +20,12 @@ as.TOUR(object)
 \method{print}{TOUR}(x, \ldots)
 }
 \arguments{
-  \item{x}{ an integer permutation vector or, for the methods 
+  \item{x}{ an integer permutation vector or, for the methods
       an object of class \code{TOUR}}.
   \item{object}{ data (an integer vector) which can be coerced to \code{TOUR}.}.
   \item{method}{ character string; method used to create the tour.}
   \item{tsp}{ \code{TSP} object the tour applies to. If available then the
-  tour will include the tour length. Also the labes of the cities will be 
+  tour will include the tour length. Also the labels of the cities will be
   available in the tour (otherwise the labels of \code{x} are used).}
   \item{\ldots}{ further arguments are passed on.}
 }
@@ -33,7 +33,7 @@ as.TOUR(object)
 Since an object of class \code{TOUR} is an integer vector, it can be subsetted
 as an ordinary vector or coerced to an integer vector using
 \code{as.integer()}. It also contains the names of the objects as labels.
-Additionally, \code{TOUR} has the following attributes: 
+Additionally, \code{TOUR} has the following attributes:
 \code{"method"}, \code{"tour_length"}.
 
 For most functions, e.g., \code{tour_length} or \code{image}, the
@@ -60,7 +60,7 @@ as.integer(tour)
 
 ## get tour length directly from tour
 attr(tour, "tour_length")
-  
+
 ## show labels
 labels(tour)
 }

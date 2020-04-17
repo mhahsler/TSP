@@ -1,8 +1,8 @@
 Package: TSP
 Type: Package
 Title: Traveling Salesperson Problem (TSP)
-Version: 1.1-9.1
-Date: 2020-xx-xx
+Version: 1.1-10
+Date: 2020-04-17
 Authors@R: c(
 	person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
 	    email = "mhahsler@lyle.smu.edu"),
@@ -13,6 +13,7 @@ Description: Basic infrastructure and some algorithms for the traveling
     an interface to the Concorde TSP solver and its implementation of the
     Chained-Lin-Kernighan heuristic. The code for Concorde
     itself is not included in the package and has to be obtained separately.
+    Hahsler and Hornik (2007) <doi:10.18637/jss.v023.i02>
 Classification/ACM: G.1.6, G.2.1, G.4
 URL:  https://github.com/mhahsler/TSP
 BugReports: https://github.com/mhahsler/TSP/issues
