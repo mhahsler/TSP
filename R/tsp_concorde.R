@@ -64,7 +64,9 @@ tsp_concorde <- function(x, control = NULL){
 
   ## check x
   if(inherits(x, "TSP")){
-    if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^31 - 1
+    #if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^31 - 1
+    ### MFH: concorde may overflow with 2^31-1
+    if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^28 - 1
     x <- .prepare_dist_concorde(x, MAX, control$precision)
 
   }else if(inherits(x, "ETSP")) {
@@ -140,7 +142,8 @@ tsp_linkern <- function(x, control = NULL){
   ## check x
   if(inherits(x, "TSP")) {
 
-    MAX <- 2^31 - 1
+    #MAX <- 2^31 - 1
+    MAX <- 2^28 - 1
     x <- .prepare_dist_concorde(x, MAX, control$precision)
 
   }else if(inherits(x, "ETSP")) {

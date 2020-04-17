@@ -87,8 +87,8 @@ concorde_help()
 
 data("USCA312")
 
-## run concorde only with fast cuts (-V)
-solve_TSP(USCA312, method = "concorde", control = list(clo = "-V"))
+## run concorde in verbose mode (-v) with fast cuts only (-V)
+solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
 }
 }
 \keyword{documentation}% at least one, from doc/KEYWORDS

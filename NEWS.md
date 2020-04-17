@@ -3,6 +3,7 @@
 * Fixed Linkern file management on Windows.
 * Converting distances that only contain 0 and Inf (e.g., from an adjacency matrix) 
   is now fixed for Concorde and Linkern.
+* Reduced the maximum integer for Concorde to avoid overflows (reported by sarwanpasha).
 
 # TSP 1.1-9 (02/02/2020)
 
