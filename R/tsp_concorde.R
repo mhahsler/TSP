@@ -94,7 +94,7 @@ tsp_concorde <- function(x, control = NULL){
   ## change working directory
 
   ## do the call and read back result
-  ## we do not check return values of concorde since they are not
+  ## we do not check return values of Concorde since they are not
   ## very consistent
   system2(control$exe,
     args =  paste("-x", control$clo, "-o", tmp_file_out, tmp_file_in),
@@ -104,7 +104,7 @@ tsp_concorde <- function(x, control = NULL){
 
 
   if(!file.access(tmp_file_out) == 0)
-    stop("Problems with reading Concorde's output.\nIs concorde properly installed?\nFor details see ? Concorde")
+    stop("Concorde has not produced a result file.\nIs concorde properly installed? (see ? Concorde)\nDid Concorde finish without an error or being interupted?")
   ##else cat("Concorde done.\n")
 
   order <- scan(tmp_file_out, what = integer(0), quiet = TRUE)
@@ -167,7 +167,7 @@ tsp_linkern <- function(x, control = NULL){
   write_TSPLIB(x, file = tmp_file_in, precision = 0)
 
   ## do the call and read back result
-  ## we do not check return values of concorde since they are not
+  ## we do not check return values of Concorde since they are not
   ## very consistent
   system2(control$exe, args =  paste("-o",
     tmp_file_out, control$clo, tmp_file_in),
@@ -175,7 +175,7 @@ tsp_linkern <- function(x, control = NULL){
     stderr = if(control$verbose) "" else FALSE)
 
   if(!file.access(tmp_file_out) == 0)
-    stop("Problems with reading linkern's output. Is linkern properly installed?")
+    stop("Linkern has not produced a result file.\nIs linkern properly installed?\nDid linkern finish without an error or being interrupted?")
   ##else cat("Concorde done.\n")
 
   order <- read.table(tmp_file_out)[,1]
