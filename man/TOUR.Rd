@@ -11,7 +11,7 @@
 }
 \usage{
 ## conctructor
-TOUR(x, method=NA, tsp=NULL)
+TOUR(x, method = NA, tsp = NULL)
 
 ## coercion
 as.TOUR(object)

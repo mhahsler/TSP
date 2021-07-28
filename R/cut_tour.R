@@ -18,10 +18,12 @@
 
 cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
 
+    exclude_cut <- as.integer(exclude_cut)
+
     ## city label
     if(is.character(cut)) {
         cut <- which(as.logical(apply(sapply(cut, "==", labels(x)), MARGIN = 1, sum)))
-        if(length(cut)<1) stop("cut has to exist")
+        if(length(cut) < 1) stop("cut has to exist")
 
     ## city id
     } else {
@@ -29,20 +31,23 @@ cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
     }
 
     if(length(cut) == 1L) { ## single path
-        path <- c(x,x)[(cut + as.numeric(exclude_cut)):(length(x) + cut - 1L)]
+        if (exclude_cut && length(x) <= 1)
+            path <- integer(0)
+        else
+            path <- c(x, x)[(cut + exclude_cut):(length(x) + cut - 1L)]
 
     } else { ## multiple paths, return as a list
+        path <- replicate(length(cut), integer(0))
+        path[[1L]] <- c(
+            if ((tail(cut, 1) + exclude_cut) <= length(x)) (tail(cut, 1) + exclude_cut):length(x) else NULL,
+            if (cut[1] > 1) 1:(cut[1] - 1L) else NULL)
+        for (i in seq_len(length(cut) - 1L)) {
+            if ((cut[i] + exclude_cut) <= (cut[i + 1L] - 1L))
+                path[[i + 1L]] <- (cut[i] + exclude_cut):(cut[i + 1L] - 1L)
+        }
 
-        path_names <- labels(x)[cut]
-
-        ## make first cut the begining. Note we keeb the boundary at the begining and the end!
-        path <- c(x,x)[cut[1]:(length(x) + cut[1])]
-        cut2 <- c(cut - cut[1] + 1L, length(x))
-
-        path <- lapply(2:length(cut2), FUN =
-                function(i) path[(cut2[i-1L] + as.numeric(exclude_cut)):(cut2[i]-1L)])
-
-        names(path) <- path_names
+        path <- lapply(path, FUN = function(i) x[i])
+        if (exclude_cut) names(path) <- labels(x)[cut]
     }
 
     path
