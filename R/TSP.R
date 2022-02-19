@@ -17,8 +17,44 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
-## create a TSP problem
+#' Class TSP -- Symmetric traveling salesperson problem
+#'
+#' Constructor to create an instance of a symmetric traveling salesperson
+#' problem (TSP) and some auxiliary methods.
+#'
+#' Objects of class `TSP` are internally represented as `dist`
+#' objects (use [as.dist()] to get the `dist` object).
+#'
+#' @param x,object an object (currently `dist` or a symmetric matrix) to
+#' be converted into a `TSP` or, for the methods, an object of class
+#' `TSP`.
+#' @param labels optional city labels. If not given, labels are taken from
+#' `x`.
+#' @param method optional name of the distance metric. If `x` is a
+#' `dist` object, then the method is taken from that object.
+#' @param col color scheme for image.
+#' @param order order of cities for the image as an integer vector or an object
+#' of class [TOUR].
+#' @param ... further arguments are passed on.
+#' @returns
+#' - `TSP()` returns `x` as an object of class `TSP`.
+#' - `n_of_cities()` returns the number of cities in `x`.
+#' - `labels()` returns a vector with the names of the cities in `x`.
+#' @author Michael Hahsler
+#' @keywords classes
+#' @examples
+#' data("iris")
+#' d <- dist(iris[-5])
+#'
+#' ## create a TSP
+#' tsp <- TSP(d)
+#' tsp
+#'
+#' ## use some methods
+#' n_of_cities(tsp)
+#' labels(tsp)
+#' image(tsp)
+#' @export
 TSP <- function(x, labels = NULL, method = NULL) {
     if(inherits(x, "TSP")) return(x)
     x <- as.TSP(x)
@@ -28,7 +64,12 @@ TSP <- function(x, labels = NULL, method = NULL) {
 }
 
 ## coercion
+#' @rdname TSP
+#' @export
 as.TSP <- function(x) UseMethod("as.TSP")
+
+#' @rdname TSP
+#' @export
 as.TSP.dist <- function(x){
     ## make sure we have a upper triangle matrix w/o diagonal
     x <- as.dist(x, diag = FALSE, upper = FALSE)
@@ -44,6 +85,8 @@ as.TSP.dist <- function(x){
     x
 }
 
+#' @rdname TSP
+#' @export
 as.TSP.matrix <- function(x){
     if(!isSymmetric(x)) stop("TSP requires a symmetric matrix")
 
@@ -63,6 +106,9 @@ as.TSP.matrix <- function(x){
     x
 }
 
+#' @rdname TSP
+#' @param m a TSP object to be converted to a [dist] object.
+#' @export
 as.dist.TSP <- function(m, ...) {
   class(m) <- "dist"
   as.dist(m, ...)
@@ -70,6 +116,8 @@ as.dist.TSP <- function(m, ...) {
 
 
 ## print
+#' @rdname TSP
+#' @export
 print.TSP <- function(x, ...) {
     method <- attr(x, "method")
     if(is.null(method)) method <- "unknown"
@@ -80,17 +128,27 @@ print.TSP <- function(x, ...) {
 }
 
 
-## number of cities
-n_of_cities.TSP <- function(x) attr(x, "Size")
 
 ## generic for n_of_cities
+#' @rdname TSP
+#' @export
 n_of_cities <- function(x) UseMethod("n_of_cities")
+
+## number of cities
+#' @rdname TSP
+#' @export
+n_of_cities.TSP <- function(x) attr(x, "Size")
+
 n_of_cities.default <- n_of_cities.TSP
 
 ## labels
+#' @rdname TSP
+#' @export
 labels.TSP <- function(object, ...) attr(object, "Labels")
 
 ## image
+#' @rdname TSP
+#' @export
 image.TSP <- function(x, order, col = gray.colors(64), ...) {
     p <- n_of_cities(x)
     if(missing(order)) order <- 1:p

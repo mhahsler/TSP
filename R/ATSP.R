@@ -19,6 +19,54 @@
 
 
 ## create a (asymmetric) ATSP problem
+
+
+#' Class ATSP -- Asymmetric traveling salesperson problem
+#'
+#' Constructor to create an instance of the asymmetric traveling salesperson
+#' problem (ATSP) and some auxiliary methods.
+#'
+#' Objects of class `ATSP` are internally represented by a matrix (use
+#' `as.matrix()` to get just the matrix).
+#'
+#' ATSPs can be transformed into (larger) symmetric TSPs using
+#' [reformulate_ATSP_as_TSP()].
+#'
+#' @family TSP
+#'
+#' @param x,object an object (a square matrix) to be converted into an
+#' `ATSP` or, for the methods, an object of class `ATSP`.
+#' @param labels optional city labels. If not given, labels are taken from
+#' `x`.
+#' @param method optional name of the distance metric.
+#' @param col color scheme for image.
+#' @param order order of cities as an integer vector or an object of class
+#' `TOUR`.
+#' @param ... further arguments are passed on.
+#' @returns
+#' - `ATSP()` returns `x` as an object of class `ATSP`.
+#' - `n_of_cities()` returns the number of cities in `x`.
+#' - `labels()` returns a vector with the names of the cities in `x`.
+#' @author Michael Hahsler
+#' @keywords classes
+#' @examples
+#' data <- matrix(runif(10^2), ncol = 10, dimnames = list(1:10, 1:10))
+#'
+#' atsp <- ATSP(data)
+#' atsp
+#'
+#' ## use some methods
+#' n_of_cities(atsp)
+#' labels(atsp)
+#'
+#' ## calculate a tour
+#' tour <- solve_TSP(atsp, method = "nn")
+#' tour
+#'
+#' tour_length(tour)
+#'
+#' image(atsp, tour)
+#' @export
 ATSP <- function(x, labels = NULL, method = NULL) {
     if(inherits(x, "ATSP")) return(x)
 
@@ -30,7 +78,12 @@ ATSP <- function(x, labels = NULL, method = NULL) {
     atsp
 }
 
+#' @rdname ATSP
+#' @export
 as.ATSP <- function(x) UseMethod("as.ATSP")
+
+#' @rdname ATSP
+#' @export
 as.ATSP.matrix <- function(x){
     .isSquare <- function(x) (dim(x)[1] == dim(x)[2])
 
@@ -52,6 +105,8 @@ as.ATSP.matrix <- function(x){
     x
 }
 
+#' @rdname ATSP
+#' @export
 as.ATSP.dist <- function(x){
     method <- attr(x, "method")
     x <- as.ATSP(as.matrix(x))
@@ -66,6 +121,8 @@ as.ATSP.dist <- function(x){
 
 
 ## print
+#' @rdname ATSP
+#' @export
 print.ATSP <- function(x, ...) {
     method <- attr(x, "method")
     if(is.null(method)) method <- "unknown"
@@ -77,12 +134,18 @@ print.ATSP <- function(x, ...) {
 
 
 ## number of cities
+#' @rdname ATSP
+#' @export
 n_of_cities.ATSP <- function(x) nrow(x)
 
 ## labels
+#' @rdname ATSP
+#' @export
 labels.ATSP <- function(object, ...) dimnames(object)[[1]]
 
 ## image
+#' @rdname ATSP
+#' @export
 image.ATSP <- function(x, order, col = gray.colors(64), ...) {
     p <- n_of_cities(x)
     if(missing(order)) order <- 1:p
@@ -91,6 +154,8 @@ image.ATSP <- function(x, order, col = gray.colors(64), ...) {
 }
 
 ## coerce to matrix
+#' @rdname ATSP
+#' @export
 as.matrix.ATSP <- function(x, ...){
     unclass(x)
 }

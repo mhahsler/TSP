@@ -1,5 +1,8 @@
 # TSP 1.1-11 (10/06/2021)
 
+## Changes
+* The package uses no roxygen.
+
 ## Bugfixes
 * cut_tour: fixed dropped city for multiple cut points (reported by RegularnaMatrica)
 

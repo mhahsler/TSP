@@ -16,6 +16,47 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+#' Cut a tour to form a path
+#'
+#' Cuts a tour at a specified city to form a path.
+#'
+#' @family TOUR
+#'
+#' @param x an object of class [TOUR].
+#' @param cut the index or label of the city/cities to cut the tour.
+#' @param exclude_cut exclude the city where we cut? If `FALSE`, the city
+#' at the cut is included in the path as the first city.
+#' @return Returns a named vector with city ids forming the path. If multiple
+#' cuts are used then a list with paths is returned.
+#' @author Michael Hahsler
+#' @keywords optimize
+#' @examples
+#'
+#' data("USCA50")
+#'
+#' ## find a path starting at Austin, TX
+#' tour <- solve_TSP(USCA50)
+#' path <- cut_tour(tour, cut = "Austin, TX", exclude_cut = FALSE)
+#' path
+#'
+#' ## cut the tours at two cities
+#' tour <- solve_TSP(USCA50)
+#' path <- cut_tour(tour, cut = c("Austin, TX", "Cambridge, MA"), exclude_cut = FALSE)
+#' path
+#'
+#' ## cut a tour at the largest gap using a dummy city
+#' tsp <- insert_dummy(USCA50, label = "cut")
+#' tour <- solve_TSP(tsp)
+#'
+#' ## cut tour into path at the dummy city
+#' path <- cut_tour(tour, "cut")
+#' path
+#' @export
+cut_tour <- function(x, cut, exclude_cut = TRUE)
+    UseMethod("cut_tour")
+
+#' @rdname cut_tour
+#' @export
 cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
 
     exclude_cut <- as.integer(exclude_cut)
@@ -52,7 +93,3 @@ cut_tour.TOUR <- function(x, cut, exclude_cut = TRUE) {
 
     path
 }
-
-##generic
-cut_tour <- function(x, cut, exclude_cut = TRUE)
-    UseMethod("cut_tour")
