@@ -25,6 +25,8 @@
 #' Objects of class `TSP` are internally represented as `dist`
 #' objects (use [as.dist()] to get the `dist` object).
 #'
+#' @family TSP
+#'
 #' @param x,object an object (currently `dist` or a symmetric matrix) to
 #' be converted into a `TSP` or, for the methods, an object of class
 #' `TSP`.

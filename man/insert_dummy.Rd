@@ -103,6 +103,7 @@ Other TSP:
 \code{\link{ATSP}()},
 \code{\link{ETSP}()},
 \code{\link{TSPLIB}},
+\code{\link{TSP}()},
 \code{\link{concorde}},
 \code{\link{reformulate_ATSP_as_TSP}()},
 \code{\link{solve_TSP}()}

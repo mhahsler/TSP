@@ -68,6 +68,7 @@ Other TSP:
 \code{\link{ATSP}()},
 \code{\link{ETSP}()},
 \code{\link{TSPLIB}},
+\code{\link{TSP}()},
 \code{\link{concorde}},
 \code{\link{insert_dummy}()},
 \code{\link{solve_TSP}()}

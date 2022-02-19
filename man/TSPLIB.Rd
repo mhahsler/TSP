@@ -101,6 +101,7 @@ TSPLIB home page,
 Other TSP: 
 \code{\link{ATSP}()},
 \code{\link{ETSP}()},
+\code{\link{TSP}()},
 \code{\link{concorde}},
 \code{\link{insert_dummy}()},
 \code{\link{reformulate_ATSP_as_TSP}()},
