@@ -128,7 +128,7 @@ SEXP two_opt(SEXP R_matrix, SEXP R_t) {
 }
 
 
-// this implementation only works for symetric TSPs
+// this implementation only works for symmetric TSPs
 // Note: code is slightly faster than the code above but is not used
 SEXP two_opt_sym(SEXP R_matrix, SEXP R_t) {
 

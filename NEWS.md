@@ -2,6 +2,7 @@
 
 ## Changes
 * The package uses no roxygen.
+* C code has now long vector support for dist.
 
 ## Bugfixes
 * cut_tour: fixed dropped city for multiple cut points (reported by RegularnaMatrica)

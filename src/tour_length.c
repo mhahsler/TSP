@@ -5,7 +5,7 @@
 typedef enum {false = 0, true = 1} bool;
 
 /*
- * Calculate the tour length given a distance matrix and a permuation vector
+ * Calculate the tour length given a distance matrix and a permutation vector
  */
 
 SEXP tour_length_dist(SEXP R_dist, SEXP R_order) {
