@@ -20,33 +20,7 @@
 #'
 #' Common interface to all TSP solvers in this package.
 #'
-#' **Treatment of `NA`s and infinite values in `x`:** [TSP] and
-#' [ATSP] contain distances and `NA`s are not allowed. `Inf` is
-#' allowed and can be used to model the missing edges in incomplete graphs
-#' (i.e., the distance between the two objects is infinite). Internally,
-#' `Inf` is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
-#' Note that the solution might still place the two objects next to each other
-#' (e.g., if `x` contains several unconnected subgraphs) which results in
-#' a path length of `Inf`.
-#'
-#' All heuristics can be used with the control arguments `repetitions`
-#' (uses the best from that many repetitions with random starts) and
-#' `two_opt` (a logical indicating if two_opt refinement should be
-#' performed). If several repetitions are done (this includes method
-#' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
-#' in parallel on multiple cores/machines. To enable parallel execution an
-#' appropriate parallel backend needs to be registered (e.g., load
-#' \pkg{doParallel} and register it with [doParallel::registerDoParallel()]).
-#'
-#' [ETSP] are currently solved by first calculating a dissimilarity matrix
-#' (a [TSP]). Only concorde and linkern can solve the TSP directly on the
-#' `ETSP`.
-#'
-#' Some solvers (including Concorde) cannot directly solve [ATSP]
-#' directly. `ATSP` can be reformulated as larger `TSP` and solved
-#' this way. For convenience, `solve_TSP()` has an extra argument
-#' `as_TSP` which can be set to `TRUE` to automatically solve the
-#' `ATSP` reformulated as a `TSP` (see [reformulate_ATSP_as_TSP]).
+#' **TSP Methods**
 #'
 #' Currently the following methods are available:
 #' - "identity", "random" return a tour representing the order in the data
@@ -142,7 +116,42 @@
 #'
 #'   Additional control options: see Concorde above.
 #'
+#' **Treatment of `NA`s and infinite values in `x`**
+#'
+#' [TSP] and
+#' [ATSP] contain distances and `NA`s are not allowed. `Inf` is
+#' allowed and can be used to model the missing edges in incomplete graphs
+#' (i.e., the distance between the two objects is infinite). Internally,
+#' `Inf` is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
+#' Note that the solution might still place the two objects next to each other
+#' (e.g., if `x` contains several unconnected subgraphs) which results in
+#' a path length of `Inf`.
+#'
+#' **Parallel execution support**
+#'
+#' All heuristics can be used with the control arguments `repetitions`
+#' (uses the best from that many repetitions with random starts) and
+#' `two_opt` (a logical indicating if two_opt refinement should be
+#' performed). If several repetitions are done (this includes method
+#' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
+#' in parallel on multiple cores/machines. To enable parallel execution an
+#' appropriate parallel backend needs to be registered (e.g., load
+#' \pkg{doParallel} and register it with [doParallel::registerDoParallel()]).
+#'
+#' **Solving ATSP and ETSP**
+#'
+#' Some solvers (including Concorde) cannot directly solve [ATSP]
+#' directly. `ATSP` can be reformulated as larger `TSP` and solved
+#' this way. For convenience, `solve_TSP()` has an extra argument
+#' `as_TSP` which can be set to `TRUE` to automatically solve the
+#' `ATSP` reformulated as a `TSP` (see [reformulate_ATSP_as_TSP()]).
+#'
+#' Only methods "concorde" and "linkern" can solve [ETSP]s directly.
+#' For all other methods, ETSPs are currently converted into TSPs by creating a
+#' distance matrix and then solved.
+#'
 #' @family TSP
+#' @family TOUR
 #'
 #' @param x a TSP problem.
 #' @param method method to solve the TSP (default: "arbitrary insertion"
@@ -151,7 +160,7 @@
 #' `method`.
 #' @param as_TSP should the ATSP reformulated as a TSP for the solver?
 #' @param ...  additional arguments are added to `control`.
-#' @return An object of class `TOUR`.
+#' @return An object of class [TOUR].
 #' @author Michael Hahsler
 #' @references
 #' David Applegate, Robert Bixby, Vasek Chvatal, William Cook

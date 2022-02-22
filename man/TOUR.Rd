@@ -68,6 +68,7 @@ labels(tour)
 \seealso{
 Other TOUR: 
 \code{\link{cut_tour}()},
+\code{\link{solve_TSP}()},
 \code{\link{tour_length}()}
 }
 \author{

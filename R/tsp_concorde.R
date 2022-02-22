@@ -27,18 +27,24 @@
 #' \pkg{TSP}. Concorde can solve [TSP]s and [ETSP]s directly. [ATSP]s are
 #' reformulated as larger TSP's and then solved.
 #'
-#' The Concorde TSP Solver package is freely available for academic research
-#' and has to be obtained separately from the Concorde web site (see details).
 #'
-#' The code of the Concorde TSP package is not included in this package and has
-#' to be obtained separately from the Concorde web site (see references).
+#' **Installation of Concorde**
+#'
+#' The Concorde TSP Solver is freely available for academic research.
+#' It is not included in the \pkg{TSP} R package and has
+#' to be obtained separately from the
+#' [Concorde download page](http://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm).
 #' Either download the precompiled executables and place them in a suitable
-#' directory and make them executable, or you can get the source code and
-#' compile it on your own. \pkg{TSP} needs to know where the executables are.
-#' There are two options: (1) use `concorde_path()` to set the path to the
-#' directory containing the executables for concorde and linkern, or (2) make
-#' sure that the executables are in the search path stored in the `PATH`
-#' environment variable (see [Sys.setenv()]).
+#' directory (make sure they are executable), or you can get the source code and
+#' compile the program on your own. \pkg{TSP} needs to know where the executables are.
+#' There are two options:
+#' 1. use `concorde_path()` to set the path to the
+#'   directory containing the executables for concorde and linkern, or
+#' 2. make
+#'   sure that the executables are in the search path stored in the `PATH`
+#'   environment variable (see [Sys.setenv()]).
+#'
+#' **Using Concorde for `solve_TSP()`**
 #'
 #' [solve_TSP()] uses [write_TSPLIB()] to write the TSP for
 #' Concorde and tries to find the appropriate `precision` value (digits
@@ -55,12 +61,12 @@
 #' \option{-N}, \option{-Q}) are not available via [solve_TSP()] since they
 #' are used by the interface.
 #'
-#' If Concorde takes too long, then you can kill the concorde process via your
+#' If Concorde takes too long, then you can kill the 'concorde' process via your
 #' operating system and you can continue with R.
 #'
 #' @family TSP
 #'
-#' @name concorde
+#' @name Concorde
 #' @aliases Concorde concorde concorde_path concorde_help linkern_help
 #'
 #' @param path a character string with the path to the directory where the
@@ -69,9 +75,6 @@
 #' @author Michael Hahsler
 #' @references Concorde home page,
 #' \url{http://www.math.uwaterloo.ca/tsp/concorde/}
-#'
-#' Concorde download page,
-#' \url{http://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm}
 #'
 #' David Applegate, Robert Bixby, Vasek Chvatal, William Cook (2001): TSP cuts
 #' which do not conform to the template paradigm, Computational Combinatorial
@@ -275,7 +278,7 @@ tsp_linkern <- function(x, control = NULL){
 
 ## path
 ## path
-#' @rdname concorde
+#' @rdname Concorde
 #' @export
 concorde_path <- local({
   .path <- NULL
@@ -311,14 +314,14 @@ concorde_path <- local({
 
 
 ## get help page
-#' @rdname concorde
+#' @rdname Concorde
 #' @export
 concorde_help <- function() {
   cat("The following options can be specified in solve_TSP with method \"concorde\" using clo in control:\n\n")
   system2(.find_exe(NULL, "concorde"), args = "")
 }
 
-#' @rdname concorde
+#' @rdname Concorde
 #' @export
 linkern_help <- function() {
   cat("The following options can be specified in solve_TSP with method \"linkern\" using clo in control:\n\n")
@@ -327,7 +330,7 @@ linkern_help <- function() {
 
 
 
-## helper to find the concorde executable
+## helper to find the 'concorde' executable
 .find_exe <- function(exe = NULL, prog) {
   ## if not specified
   if(is.null(exe)) {

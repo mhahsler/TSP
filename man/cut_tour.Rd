@@ -49,6 +49,7 @@ path
 \seealso{
 Other TOUR: 
 \code{\link{TOUR}()},
+\code{\link{solve_TSP}()},
 \code{\link{tour_length}()}
 }
 \author{

@@ -29,39 +29,13 @@ algorithm with two_opt refinement.}
 \item{as_TSP}{should the ATSP reformulated as a TSP for the solver?}
 }
 \value{
-An object of class \code{TOUR}.
+An object of class \link{TOUR}.
 }
 \description{
 Common interface to all TSP solvers in this package.
 }
 \details{
-\strong{Treatment of \code{NA}s and infinite values in \code{x}:} \link{TSP} and
-\link{ATSP} contain distances and \code{NA}s are not allowed. \code{Inf} is
-allowed and can be used to model the missing edges in incomplete graphs
-(i.e., the distance between the two objects is infinite). Internally,
-\code{Inf} is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
-Note that the solution might still place the two objects next to each other
-(e.g., if \code{x} contains several unconnected subgraphs) which results in
-a path length of \code{Inf}.
-
-All heuristics can be used with the control arguments \code{repetitions}
-(uses the best from that many repetitions with random starts) and
-\code{two_opt} (a logical indicating if two_opt refinement should be
-performed). If several repetitions are done (this includes method
-\code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
-in parallel on multiple cores/machines. To enable parallel execution an
-appropriate parallel backend needs to be registered (e.g., load
-\pkg{doParallel} and register it with \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
-
-\link{ETSP} are currently solved by first calculating a dissimilarity matrix
-(a \link{TSP}). Only concorde and linkern can solve the TSP directly on the
-\code{ETSP}.
-
-Some solvers (including Concorde) cannot directly solve \link{ATSP}
-directly. \code{ATSP} can be reformulated as larger \code{TSP} and solved
-this way. For convenience, \code{solve_TSP()} has an extra argument
-\code{as_TSP} which can be set to \code{TRUE} to automatically solve the
-\code{ATSP} reformulated as a \code{TSP} (see \link{reformulate_ATSP_as_TSP}).
+\strong{TSP Methods}
 
 Currently the following methods are available:
 \itemize{
@@ -162,6 +136,40 @@ this package and has to be obtained and installed separately (see \link{Concorde
 
 Additional control options: see Concorde above.
 }
+
+\strong{Treatment of \code{NA}s and infinite values in \code{x}}
+
+\link{TSP} and
+\link{ATSP} contain distances and \code{NA}s are not allowed. \code{Inf} is
+allowed and can be used to model the missing edges in incomplete graphs
+(i.e., the distance between the two objects is infinite). Internally,
+\code{Inf} is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
+Note that the solution might still place the two objects next to each other
+(e.g., if \code{x} contains several unconnected subgraphs) which results in
+a path length of \code{Inf}.
+
+\strong{Parallel execution support}
+
+All heuristics can be used with the control arguments \code{repetitions}
+(uses the best from that many repetitions with random starts) and
+\code{two_opt} (a logical indicating if two_opt refinement should be
+performed). If several repetitions are done (this includes method
+\code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
+in parallel on multiple cores/machines. To enable parallel execution an
+appropriate parallel backend needs to be registered (e.g., load
+\pkg{doParallel} and register it with \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
+
+\strong{Solving ATSP and ETSP}
+
+Some solvers (including Concorde) cannot directly solve \link{ATSP}
+directly. \code{ATSP} can be reformulated as larger \code{TSP} and solved
+this way. For convenience, \code{solve_TSP()} has an extra argument
+\code{as_TSP} which can be set to \code{TRUE} to automatically solve the
+\code{ATSP} reformulated as a \code{TSP} (see \code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}}).
+
+Only methods "concorde" and "linkern" can solve \link{ETSP}s directly.
+For all other methods, ETSPs are currently converted into TSPs by creating a
+distance matrix and then solved.
 }
 \examples{
 
@@ -234,15 +242,21 @@ Journal on Computing, 6(3):563--581.}
 \seealso{
 Other TSP: 
 \code{\link{ATSP}()},
+\code{\link{Concorde}},
 \code{\link{ETSP}()},
 \code{\link{TSPLIB}},
 \code{\link{TSP}()},
-\code{\link{concorde}},
 \code{\link{insert_dummy}()},
 \code{\link{reformulate_ATSP_as_TSP}()}
+
+Other TOUR: 
+\code{\link{TOUR}()},
+\code{\link{cut_tour}()},
+\code{\link{tour_length}()}
 }
 \author{
 Michael Hahsler
 }
+\concept{TOUR}
 \concept{TSP}
 \keyword{optimize}

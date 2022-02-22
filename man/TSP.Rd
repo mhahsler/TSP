@@ -84,9 +84,9 @@ image(tsp)
 \seealso{
 Other TSP: 
 \code{\link{ATSP}()},
+\code{\link{Concorde}},
 \code{\link{ETSP}()},
 \code{\link{TSPLIB}},
-\code{\link{concorde}},
 \code{\link{insert_dummy}()},
 \code{\link{reformulate_ATSP_as_TSP}()},
 \code{\link{solve_TSP}()}

@@ -5,13 +5,7 @@
 \alias{TSP-package}
 \title{TSP: Traveling Salesperson Problem (TSP)}
 \description{
-Basic infrastructure and some algorithms for the traveling
-salesperson problem (also traveling salesman problem; TSP).
-The package provides some simple algorithms and
-an interface to the Concorde TSP solver and its implementation of the
-Chained-Lin-Kernighan heuristic. The code for Concorde
-itself is not included in the package and has to be obtained separately.
-Hahsler and Hornik (2007) \url{doi:10.18637/jss.v023.i02}.
+Basic infrastructure and some algorithms for the traveling salesperson problem (also traveling salesman problem; TSP). The package provides some simple algorithms and an interface to the Concorde TSP solver and its implementation of the Chained-Lin-Kernighan heuristic. The code for \href{https://www.math.uwaterloo.ca/tsp/concorde/}{Concorde} itself is not included in the package and has to be obtained separately.
 }
 \section{Key functions}{
 
@@ -20,6 +14,9 @@ Hahsler and Hornik (2007) \url{doi:10.18637/jss.v023.i02}.
 }
 }
 
+\references{
+Michael Hahsler and Kurt Hornik. TSP -- Infrastructure for the traveling salesperson problem. Journal of Statistical Software, 23(2):1--21, December 2007. \doi{10.18637/jss.v023.i02}
+}
 \author{
 Michael Hahsler
 }

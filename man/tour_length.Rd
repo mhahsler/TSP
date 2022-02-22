@@ -55,7 +55,8 @@ tour_length(tour, USCA50)
 \seealso{
 Other TOUR: 
 \code{\link{TOUR}()},
-\code{\link{cut_tour}()}
+\code{\link{cut_tour}()},
+\code{\link{solve_TSP}()}
 }
 \author{
 Michael Hahsler
