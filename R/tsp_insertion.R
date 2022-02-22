@@ -46,7 +46,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
   ## place first city
   control <- .get_parameters(control, list(
       start = sample(n, 1)
-    ))
+    ), method = paste0(types[type_num], "_insertion"))
   start <- as.integer(control$start)
   if(start < 0 || start > n)
     stop(paste("illegal value for", sQuote("start")))
@@ -109,6 +109,9 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
     }
   }
 
+  if (control$verbose)
+    cat("All cities placed.\n\n")
+
   order
 }
 
@@ -117,7 +120,7 @@ tsp_insertion_arbitrary <- function(x, control = NULL){
   ## x comes checked form solve_TSP/solve_ATSP
   n <- n_of_cities(x)
 
-  control <- .get_parameters(control, list())
+  control <- .get_parameters(control, list(), method = "arbitrary_insertion")
 
   ## we use a matrix for now (covers TSP and ATSP)
   x <- as.matrix(x)
@@ -144,6 +147,9 @@ tsp_insertion_arbitrary <- function(x, control = NULL){
     order[((pos):i)+1L] <- order[(pos):i]
     order[pos] <- i
   }
+
+  if (control$verbose)
+    cat("All cities placed.\n\n")
 
   rorder[order]
 }

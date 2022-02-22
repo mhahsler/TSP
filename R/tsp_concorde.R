@@ -147,7 +147,7 @@ tsp_concorde <- function(x, control = NULL){
     precision = 6,
     verbose = TRUE,
     keep_files = FALSE
-  ))
+  ), method = "concorde")
 
   ## check x
   if(inherits(x, "TSP")){
@@ -220,7 +220,7 @@ tsp_linkern <- function(x, control = NULL){
     precision = 6,
     verbose = TRUE,
     keep_files = FALSE
-  ))
+  ), method = "linkern")
 
   ## have to set -r for small instances <8
   if(n_of_cities(x) <=8)

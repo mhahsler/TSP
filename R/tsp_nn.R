@@ -25,12 +25,12 @@ tsp_nn <- function(x, control = NULL) {
 
     n <- n_of_cities(x)
 
-    ## we use a matrix for now (coveres TSP and ATSP)
+    ## we use a matrix for now (covers TSP and ATSP)
     x <- as.matrix(x)
 
     control <- .get_parameters(control, list(
       start = sample(n, 1)
-    ))
+    ), method = "nn")
     start <- control$start
     if(start < 0 || start > n)
       stop(paste("illegal value for", sQuote("start")))
@@ -56,6 +56,9 @@ tsp_nn <- function(x, control = NULL) {
         placed[current] <- TRUE
     }
 
+    if (control$verbose)
+      cat("All cities placed.\n\n")
+
     order
 }
 
@@ -64,6 +67,8 @@ tsp_nn <- function(x, control = NULL) {
 tsp_repetitive_nn <- function(x, control){
   n <- n_of_cities(x)
 
+  control <- .get_parameters(control, list(), method = "repetitive_nn")
+
   #tours <- lapply(1:n, function(i) tsp_nn(x, control = list(start = i)))
   ## no backend would warn!
   i <- 0L ## for R CMD check (no global binding for i)
@@ -71,7 +76,9 @@ tsp_repetitive_nn <- function(x, control){
     tours <- foreach(i = 1:n) %dopar% tsp_nn(x, control = list(start = i))
   )
 
-  lengths <- sapply(tours, FUN = function(i) tour_length(x, i))
+  if (control$verbose)
+    cat("All replications are complete.\n\n")
 
+  lengths <- sapply(tours, FUN = function(i) tour_length(x, i))
   tours[[which.min(lengths)]]
 }

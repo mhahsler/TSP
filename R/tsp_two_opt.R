@@ -24,8 +24,13 @@ tsp_two_opt <- function(x, control = NULL){
 
   control <- .get_parameters(control, list(
     tour = NULL,
-    rep = 1
-  ))
+    two_opt_repetitions = 1
+  ), method = "two_opt")
+
+  if (!is.null(control$tour) && control$two_opt_repetitions > 1) {
+    control$two_opt_repetitions <- 1
+    warning("Doing multiple repetitions of two-opt given a fixed tour does not make sense. Doing only 1 repetition.")
+    }
 
   ## improve a given tour or create a random tour
   ## we use a function since for rep >1 we want several random
@@ -37,11 +42,15 @@ tsp_two_opt <- function(x, control = NULL){
 
   xx <- as.matrix(x)
 
-  if(control$rep > 1) {
-    tour <- replicate(control$rep, .Call(R_two_opt, xx, initial()), simplify = FALSE)
+  if(control$two_opt_repetitions > 1) {
+    tour <- replicate(control$two_opt_repetitions, .Call(R_two_opt, xx, initial()), simplify = FALSE)
     lengths <- sapply(tour, FUN = function(t) tour_length(x, t))
+    cat(lengths)
     tour <- tour[[which.min(lengths)]]
   }else tour <- .Call(R_two_opt, xx, initial())
+
+  if (control$verbose)
+    cat("Two-opt done.\n\n")
 
   tour
 }

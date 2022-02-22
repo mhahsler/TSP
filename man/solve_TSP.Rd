@@ -205,9 +205,9 @@ registerDoParallel()
 }
 
 ## add some tours using repetition and two_opt refinements
-tours$'nn+two_opt' <- solve_TSP(USCA50, method="nn", two_opt=TRUE)
-tours$'nn+rep_10' <- solve_TSP(USCA50, method="nn", rep=10)
-tours$'nn+two_opt+rep_10' <- solve_TSP(USCA50, method="nn", two_opt=TRUE, rep=10)
+tours$'nn+two_opt' <- solve_TSP(USCA50, method = "nn", two_opt = TRUE)
+tours$'nn+rep_10' <- solve_TSP(USCA50, method = "nn", rep = 10)
+tours$'nn+two_opt+rep_10' <- solve_TSP(USCA50, method = "nn", two_opt = TRUE, rep = 10)
 tours$'arbitrary_insertion+two_opt' <- solve_TSP(USCA50)
 
 ## show first tour
@@ -217,7 +217,7 @@ tours[[1]]
 opt <- 14497 # obtained by Concorde
 tour_lengths <- c(sort(sapply(tours, tour_length), decreasing = TRUE),
   optimal = opt)
-dotchart(tour_lengths/opt*100-100, xlab = "percent excess over optimum")
+dotchart(tour_lengths / opt * 100 - 100, xlab = "percent excess over optimum")
 }
 \references{
 David Applegate, Robert Bixby, Vasek Chvatal, William Cook

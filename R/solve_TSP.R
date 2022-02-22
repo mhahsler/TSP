@@ -216,9 +216,9 @@
 #' }
 #'
 #' ## add some tours using repetition and two_opt refinements
-#' tours$'nn+two_opt' <- solve_TSP(USCA50, method="nn", two_opt=TRUE)
-#' tours$'nn+rep_10' <- solve_TSP(USCA50, method="nn", rep=10)
-#' tours$'nn+two_opt+rep_10' <- solve_TSP(USCA50, method="nn", two_opt=TRUE, rep=10)
+#' tours$'nn+two_opt' <- solve_TSP(USCA50, method = "nn", two_opt = TRUE)
+#' tours$'nn+rep_10' <- solve_TSP(USCA50, method = "nn", rep = 10)
+#' tours$'nn+two_opt+rep_10' <- solve_TSP(USCA50, method = "nn", two_opt = TRUE, rep = 10)
 #' tours$'arbitrary_insertion+two_opt' <- solve_TSP(USCA50)
 #'
 #' ## show first tour
@@ -228,7 +228,7 @@
 #' opt <- 14497 # obtained by Concorde
 #' tour_lengths <- c(sort(sapply(tours, tour_length), decreasing = TRUE),
 #'   optimal = opt)
-#' dotchart(tour_lengths/opt*100-100, xlab = "percent excess over optimum")
+#' dotchart(tour_lengths / opt * 100 - 100, xlab = "percent excess over optimum")
 #' @export
 solve_TSP <- function(x, method = NULL, control = NULL, ...)
   UseMethod("solve_TSP")
@@ -328,7 +328,7 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
   ## default is arbitrary_insertion + two_opt
   if(is.null(method)) {
     method <- "arbitrary_insertion"
-    if(is.null(control$two_opt))
+    if(is.null(control[["two_opt"]]))
       control <- c(control, list(two_opt = TRUE))
   } else method <- match.arg(tolower(method), methods)
 
@@ -358,7 +358,7 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
     )
 
     ### do refinement two_opt
-    if(!is.null(control$two_opt) && control$two_opt) {
+    if(!is.null(control[["two_opt"]]) && control[["two_opt"]]) {
       order <- tsp_two_opt(x_, control = c(control, list(tour = order)))
       method <- paste(method , "+two_opt", sep = "")
     }
@@ -379,10 +379,11 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
   if(n==1L) return(.solve_TSP_worker(x_, method, control))
 
   #l <- replicate(n, .solve_TSP_worker(x_, method, control), simplify = FALSE)
+  if (n > 1L)
   l <- foreach(i = 1:n) %dopar% .solve_TSP_worker(x_, method, control)
-
 
   l <- l[[which.min(sapply(l, attr, "tour_length"))]]
   attr(l, "method") <- paste(attr(l, "method"), "_rep_", n, sep="")
+
   return(l)
 }

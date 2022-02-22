@@ -24,7 +24,7 @@
     paste(names(l), "=",l, collapse=", "))
 }
 
-.get_parameters <- function(parameter, defaults) {
+.get_parameters <- function(parameter, defaults, method = NA) {
   defaults <- as.list(defaults)
   parameter <- as.list(parameter)
 
@@ -52,11 +52,14 @@
   }
 
   if(defaults$verbose) {
-    cat("Used control parameters:\n")
+    cat("Used control parameters by", sQuote(method), "\n")
+
     #print(defaults)
     cat(rbind(names(defaults)," = ",
       strtrim(gsub("\n"," ",as.character(defaults)), 50)),
       sep=c("\t"," ","\n"))
+
+    cat("\n")
   }
 
   defaults
