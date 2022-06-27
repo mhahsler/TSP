@@ -4,8 +4,9 @@ Title: Traveling Salesperson Problem (TSP)
 Version: 1.2-0-1
 Date: 2022-xx-xx
 Authors@R: c(
-	person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
-	    email = "mhahsler@lyle.smu.edu"),
+	Authors@R: c(person("Michael", "Hahsler", role = c("aut", "cre", "cph"),
+		email = "mhahsler@lyle.smu.edu",
+		comment = c(ORCID = "0000-0003-2716-1405")),
 	person("Kurt", "Hornik", role = c("aut", "cph")))
 Description: Basic infrastructure and some algorithms for the traveling
     salesperson problem (also traveling salesman problem; TSP).
