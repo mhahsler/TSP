@@ -1,0 +1,53 @@
+---
+output: github_document
+---
+
+```{r echo=FALSE, results = 'asis'}
+pkg <- 'TSP'
+
+source("https://raw.githubusercontent.com/mhahsler/pkg_helpers/main/pkg_helpers.R")
+pkg_title(pkg)
+```
+
+
+This package provides the 
+basic infrastructure and some algorithms for the traveling
+salesman problems (symmetric, asymmetric and Euclidean TSPs). 
+The package provides some simple algorithms and
+an interface to the [Concorde TSP solver](http://www.math.uwaterloo.ca/tsp/concorde/) and its implementation of the 
+Chained-Lin-Kernighan heuristic. 
+
+```{r echo=FALSE, results = 'asis'}
+pkg_install(pkg)
+```
+
+## Usage
+
+Load a data set with 312 cities (USA and Canada) and create a TSP object. 
+```{r}
+library("TSP")
+data("USCA312")
+ 
+tsp <- TSP(USCA312)
+tsp
+```
+
+Find a tour using the default heuristic. 
+```{r}
+tour <- solve_TSP(tsp)
+tour
+```
+
+Show the first few cities in the tour.
+```{r}
+head(tour, n = 10)
+```
+
+An online example application of TSP can be found on [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
+
+## References
+
+* Michael Hahsler and Kurt Hornik, [TSP - Infrastructure for the Traveling Salesperson Problem,](http://dx.doi.org/10.18637/jss.v023.i02) _Journal of Statistical Software,_ 22(2), 2007.
+* [TSP package vignette](https://cran.r-project.org/package=TSP/vignettes/TSP.pdf) with complete examples.
+* [Reference manual](https://cran.r-project.org/package=TSP/TSP.pdf)
+* [Concorde TSP solver home page.](http://www.math.uwaterloo.ca/tsp/concorde/)
