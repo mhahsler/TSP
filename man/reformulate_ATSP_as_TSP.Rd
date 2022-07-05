@@ -5,7 +5,7 @@
 \alias{filter_ATSP_as_TSP_dummies}
 \title{Reformulate a ATSP as a symmetric TSP}
 \usage{
-reformulate_ATSP_as_TSP(x, infeasible = Inf, cheap = "auto")
+reformulate_ATSP_as_TSP(x, infeasible = Inf, cheap = -Inf)
 
 filter_ATSP_as_TSP_dummies(tour, atsp)
 }
@@ -23,7 +23,8 @@ city. This needs to be very small compared to the smallest distance. Value
 \item{atsp}{the original \link{ATSP}.}
 }
 \value{
-a \link{TSP} object.
+\code{reformulate_ATSP_as_TSP()} returns a \link{TSP} object.
+\code{filter_ATSP_as_TSP_dummies()} returns a \link{TOUR} object.
 }
 \description{
 A ATSP can be formulated as a symmetric TSP by doubling the number of cities
@@ -44,6 +45,17 @@ the distance going to the city and the dummy city is responsible for the
 distance coming from the city. The distances between all cities and the
 distances between all dummy cities are set to \code{infeasible}, a very
 large value which prevents the solver from using these links.
+
+\code{filter_ATSP_as_TSP_dummies()} can be used to extract the solution for the original
+ATSP from the solution for an ATSP reformulated as a TSP.
+
+\code{\link[=solve_TSP]{solve_TSP()}} has a parameter \code{as_TSP} which preforms the reformulation and
+filtering the dummy cities automatically.
+
+\strong{Note on performance:} Doubling the problem size is a performance issue especially
+has a negative impact on solution quality for heuristics. It should only be used
+together with Concorde when the optimal solution is required. Most heuristics can solve
+ATSPs directly with good solution quality.
 }
 \examples{
 data("USCA50")
@@ -52,30 +64,32 @@ data("USCA50")
 austin <- which(labels(USCA50) == "Austin, TX")
 atsp <- as.ATSP(USCA50)
 atsp[, austin] <- 0
+atsp
 
-## reformulate as a TSP (by adding dummy cities marked with *)
+## reformulate as a TSP (by doubling the number of cities with dummy cities marked with *)
 tsp <- reformulate_ATSP_as_TSP(atsp)
-labels(tsp)
+tsp
 
-## create tour for the TSP (now you can use Concorde to find the optimal solution)
+## create tour for the TSP. You should use Concorde to find the optimal solution.
 # tour_tsp <- solve_TSP(tsp, method = "concorde")
-## The standard heuristic is not very good for this problem.
+# The standard heuristic is bad for this problem. We use it here because
+#   Concord may not be installed.
 tour_tsp <- solve_TSP(tsp)
 head(labels(tour_tsp), n = 10)
 tour_tsp
-## Note that the tour length is not valid since it includes the cheap segments with
-## large negative costs.
+# The tour length is -Inf since it includes cheap links
+#  from a city to its dummy city.
 
-## get the solution for the original ATSP by filtering out the dummy cities
+## get the solution for the original ATSP by filtering out the dummy cities.
 tour_atsp <- filter_ATSP_as_TSP_dummies(tour_tsp, atsp = atsp)
 tour_atsp
 head(labels(tour_atsp), n = 10)
 
-## This process can also be done using as_TSP = TRUE:
-# solve_TSP(atsp, as_TSP = TRUE, control = list(rep = 10))
+## This process can also be done automatically by using as_TSP = TRUE:
+# solve_TSP(atsp, method = "concorde", as_TSP = TRUE)
 
-## The default heuristic can directly solve ATSPs with good results
-## (much better than on the reformulated problem).
+## The default heuristic can directly solve ATSPs with results close to the
+#  optimal solution of 12715.
 solve_TSP(atsp, control = list(rep = 10))
 }
 \references{

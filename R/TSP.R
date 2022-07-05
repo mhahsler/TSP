@@ -61,54 +61,62 @@
 #' image(tsp)
 #' @export
 TSP <- function(x, labels = NULL, method = NULL) {
-    if(inherits(x, "TSP")) return(x)
-    x <- as.TSP(x)
-    if(!is.null(labels)) attr(x, "Labels") <- labels
-    if(!is.null(method)) attr(x, "method") <- method
-    x
+  if (inherits(x, "TSP"))
+    return(x)
+  x <- as.TSP(x)
+  if (!is.null(labels))
+    attr(x, "Labels") <- labels
+  if (!is.null(method))
+    attr(x, "method") <- method
+  x
 }
 
 ## coercion
 #' @rdname TSP
 #' @export
-as.TSP <- function(x) UseMethod("as.TSP")
+as.TSP <- function(x)
+  UseMethod("as.TSP")
 
 #' @rdname TSP
 #' @export
-as.TSP.dist <- function(x){
-    ## make sure we have a upper triangle matrix w/o diagonal
-    x <- as.dist(x, diag = FALSE, upper = FALSE)
+as.TSP.dist <- function(x) {
+  ## make sure we have a upper triangle matrix w/o diagonal
+  x <- as.dist(x, diag = FALSE, upper = FALSE)
 
-    ## make sure we have labels
-    if(is.null(attr(x, "Labels"))) attr(x, "Labels") <- c(1:n_of_cities(x))
+  ## make sure we have labels
+  if (is.null(attr(x, "Labels")))
+    attr(x, "Labels") <- c(1:n_of_cities(x))
 
-    if(any(is.nan(x))) stop(paste(sQuote("NAs"), "not supported"))
+  if (any(is.nan(x)))
+    stop(paste(sQuote("NAs"), "not supported"))
 
-    ## make sure data is numeric
-    mode(x) <- "numeric"
-    class(x) <- c("TSP", class(x))
-    x
+  ## make sure data is numeric
+  mode(x) <- "numeric"
+  class(x) <- c("TSP", class(x))
+  x
 }
 
 #' @rdname TSP
 #' @export
-as.TSP.matrix <- function(x){
-    if(!isSymmetric(x)) stop("TSP requires a symmetric matrix")
+as.TSP.matrix <- function(x) {
+  if (!isSymmetric(x))
+    stop("TSP requires a symmetric matrix")
 
-    method <- attr(x, "method")
-    x <- as.dist(x, diag = FALSE, upper = FALSE)
-    attr(x, "method") <- method
+  method <- attr(x, "method")
+  x <- as.dist(x, diag = FALSE, upper = FALSE)
+  attr(x, "method") <- method
 
-    ## make sure we have labels
-    if(is.null(attr(x, "Labels")))
+  ## make sure we have labels
+  if (is.null(attr(x, "Labels")))
     attr(x, "Labels") <- c(1:n_of_cities(x))
 
-    if(any(is.nan(x))) stop(paste(sQuote("NAs"), "not supported"))
+  if (any(is.nan(x)))
+    stop(paste(sQuote("NAs"), "not supported"))
 
-    ## make sure data is numeric
-    mode(x) <- "numeric"
-    class(x) <- c("TSP", class(x))
-    x
+  ## make sure data is numeric
+  mode(x) <- "numeric"
+  class(x) <- c("TSP", class(x))
+  x
 }
 
 #' @rdname TSP
@@ -124,12 +132,15 @@ as.dist.TSP <- function(m, ...) {
 #' @rdname TSP
 #' @export
 print.TSP <- function(x, ...) {
-    method <- attr(x, "method")
-    if(is.null(method)) method <- "unknown"
+  method <- attr(x, "method")
+  if (is.null(method))
+    method <- "unknown"
 
-    cat("object of class", sQuote(class(x)[1]), "\n")
-    cat(n_of_cities(x), "cities",
-        paste("(distance ", sQuote(method),")", sep=""), "\n")
+  cat("object of class", sQuote(class(x)[1]), "\n")
+  cat(n_of_cities(x),
+    "cities",
+    paste("(distance ", sQuote(method), ")", sep = ""),
+    "\n")
 }
 
 
@@ -137,27 +148,31 @@ print.TSP <- function(x, ...) {
 ## generic for n_of_cities
 #' @rdname TSP
 #' @export
-n_of_cities <- function(x) UseMethod("n_of_cities")
+n_of_cities <- function(x)
+  UseMethod("n_of_cities")
 
 ## number of cities
 #' @rdname TSP
 #' @export
-n_of_cities.TSP <- function(x) attr(x, "Size")
+n_of_cities.TSP <- function(x)
+  attr(x, "Size")
 
 n_of_cities.default <- n_of_cities.TSP
 
 ## labels
 #' @rdname TSP
 #' @export
-labels.TSP <- function(object, ...) attr(object, "Labels")
+labels.TSP <- function(object, ...)
+  attr(object, "Labels")
 
 ## image
 #' @rdname TSP
 #' @export
 image.TSP <- function(x, order, col = gray.colors(64), ...) {
-    p <- n_of_cities(x)
-    if(missing(order)) order <- 1:p
+  p <- n_of_cities(x)
+  if (missing(order))
+    order <- 1:p
 
-    graphics::image.default(1:p, 1:p, as.matrix(x)[order, order],
-			    col = col, ...)
+  graphics::image.default(1:p, 1:p, as.matrix(x)[order, order],
+    col = col, ...)
 }

@@ -24,11 +24,12 @@
 #'
 #' Currently the following methods are available:
 #' - "identity", "random" return a tour representing the order in the data
-#'   (identity order) or a random order.
+#'   (identity order) or a random order. \[TSP, ATSP\]
+#'
 #' - "nearest_insertion", "farthest_insertion", "cheapest_insertion", "arbitrary_insertion"
 #'   Nearest, farthest, cheapest and
 #'   arbitrary insertion algorithms for a symmetric and asymmetric TSP
-#'   (Rosenkrantz et al. 1977).
+#'   (Rosenkrantz et al. 1977). \[TSP, ATSP\]
 #'
 #'   The distances between cities are stored in a distance matrix \eqn{D} with
 #'   elements \eqn{d(i,j)}.  All insertion algorithms start with a tour
@@ -59,7 +60,7 @@
 #'
 #' - "nn", "repetitive_nn" Nearest neighbor and repetitive
 #'   nearest neighbor algorithms for symmetric and asymmetric TSPs (Rosenkrantz
-#'   et al. 1977).
+#'   et al. 1977). \[TSP, ATSP\]
 #'
 #'   The algorithm starts with a tour containing a random city. Then the
 #'   algorithm always adds to the last city on the tour the nearest not yet
@@ -71,12 +72,12 @@
 #'   Additional control options:
 #'   - "start" index of the first city (default: a random city).
 #'
-#' - "two_opt" Two edge exchange improvement procedure (Croes 1958).
+#' - "two_opt" Two edge exchange improvement procedure (Croes 1958). \[TSP, ATSP\]
 #'
 #'   This is a tour refinement procedure which systematically exchanges two edges
 #'   in the graph represented by the distance matrix till no improvements are
 #'   possible. Exchanging two edges is equal to reversing part of the tour. The
-#'   resulting tour is called \emph{2-optimal.}
+#'   resulting tour is called _2-optimal._
 #'
 #'   This method can be applied to tours created by other methods or used as its
 #'   own method. In this case improvement starts with a random tour.
@@ -87,10 +88,13 @@
 #'   - "two_opt_repetitions" number of times to try two_opt with a
 #'     different initial random tour (default: 1).
 #'
-#' - "concorde" Concorde algorithm (Applegate et al. 2001).
+#' - "concorde" Concorde algorithm (Applegate et al. 2001). \[TSP, ETSP\]
 #'
-#'   Concorde is an advanced exact TSP solver for \emph{only symmetric} TSPs
-#'   based on branch-and-cut.  The program is not included in this package and
+#'   Concorde is an advanced exact TSP solver for _symmetric_ TSPs
+#'   based on branch-and-cut.
+#'   ATSPs can be solved using [reformulate_ATSP_as_TSP()] done automatically
+#'   with `as_TSP = TRUE`.
+#'   The program is not included in this package and
 #'   has to be obtained and installed separately.
 #'
 #'   Additional control options:
@@ -108,7 +112,7 @@
 #'     `precision` placed to the left). The interface to Concorde uses
 #'     [write_TSPLIB()].
 #'
-#' - "linkern" Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003).
+#' - "linkern" Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003). \[TSP, ETSP\]
 #'
 #'   The Lin-Kernighan (Lin and Kernighan 1973) heuristic uses variable \eqn{k}
 #'   edge exchanges to improve an initial tour.  The program is not included in
@@ -118,14 +122,14 @@
 #'
 #' **Treatment of `NA`s and infinite values in `x`**
 #'
-#' [TSP] and
-#' [ATSP] contain distances and `NA`s are not allowed. `Inf` is
+#' [TSP] and [ATSP] need to contain valid distances. `NA`s are not allowed. `Inf` is
 #' allowed and can be used to model the missing edges in incomplete graphs
-#' (i.e., the distance between the two objects is infinite). Internally,
-#' `Inf` is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
+#' (i.e., the distance between the two objects is infinite) or unfeasable connections.
+#' Internally, `Inf` is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
 #' Note that the solution might still place the two objects next to each other
 #' (e.g., if `x` contains several unconnected subgraphs) which results in
-#' a path length of `Inf`.
+#' a path length of `Inf`. `-Inf` is replaced by \eqn{min(x) - 2 range(x)} and
+#' can be used to encourage the solver to place two objects next to each other.
 #'
 #' **Parallel execution support**
 #'

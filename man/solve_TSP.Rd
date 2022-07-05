@@ -40,11 +40,11 @@ Common interface to all TSP solvers in this package.
 Currently the following methods are available:
 \itemize{
 \item "identity", "random" return a tour representing the order in the data
-(identity order) or a random order.
+(identity order) or a random order. [TSP, ATSP]
 \item "nearest_insertion", "farthest_insertion", "cheapest_insertion", "arbitrary_insertion"
 Nearest, farthest, cheapest and
 arbitrary insertion algorithms for a symmetric and asymmetric TSP
-(Rosenkrantz et al. 1977).
+(Rosenkrantz et al. 1977). [TSP, ATSP]
 
 The distances between cities are stored in a distance matrix \eqn{D} with
 elements \eqn{d(i,j)}.  All insertion algorithms start with a tour
@@ -76,7 +76,7 @@ Additional control options:
 }
 \item "nn", "repetitive_nn" Nearest neighbor and repetitive
 nearest neighbor algorithms for symmetric and asymmetric TSPs (Rosenkrantz
-et al. 1977).
+et al. 1977). [TSP, ATSP]
 
 The algorithm starts with a tour containing a random city. Then the
 algorithm always adds to the last city on the tour the nearest not yet
@@ -89,7 +89,7 @@ Additional control options:
 \itemize{
 \item "start" index of the first city (default: a random city).
 }
-\item "two_opt" Two edge exchange improvement procedure (Croes 1958).
+\item "two_opt" Two edge exchange improvement procedure (Croes 1958). [TSP, ATSP]
 
 This is a tour refinement procedure which systematically exchanges two edges
 in the graph represented by the distance matrix till no improvements are
@@ -106,10 +106,13 @@ If no tour is given, a random tour is used.
 \item "two_opt_repetitions" number of times to try two_opt with a
 different initial random tour (default: 1).
 }
-\item "concorde" Concorde algorithm (Applegate et al. 2001).
+\item "concorde" Concorde algorithm (Applegate et al. 2001). [TSP, ETSP]
 
-Concorde is an advanced exact TSP solver for \emph{only symmetric} TSPs
-based on branch-and-cut.  The program is not included in this package and
+Concorde is an advanced exact TSP solver for \emph{symmetric} TSPs
+based on branch-and-cut.
+ATSPs can be solved using \code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}} done automatically
+with \code{as_TSP = TRUE}.
+The program is not included in this package and
 has to be obtained and installed separately.
 
 Additional control options:
@@ -128,7 +131,7 @@ passed on to Concorde. Note that therefore the results produced by Concorde
 \code{precision} placed to the left). The interface to Concorde uses
 \code{\link[=write_TSPLIB]{write_TSPLIB()}}.
 }
-\item "linkern" Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003).
+\item "linkern" Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003). [TSP, ETSP]
 
 The Lin-Kernighan (Lin and Kernighan 1973) heuristic uses variable \eqn{k}
 edge exchanges to improve an initial tour.  The program is not included in
@@ -139,14 +142,14 @@ Additional control options: see Concorde above.
 
 \strong{Treatment of \code{NA}s and infinite values in \code{x}}
 
-\link{TSP} and
-\link{ATSP} contain distances and \code{NA}s are not allowed. \code{Inf} is
+\link{TSP} and \link{ATSP} need to contain valid distances. \code{NA}s are not allowed. \code{Inf} is
 allowed and can be used to model the missing edges in incomplete graphs
-(i.e., the distance between the two objects is infinite). Internally,
-\code{Inf} is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
+(i.e., the distance between the two objects is infinite) or unfeasable connections.
+Internally, \code{Inf} is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
 Note that the solution might still place the two objects next to each other
 (e.g., if \code{x} contains several unconnected subgraphs) which results in
-a path length of \code{Inf}.
+a path length of \code{Inf}. \code{-Inf} is replaced by \eqn{min(x) - 2 range(x)} and
+can be used to encourage the solver to place two objects next to each other.
 
 \strong{Parallel execution support}
 

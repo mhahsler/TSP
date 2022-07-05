@@ -124,17 +124,19 @@ NULL
   ## get max (excluding) to check for possible integer overflows
   max_x <- max(x)
   prec <- floor(log10(MAX / max_x))
-  x <- x * 10 ^ prec
-
-  if (prec < precision && any((x %% 1) != 0))
-    warning(
-      paste0(
-        "Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ",
-        prec,
-        ". This may lead to rounding errors."
-      ),
-      immediate. = TRUE
-    )
+  if (any((x %% 1) != 0) || prec < 0) {
+    if (prec < precision) {
+      warning(
+        paste0(
+          "Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ",
+          prec,
+          ". This may lead to rounding errors."
+        ),
+        immediate. = TRUE
+      )
+      x <- x * 10 ^ prec
+    }
+  }
 
   storage.mode(x) <-
     "integer" ## so write.TSBLIB does not do precision changes
