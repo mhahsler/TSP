@@ -25,6 +25,9 @@
 #' Objects of class `TSP` are internally represented as `dist`
 #' objects (use [as.dist()] to get the `dist` object).
 #'
+#' Not permissible paths can be set to a distance of `+Inf`. `NA`s are not allowed and `-Inf` will lead
+#' to the algorithm only being able to find an admissible tour, but not the best one.
+#'
 #' @family TSP
 #'
 #' @param x,object an object (currently `dist` or a symmetric matrix) to

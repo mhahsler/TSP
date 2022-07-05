@@ -230,53 +230,64 @@
 #'   optimal = opt)
 #' dotchart(tour_lengths / opt * 100 - 100, xlab = "percent excess over optimum")
 #' @export
-solve_TSP <- function(x, method = NULL, control = NULL, ...)
+solve_TSP <- function(x,
+  method = NULL,
+  control = NULL,
+  ...)
   UseMethod("solve_TSP")
 
 ## TSP
 #' @rdname solve_TSP
 #' @export
-solve_TSP.TSP <- function(x, method = NULL, control = NULL, ...) {
+solve_TSP.TSP <- function(x,
+  method = NULL,
+  control = NULL,
+  ...) {
   .solve_TSP(x, method, control, ...)
 }
 
 ## ATSP
 #' @rdname solve_TSP
 #' @export
-solve_TSP.ATSP <- function(x, method = NULL, control = NULL, as_TSP = FALSE, ...) {
+solve_TSP.ATSP <-
+  function(x,
+    method = NULL,
+    control = NULL,
+    as_TSP = FALSE,
+    ...) {
+    m <- pmatch(tolower(method), c("concorde", "linkern"))
+    if (!is.na(m) && length(m) > 0L && !as_TSP) {
+      warning(
+        "NOTE: Solver cannot solve the ATSP directly. Reformulating ATSP as TSP. Use 'as_TSP = TRUE' to supress this warning.\n"
+      )
+      as_TSP <- TRUE
+    }
 
-  m <- pmatch(tolower(method), c("concorde", "linkern"))
-  if(!as_TSP && !is.na(m) && length(m) > 0L) {
-    warning("NOTE: Solver cannot solve the ATSP directly. Reformulating ATSP as TSP. Use 'as_TSP = TRUE' to supress this warning.\n")
-    as_TSP <- TRUE
+    # reformulate ATSP as TSP
+    if (as_TSP) {
+      x_atsp <- x
+      x <- reformulate_ATSP_as_TSP(x_atsp)
+    }
+
+    tour <- .solve_TSP(x, method, control, ...)
+
+    if (as_TSP)
+      tour <- filter_ATSP_as_TSP_dummies(tour, atsp = x_atsp)
+
+    tour
   }
-
-  # reformulate ATSP as TSP
-  if(as_TSP) {
-    x_atsp <- x
-    x <- reformulate_ATSP_as_TSP(x_atsp)
-  }
-
-  tour <- .solve_TSP(x, method, control, ...)
-
-  if(as_TSP) {
-    tour <- TOUR(tour[tour<=n_of_cities(x_atsp)], method = attr(tour, "method"), tsp = x_atsp)
-    # Tour may be reversed
-    tour_rev  <- TOUR(rev(tour), method = attr(tour, "method"), tsp = x_atsp)
-    if(tour_length(tour) > tour_length(tour_rev)) tour <- tour_rev
-  }
-
-  tour
-}
 
 ## ETSP
 #' @rdname solve_TSP
 #' @export
-solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
-
+solve_TSP.ETSP <- function(x,
+  method = NULL,
+  control = NULL,
+  ...) {
   ## all but concorde and linkern can only do TSP
   m <- pmatch(tolower(method), c("concorde", "linkern"))
-  if(length(m) == 0L || is.na(m)) x <- as.TSP(x)
+  if (length(m) == 0L || is.na(m))
+    x <- as.TSP(x)
 
   .solve_TSP(x, method, control, ...)
 }
@@ -285,18 +296,22 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
 
 ## Deal with Inf: punish (-)Inf with max (min) +(-) 2*range
 .replaceInf <- function(x, pInf = NULL, nInf = NULL) {
-  if(any(is.infinite(x))) {
+  if (any(is.infinite(x))) {
     range_x <- range(x, na.rm = TRUE, finite = TRUE)
 
     # data with only a single non-inf value.
     diff_range <- diff(range_x)
-    if(diff_range == 0) {
-      if(range_x[1] == 0) diff_range <- 1
-      else diff_range <- range_x[1] * 2
+    if (diff_range == 0) {
+      if (range_x[1] == 0)
+        diff_range <- 1
+      else
+        diff_range <- range_x[1] * 2
     }
 
-    if(is.null(pInf)) pInf <- range_x[2] + 2*diff_range
-    if(is.null(nInf)) nInf <- range_x[1] - 2*diff_range
+    if (is.null(pInf))
+      pInf <- range_x[2] + 2 * diff_range
+    if (is.null(nInf))
+      nInf <- range_x[1] - 2 * diff_range
     x[x == Inf] <- pInf
     x[x == -Inf] <- nInf
   }
@@ -304,8 +319,10 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
 }
 
 ## workhorse
-.solve_TSP <- function(x, method = NULL, control = NULL, ...) {
-
+.solve_TSP <- function(x,
+  method = NULL,
+  control = NULL,
+  ...) {
   ## add ... to control
   control <- c(control, list(...))
 
@@ -319,29 +336,33 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
     "arbitrary_insertion",
     "nn",
     "repetitive_nn",
-    "2-opt", ### deprecated
+    ### deprecate use two_opt
+    "2-opt",
     "two_opt",
     "concorde",
     "linkern"
   )
 
   ## default is arbitrary_insertion + two_opt
-  if(is.null(method)) {
+  if (is.null(method)) {
     method <- "arbitrary_insertion"
-    if(is.null(control[["two_opt"]]))
+    if (is.null(control[["two_opt"]]))
       control <- c(control, list(two_opt = TRUE))
-  } else method <- match.arg(tolower(method), methods)
+  } else
+    method <- match.arg(tolower(method), methods)
 
 
   ## check for NAs
-  if(any(is.na(x))) stop("NAs not allowed!")
+  if (any(is.na(x)))
+    stop("NAs not allowed!")
 
   ## Inf
   x_ <- .replaceInf(x)
 
   ## work horses
   .solve_TSP_worker <- function(x_, method, control) {
-    order <- switch(method,
+    order <- switch(
+      method,
       identity = seq(n_of_cities(x_)),
       random = sample(n_of_cities(x_)),
       nearest_insertion = tsp_insertion(x_, type = "nearest", control = control),
@@ -358,32 +379,40 @@ solve_TSP.ETSP <- function(x, method = NULL, control = NULL, ...) {
     )
 
     ### do refinement two_opt
-    if(!is.null(control[["two_opt"]]) && control[["two_opt"]]) {
+    if (!is.null(control[["two_opt"]]) && control[["two_opt"]]) {
       order <- tsp_two_opt(x_, control = c(control, list(tour = order)))
       method <- paste(method , "+two_opt", sep = "")
     }
 
-    TOUR(order, method=method, tsp=x)
+    TOUR(order, method = method, tsp = x)
   }
 
   ## do rep?
-  if(!is.null(control$rep)) n <- control$rep
-  else n <- 1L
-
-  if(method == "concorde" || method == "linkern") {
+  if (!is.null(control$rep))
+    n <- control$rep
+  else
     n <- 1L
-    control$two_opt <- NULL ## no two_opt for these!
-  }
-  if(method == "repetitive_nn") n <- 1L
 
-  if(n==1L) return(.solve_TSP_worker(x_, method, control))
+  ## no rep or two_opt for these!
+  if (method == "concorde" || method == "linkern") {
+    n <- 1L
+    control$two_opt <- NULL
+  }
+
+  ## no rep!
+  if (method == "repetitive_nn")
+    n <- 1L
+
+  if (n == 1L)
+    return(.solve_TSP_worker(x_, method, control))
 
   #l <- replicate(n, .solve_TSP_worker(x_, method, control), simplify = FALSE)
-  if (n > 1L)
-  l <- foreach(i = 1:n) %dopar% .solve_TSP_worker(x_, method, control)
+  l <-
+    foreach(i = 1:n) %dopar% .solve_TSP_worker(x_, method, control)
 
   l <- l[[which.min(sapply(l, attr, "tour_length"))]]
-  attr(l, "method") <- paste(attr(l, "method"), "_rep_", n, sep="")
+  attr(l, "method") <-
+    paste(attr(l, "method"), "_rep_", n, sep = "")
 
   return(l)
 }

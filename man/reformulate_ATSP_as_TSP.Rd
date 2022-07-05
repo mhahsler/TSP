@@ -2,9 +2,12 @@
 % Please edit documentation in R/reformulare_ATSP_as_TSP.R
 \name{reformulate_ATSP_as_TSP}
 \alias{reformulate_ATSP_as_TSP}
+\alias{filter_ATSP_as_TSP_dummies}
 \title{Reformulate a ATSP as a symmetric TSP}
 \usage{
-reformulate_ATSP_as_TSP(x, infeasible = Inf, cheap = -Inf)
+reformulate_ATSP_as_TSP(x, infeasible = Inf, cheap = "auto")
+
+filter_ATSP_as_TSP_dummies(tour, atsp)
 }
 \arguments{
 \item{x}{an \link{ATSP}.}
@@ -12,7 +15,12 @@ reformulate_ATSP_as_TSP(x, infeasible = Inf, cheap = -Inf)
 \item{infeasible}{value for infeasible connections.}
 
 \item{cheap}{value for distance between a city and its corresponding dummy
-city.}
+city. This needs to be very small compared to the smallest distance. Value
+\code{"auto"} calculates cheap as mimimum distance minus twice the distance range.}
+
+\item{tour}{a \link{TOUR} created for a ATSP reformulated as a TSP.}
+
+\item{atsp}{the original \link{ATSP}.}
 }
 \value{
 a \link{TSP} object.
@@ -25,43 +33,55 @@ solution of the original ATSP.
 \details{
 To reformulate a \link{ATSP} as a \link{TSP}, for each city a dummy city (e.g, for 'New
 York' a dummy city 'New York*') is added. Between each city and its
-corresponding dummy city a negative or very small distance with value
-\code{cheap} is used.  This makes sure that each cities always occurs in the
-solution together with its dummy city.  The original distances are used
+corresponding dummy city a very small (or negative) distance with value
+\code{cheap} is used.
+To ensure that the solver places each cities always occurs in the
+solution together with its dummy city, this cost has to be much smaller than
+the distances in the TSP.
+The original distances are used
 between the cities and the dummy cities, where each city is responsible for
 the distance going to the city and the dummy city is responsible for the
 distance coming from the city. The distances between all cities and the
 distances between all dummy cities are set to \code{infeasible}, a very
-large value which makes the infeasible.
+large value which prevents the solver from using these links.
 }
 \examples{
 data("USCA50")
 
-## set the distances towards Austin to zero which makes it a ATSP
+## set the distances from anywhere to Austin to zero which makes it an ATSP
 austin <- which(labels(USCA50) == "Austin, TX")
 atsp <- as.ATSP(USCA50)
 atsp[, austin] <- 0
 
-## reformulate as a TSP
+## reformulate as a TSP (by adding dummy cities marked with *)
 tsp <- reformulate_ATSP_as_TSP(atsp)
 labels(tsp)
 
-## create tour (now you could use Concorde or LK)
-tour_atsp <- solve_TSP(tsp, method="nn")
-head(labels(tour_atsp), n = 10)
-tour_atsp
-## Note that the tour has a lenght of -Inf since the reformulation created
-## some -Inf distances
+## create tour for the TSP (now you can use Concorde to find the optimal solution)
+# tour_tsp <- solve_TSP(tsp, method = "concorde")
+## The standard heuristic is not very good for this problem.
+tour_tsp <- solve_TSP(tsp)
+head(labels(tour_tsp), n = 10)
+tour_tsp
+## Note that the tour length is not valid since it includes the cheap segments with
+## large negative costs.
 
-## filter out the dummy cities (we specify tsp so the tour lenght is
-## recalculated)
-tour <- TOUR(tour_atsp[tour_atsp <= n_of_cities(atsp)], tsp = atsp)
-tour
+## get the solution for the original ATSP by filtering out the dummy cities
+tour_atsp <- filter_ATSP_as_TSP_dummies(tour_tsp, atsp = atsp)
+tour_atsp
+head(labels(tour_atsp), n = 10)
+
+## This process can also be done using as_TSP = TRUE:
+# solve_TSP(atsp, as_TSP = TRUE, control = list(rep = 10))
+
+## The default heuristic can directly solve ATSPs with good results
+## (much better than on the reformulated problem).
+solve_TSP(atsp, control = list(rep = 10))
 }
 \references{
 Jonker, R. and Volgenant, T. (1983): Transforming asymmetric
 into symmetric traveling salesman problems, \emph{Operations Research
-Letters, 2, 161--163.}
+Letters,} 2, 161--163.
 }
 \seealso{
 Other TSP: 

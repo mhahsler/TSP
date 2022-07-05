@@ -6,6 +6,7 @@
 \alias{tour_length.ATSP}
 \alias{tour_length.ETSP}
 \alias{tour_length.TOUR}
+\alias{tour_length.integer}
 \title{Calculate the length of a tour}
 \usage{
 tour_length(x, ...)
@@ -17,6 +18,8 @@ tour_length(x, ...)
 \method{tour_length}{ETSP}(x, order, ...)
 
 \method{tour_length}{TOUR}(x, tsp = NULL, ...)
+
+\method{tour_length}{integer}(x, tsp = NULL, ...)
 }
 \arguments{
 \item{x}{a TSP problem or a \link{TOUR}.}

@@ -1,5 +1,10 @@
 # TSP 1.2-0-1 (xx/xx/2022)
 
+## Changes
+* added filter_ATSP_as_TSP_dummies()
+* tour_length() now also accepts integer vectors instead of TOUR.
+
+
 # TSP 1.2-0 (02/21/2022)
 
 ## Changes

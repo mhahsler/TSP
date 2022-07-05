@@ -49,14 +49,15 @@
 #' tour_length(tour)
 #' tour_length(tour, USCA50)
 #' @export
-tour_length <- function(x, ...) UseMethod("tour_length")
+tour_length <- function(x, ...)
+  UseMethod("tour_length")
 
 #' @rdname tour_length
 #' @export
 tour_length.TSP <- function(x, order, ...) {
-
   n <- n_of_cities(x)
-  if(missing(order)) order <- 1:n
+  if (missing(order))
+    order <- 1:n
 
   .Call(R_tour_length_dist, x, order)
 }
@@ -64,9 +65,9 @@ tour_length.TSP <- function(x, order, ...) {
 #' @rdname tour_length
 #' @export
 tour_length.ATSP <- function(x, order, ...) {
-
   n <- n_of_cities(x)
-  if(missing(order)) order <- 1:n
+  if (missing(order))
+    order <- 1:n
 
   .Call(R_tour_length_matrix, x, order)
 }
@@ -75,26 +76,41 @@ tour_length.ATSP <- function(x, order, ...) {
 #' @export
 tour_length.ETSP <- function(x, order, ...) {
   n <- n_of_cities(x)
-  if(n != nrow(x)) stop("x and order do not have the same number of cities!")
+  if (n != nrow(x))
+    stop("x and order do not have the same number of cities!")
 
-  if(missing(order)) order <- 1:n
+  if (missing(order))
+    order <- 1:n
 
-  sum(sapply(1:(n-1), FUN = function(i) dist(x[order[i:(i+1)],]))) +
-    as.numeric(dist(x[order[c(n,1)],]))
+  sum(sapply(
+    1:(n - 1),
+    FUN = function(i)
+      dist(x[order[i:(i + 1)], ])
+  )) +
+    as.numeric(dist(x[order[c(n, 1)], ]))
 }
 
 #' @rdname tour_length
 #' @export
 tour_length.TOUR <- function(x, tsp = NULL, ...) {
-  if(is.null(tsp)) {
+  if (is.null(tsp)) {
     len <- attr(x, "tour_length")
-    if(is.null(len)) len <- NA
+    if (is.null(len))
+      len <- NA
     return(len)
   }
 
   tour_length(x = tsp, order = x)
 }
 
+#' @rdname tour_length
+#' @export
+tour_length.integer <- function(x, tsp = NULL, ...) {
+  if (is.null(tsp))
+    return(NA)
+
+  tour_length(x = tsp, order = x)
+}
 
 ### faster for small n but takes O(n^2) memory
 #tour_length.ETSP <- function(x, order) tour_length(as.TSP(x), order)

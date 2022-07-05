@@ -67,6 +67,9 @@ problem (TSP) and some auxiliary methods.
 \details{
 Objects of class \code{TSP} are internally represented as \code{dist}
 objects (use \code{\link[=as.dist]{as.dist()}} to get the \code{dist} object).
+
+Not permissible paths can be set to a distance of \code{+Inf}. \code{NA}s are not allowed and \code{-Inf} will lead
+to the algorithm only being able to find an admissible tour, but not the best one.
 }
 \examples{
 data("iris")

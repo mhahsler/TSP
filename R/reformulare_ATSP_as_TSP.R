@@ -1,6 +1,6 @@
 #######################################################################
 # TSP - Traveling Salesperson Problem
-# Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
+# Copyright (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
 #' Reformulate a ATSP as a symmetric TSP
 #'
 #' A ATSP can be formulated as a symmetric TSP by doubling the number of cities
@@ -26,64 +25,96 @@
 #'
 #' To reformulate a [ATSP] as a [TSP], for each city a dummy city (e.g, for 'New
 #' York' a dummy city 'New York*') is added. Between each city and its
-#' corresponding dummy city a negative or very small distance with value
-#' `cheap` is used.  This makes sure that each cities always occurs in the
-#' solution together with its dummy city.  The original distances are used
+#' corresponding dummy city a very small (or negative) distance with value
+#' `cheap` is used.
+#' To ensure that the solver places each cities always occurs in the
+#' solution together with its dummy city, this cost has to be much smaller than
+#' the distances in the TSP.
+#' The original distances are used
 #' between the cities and the dummy cities, where each city is responsible for
 #' the distance going to the city and the dummy city is responsible for the
 #' distance coming from the city. The distances between all cities and the
 #' distances between all dummy cities are set to `infeasible`, a very
-#' large value which makes the infeasible.
+#' large value which prevents the solver from using these links.
 #'
 #' @family TSP
 #'
 #' @param x an [ATSP].
 #' @param infeasible value for infeasible connections.
 #' @param cheap value for distance between a city and its corresponding dummy
-#' city.
-#' @return a [TSP] object.
+#' city. This needs to be very small compared to the smallest distance. Value
+#' `"auto"` calculates cheap as mimimum distance minus twice the distance range.
+#' @param tour a [TOUR] created for a ATSP reformulated as a TSP.
+#' @param atsp the original [ATSP].
+#' @return
+#' `reformulate_ATSP_as_TSP()` returns a [TSP] object.
+#' `filter_ATSP_as_TSP_dummies()` returns a [TOUR] object.
 #' @author Michael Hahsler
 #' @references Jonker, R. and Volgenant, T. (1983): Transforming asymmetric
-#' into symmetric traveling salesman problems, \emph{Operations Research
-#' Letters, 2, 161--163.}
+#' into symmetric traveling salesman problems, _Operations Research
+#' Letters,_ 2, 161--163.
 #' @keywords optimize
 #' @examples
 #' data("USCA50")
 #'
-#' ## set the distances towards Austin to zero which makes it a ATSP
+#' ## set the distances from anywhere to Austin to zero which makes it an ATSP
 #' austin <- which(labels(USCA50) == "Austin, TX")
 #' atsp <- as.ATSP(USCA50)
 #' atsp[, austin] <- 0
 #'
-#' ## reformulate as a TSP
+#' ## reformulate as a TSP (by adding dummy cities marked with *)
 #' tsp <- reformulate_ATSP_as_TSP(atsp)
 #' labels(tsp)
 #'
-#' ## create tour (now you could use Concorde or LK)
-#' tour_atsp <- solve_TSP(tsp, method="nn")
-#' head(labels(tour_atsp), n = 10)
-#' tour_atsp
-#' ## Note that the tour has a lenght of -Inf since the reformulation created
-#' ## some -Inf distances
+#' ## create tour for the TSP (now you can use Concorde to find the optimal solution)
+#' # tour_tsp <- solve_TSP(tsp, method = "concorde")
+#' ## The standard heuristic is not very good for this problem.
+#' tour_tsp <- solve_TSP(tsp)
+#' head(labels(tour_tsp), n = 10)
+#' tour_tsp
+#' ## Note that the tour length is not valid since it includes the cheap segments with
+#' ## large negative costs.
 #'
-#' ## filter out the dummy cities (we specify tsp so the tour lenght is
-#' ## recalculated)
-#' tour <- TOUR(tour_atsp[tour_atsp <= n_of_cities(atsp)], tsp = atsp)
-#' tour
+#' ## get the solution for the original ATSP by filtering out the dummy cities
+#' tour_atsp <- filter_ATSP_as_TSP_dummies(tour_tsp, atsp = atsp)
+#' tour_atsp
+#' head(labels(tour_atsp), n = 10)
+#'
+#' ## This process can also be done using as_TSP = TRUE:
+#' # solve_TSP(atsp, as_TSP = TRUE, control = list(rep = 10))
+#'
+#' ## The default heuristic can directly solve ATSPs with good results
+#' ## (much better than on the reformulated problem).
+#' solve_TSP(atsp, control = list(rep = 10))
 #' @export
-reformulate_ATSP_as_TSP <- function(x, infeasible = Inf, cheap = -Inf) {
-    if(!inherits(x, "ATSP")) stop("x is not an ATSP object!")
+reformulate_ATSP_as_TSP <-
+  function(x,
+    infeasible = Inf,
+    cheap = "auto") {
+    if (!inherits(x, "ATSP"))
+      stop("x is not an ATSP object!")
+
+    if (cheap == "auto")
+      cheap <- min(x) - abs(diff(range(x)))*2
 
     method <- attr(x, "method")
     m <- as.matrix(x)
 
+    ### check all but the diagonal for cheap!
+    if (cheap >= min(m[-seq(1, nrow(m)^2, nrow(m)+1)]))
+      stop("cheap needs to be strictly smaller than the smallest distance in the ATSP!")
+    if (infeasible < max(m))
+      stop("infeasible needs to be larger than the largest distance in the ATSP!")
+
     ## scale matrix and add cheap links
     diag(m) <- cheap
 
-    tsp <- rbind(
-        cbind(matrix(infeasible, ncol = ncol(m), nrow = nrow(m)), t(m)),
-        cbind(m, matrix(infeasible, ncol = nrow(m), nrow = ncol(m)))
-    )
+    tsp <- rbind(cbind(matrix(
+      infeasible, ncol = ncol(m), nrow = nrow(m)
+    ), t(m)),
+      cbind(m, matrix(
+        infeasible, ncol = nrow(m), nrow = ncol(m)
+      )))
 
     ## create labels (* for virtual cities)
     lab <- c(labels(x), paste(labels(x), "*", sep = ""))
@@ -93,4 +124,22 @@ reformulate_ATSP_as_TSP <- function(x, infeasible = Inf, cheap = -Inf) {
 
     ## return as TSP
     TSP(tsp)
+  }
+
+#' @rdname reformulate_ATSP_as_TSP
+#' @export
+filter_ATSP_as_TSP_dummies <- function(tour, atsp) {
+
+  ### Note: the tour can be in reverse order.
+  t1 <-
+    TOUR(tour[as.integer(tour) <= n_of_cities(atsp)], method = attr(tour, "method"), tsp = atsp)
+  t2 <-
+    TOUR(rev(tour[as.integer(tour) <= n_of_cities(atsp)]),
+      method = attr(tour, "method"),
+      tsp = atsp)
+
+  if (attr(t1, "tour_length") > attr(t2, "tour_length"))
+    t2
+  else
+    t1
 }

@@ -52,21 +52,22 @@
 #' tour <- solve_TSP(USCA50)
 #' tour
 #'
+#' ## get tour length directly from tour
+#' tour_length(tour)
+#'
 #' ## get permutation vector
 #' as.integer(tour)
-#'
-#' ## get tour length directly from tour
-#' attr(tour, "tour_length")
 #'
 #' ## show labels
 #' labels(tour)
 #' @export
-TOUR <- function(x, method=NA, tsp=NULL){
-  if(inherits(x, "TOUR")) return(x)
+TOUR <- function(x, method = NA, tsp = NULL) {
+  if (inherits(x, "TOUR"))
+    return(x)
 
   x <- as.TOUR(x)
   attr(x, "method") <- as.character(method)
-  if(!is.null(tsp)){
+  if (!is.null(tsp)) {
     attr(x, "tour_length") <- tour_length(x, tsp)
     names(x) <- labels(tsp)[x]
   }
@@ -77,12 +78,13 @@ TOUR <- function(x, method=NA, tsp=NULL){
 ## coercion
 #' @rdname TOUR
 #' @export
-as.TOUR <- function(object) UseMethod("as.TOUR")
+as.TOUR <- function(object)
+  UseMethod("as.TOUR")
 
 #' @rdname TOUR
 #' @export
-as.TOUR.numeric <-  function(object){
-  l <- labels(object)	    ### preserve lables
+as.TOUR.numeric <-  function(object) {
+  l <- labels(object)	    ### preserve labels
   object <- as.integer(object)
   names(object) <- l
   as.TOUR(object)
@@ -90,13 +92,14 @@ as.TOUR.numeric <-  function(object){
 
 #' @rdname TOUR
 #' @export
-as.TOUR.integer <- function(object){
-
+as.TOUR.integer <- function(object) {
   ## check tour
-  if(any(object < 1) || any(object > length(object)) || any(is.na(object)))
+  if (any(object < 1) ||
+      any(object > length(object)) || any(is.na(object)))
     stop("tour contains illegal elements.")
 
-  if(any(duplicated(object))) stop("tour indices are not unique.")
+  if (any(duplicated(object)))
+    stop("tour indices are not unique.")
 
   class(object) <- c("TOUR", class(object))
   object
@@ -105,12 +108,14 @@ as.TOUR.integer <- function(object){
 
 #' @rdname TOUR
 #' @export
-print.TOUR <- function(x, ...){
-
+print.TOUR <- function(x, ...) {
   cat("object of class", sQuote(class(x)[1]), "\n")
-  cat("result of method", sQuote(attr(x, "method")), "for",
-    length(x), "cities\n")
-  if(!is.null(attr(x, "tour_length")))
+  cat("result of method",
+    sQuote(attr(x, "method")),
+    "for",
+    length(x),
+    "cities\n")
+  if (!is.null(attr(x, "tour_length")))
     cat("tour length:", attr(x, "tour_length"), "\n")
   else
     cat("tour length: unknown\n")

@@ -25,7 +25,6 @@ cuts are used then a list with paths is returned.
 Cuts a tour at a specified city to form a path.
 }
 \examples{
-
 data("USCA50")
 
 ## find a path starting at Austin, TX

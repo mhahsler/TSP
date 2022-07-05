@@ -56,11 +56,11 @@ data("USCA50")
 tour <- solve_TSP(USCA50)
 tour
 
+## get tour length directly from tour
+tour_length(tour)
+
 ## get permutation vector
 as.integer(tour)
-
-## get tour length directly from tour
-attr(tour, "tour_length")
 
 ## show labels
 labels(tour)

@@ -113,22 +113,31 @@ NULL
 
   ## fix neg. values
   min_x <- min(x)
-  if(min_x<0) {
-    warning("TSP contains negative distances. Shifting distances by subtracting the minimum.",
-      immediate. = TRUE)
+  if (min_x < 0) {
+    warning(
+      "TSP contains negative distances. Shifting distances by subtracting the minimum.",
+      immediate. = TRUE
+    )
     x <- x - min_x
   }
 
   ## get max (excluding) to check for possible integer overflows
   max_x <- max(x)
   prec <- floor(log10(MAX / max_x))
-  x <- x * 10^prec
+  x <- x * 10 ^ prec
 
-  if(prec < precision && any((x %% 1) != 0))
-    warning(paste0("Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ", prec, ". This may lead to rounding errors."),
-      immediate. = TRUE)
+  if (prec < precision && any((x %% 1) != 0))
+    warning(
+      paste0(
+        "Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ",
+        prec,
+        ". This may lead to rounding errors."
+      ),
+      immediate. = TRUE
+    )
 
-  storage.mode(x) <- "integer" ## so write.TSBLIB does not do precision changes
+  storage.mode(x) <-
+    "integer" ## so write.TSBLIB does not do precision changes
 
   x
 }
@@ -136,29 +145,36 @@ NULL
 ## interface to the Concorde algorithm
 ## (can only handle TSP and no neg. distances!)
 
-tsp_concorde <- function(x, control = NULL){
-
-  if(!is.null(control$exe)) warning("exe is deprecated. Use concorde_path() instead!")
+tsp_concorde <- function(x, control = NULL) {
+  if (!is.null(control$exe))
+    warning("exe is deprecated. Use concorde_path() instead!")
 
   ## get parameters
-  control <- .get_parameters(control, list(
-    clo = "",
-    exe = .find_exe(control$exe, "concorde"),
-    precision = 6,
-    verbose = TRUE,
-    keep_files = FALSE
-  ), method = "concorde")
+  control <- .get_parameters(
+    control,
+    list(
+      clo = "",
+      exe = .find_exe(control$exe, "concorde"),
+      precision = 6,
+      verbose = TRUE,
+      keep_files = FALSE
+    )
+  )
 
   ## check x
-  if(inherits(x, "TSP")){
+  if (inherits(x, "TSP")) {
     #if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^31 - 1
     ### MFH: concorde may overflow with 2^31-1
-    if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^28 - 1
+    if (n_of_cities(x) < 10)
+      MAX <- 2 ^ 15 - 1
+    else
+      MAX <- 2 ^ 28 - 1
     x <- .prepare_dist_concorde(x, MAX, control$precision)
 
-  }else if(inherits(x, "ETSP")) {
+  } else if (inherits(x, "ETSP")) {
     ## nothing to do!
-  }else stop("Concorde only handles TSP and ETSP.")
+  } else
+    stop("Concorde only handles TSP and ETSP.")
 
 
   ## get temp files and change working directory
@@ -183,15 +199,24 @@ tsp_concorde <- function(x, control = NULL){
   ## do the call and read back result
   ## we do not check return values of Concorde since they are not
   ## very consistent
-  system2(control$exe,
+  system2(
+    control$exe,
     args =  paste("-x", control$clo, "-o", tmp_file_out, tmp_file_in),
-    stdout = if(control$verbose) "" else FALSE,
-    stderr = if(control$verbose) "" else FALSE,
+    stdout = if (control$verbose)
+      ""
+    else
+      FALSE,
+    stderr = if (control$verbose)
+      ""
+    else
+      FALSE,
+  )
+
+
+  if (!file.access(tmp_file_out) == 0)
+    stop(
+      "Concorde has not produced a result file.\nIs concorde properly installed? (see ? Concorde)\nDid Concorde finish without an error or being interupted?"
     )
-
-
-  if(!file.access(tmp_file_out) == 0)
-    stop("Concorde has not produced a result file.\nIs concorde properly installed? (see ? Concorde)\nDid Concorde finish without an error or being interupted?")
   ##else cat("Concorde done.\n")
 
   order <- scan(tmp_file_out, what = integer(0), quiet = TRUE)
@@ -199,8 +224,10 @@ tsp_concorde <- function(x, control = NULL){
   order <- order[-1] + 1L
 
   ## tidy up
-  if(!control$keep_files) unlink(c(tmp_file_in, tmp_file_out))
-  else cat("File are in:", wd, "\n\n")
+  if (!control$keep_files)
+    unlink(c(tmp_file_in, tmp_file_out))
+  else
+    cat("File are in:", wd, "\n\n")
 
   order
 }
@@ -208,34 +235,36 @@ tsp_concorde <- function(x, control = NULL){
 ## interface to the Concorde's Chained Lin-Kernighan algorithm
 ## (can only handle TSP, handles neg. distances)
 
-tsp_linkern <- function(x, control = NULL){
-
-  if(!is.null(control$exe))
+tsp_linkern <- function(x, control = NULL) {
+  if (!is.null(control$exe))
     warning("exe is deprecated. Use concorde_path() instead!")
 
   ## get parameters
-  control <- .get_parameters(control, list(
-    exe = .find_exe(control$exe, "linkern"),
-    clo = "",
-    precision = 6,
-    verbose = TRUE,
-    keep_files = FALSE
-  ), method = "linkern")
+  control <- .get_parameters(
+    control,
+    list(
+      exe = .find_exe(control$exe, "linkern"),
+      clo = "",
+      precision = 6,
+      verbose = TRUE,
+      keep_files = FALSE
+    )
+  )
 
   ## have to set -r for small instances <8
-  if(n_of_cities(x) <=8)
+  if (n_of_cities(x) <= 8)
     control$clo <- paste(control$clo, "-k", n_of_cities(x))
 
   ## check x
-  if(inherits(x, "TSP")) {
-
+  if (inherits(x, "TSP")) {
     #MAX <- 2^31 - 1
-    MAX <- 2^28 - 1
+    MAX <- 2 ^ 28 - 1
     x <- .prepare_dist_concorde(x, MAX, control$precision)
 
-  }else if(inherits(x, "ETSP")) {
+  } else if (inherits(x, "ETSP")) {
     ## nothing to do
-  } else stop("Linkern only works for TSP and ETSP.")
+  } else
+    stop("Linkern only works for TSP and ETSP.")
 
   ## get temp files and change working directory
   wd <- tempdir()
@@ -256,22 +285,35 @@ tsp_linkern <- function(x, control = NULL){
   ## do the call and read back result
   ## we do not check return values of Concorde since they are not
   ## very consistent
-  system2(control$exe, args =  paste("-o",
-    tmp_file_out, control$clo, tmp_file_in),
-    stdout = if(control$verbose) "" else FALSE,
-    stderr = if(control$verbose) "" else FALSE)
+  system2(
+    control$exe,
+    args =  paste("-o",
+      tmp_file_out, control$clo, tmp_file_in),
+    stdout = if (control$verbose)
+      ""
+    else
+      FALSE,
+    stderr = if (control$verbose)
+      ""
+    else
+      FALSE
+  )
 
-  if(!file.access(tmp_file_out) == 0)
-    stop("Linkern has not produced a result file.\nIs linkern properly installed?\nDid linkern finish without an error or being interrupted?")
+  if (!file.access(tmp_file_out) == 0)
+    stop(
+      "Linkern has not produced a result file.\nIs linkern properly installed?\nDid linkern finish without an error or being interrupted?"
+    )
   ##else cat("Concorde done.\n")
 
-  order <- read.table(tmp_file_out)[,1]
+  order <- read.table(tmp_file_out)[, 1]
   ## remove number of nodes and add one (result starts with 0)
   order <- order + as.integer(1)
 
   ## tidy up
-  if(!control$keep_files) unlink(c(tmp_file_in, tmp_file_out))
-  else cat("File are in:", wd, "\n\n")
+  if (!control$keep_files)
+    unlink(c(tmp_file_in, tmp_file_out))
+  else
+    cat("File are in:", wd, "\n\n")
 
   order
 }
@@ -282,24 +324,31 @@ tsp_linkern <- function(x, control = NULL){
 #' @export
 concorde_path <- local({
   .path <- NULL
-  function(path){
-    if(missing(path)) {
-      if(!is.null(.path)) return(.path)
+  function(path) {
+    if (missing(path)) {
+      if (!is.null(.path))
+        return(.path)
       else {
         ## find concorde and/or linkern
         p <- dirname(Sys.which("concorde"))
-        if(p == "") p <- dirname(Sys.which("linkern"))
-        if(p == "") stop("Can not find executables for concorde or linkern. Please install the executables or set path manually.")
+        if (p == "")
+          p <- dirname(Sys.which("linkern"))
+        if (p == "")
+          stop(
+            "Can not find executables for concorde or linkern. Please install the executables or set path manually."
+          )
         return(p)
       }
     } else {
-      if(!is.null(path)) {
+      if (!is.null(path)) {
         path <- normalizePath(path) ### translate all special characters
-        ex <- c(list.files(path, pattern = "concorde",
-          ignore.case = TRUE),
+        ex <- c(
+          list.files(path, pattern = "concorde",
+            ignore.case = TRUE),
           list.files(path, pattern = "linkern",
-            ignore.case = TRUE))
-        if(length(ex) < 1)
+            ignore.case = TRUE)
+        )
+        if (length(ex) < 1)
           stop(paste("no executable (concorde and/or linkern) found in",
             path))
         cat("found:", ex, "\n")
@@ -317,14 +366,18 @@ concorde_path <- local({
 #' @rdname Concorde
 #' @export
 concorde_help <- function() {
-  cat("The following options can be specified in solve_TSP with method \"concorde\" using clo in control:\n\n")
+  cat(
+    "The following options can be specified in solve_TSP with method \"concorde\" using clo in control:\n\n"
+  )
   system2(.find_exe(NULL, "concorde"), args = "")
 }
 
 #' @rdname Concorde
 #' @export
 linkern_help <- function() {
-  cat("The following options can be specified in solve_TSP with method \"linkern\" using clo in control:\n\n")
+  cat(
+    "The following options can be specified in solve_TSP with method \"linkern\" using clo in control:\n\n"
+  )
   system2(.find_exe(NULL, "linkern"), args = "")
 }
 
@@ -333,13 +386,14 @@ linkern_help <- function() {
 ## helper to find the 'concorde' executable
 .find_exe <- function(exe = NULL, prog) {
   ## if not specified
-  if(is.null(exe)) {
+  if (is.null(exe)) {
     ## was the path set ?
-    if(!is.null(concorde_path()))
-      exe <- paste(concorde_path(), .Platform$file.sep, prog, sep ="")
+    if (!is.null(concorde_path()))
+      exe <-
+        paste(concorde_path(), .Platform$file.sep, prog, sep = "")
     ## no, so it must be in the systems execution path
-    else exe <- prog
+    else
+      exe <- prog
   }
   exe
 }
-
