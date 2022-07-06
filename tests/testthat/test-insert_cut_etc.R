@@ -69,7 +69,13 @@ expect_equal(tour_length(USCA50), tour_length(atsp))
 tsp <- reformulate_ATSP_as_TSP(atsp, cheap = 0)
 expect_equal(n_of_cities(atsp)*2, n_of_cities(tsp))
 
-tour_tsp <- solve_TSP(tsp)
+## only Concorde guarantees to find the optimal solution
+skip_if_not(
+  Sys.which("concorde") != "" &&
+    Sys.which("linkern") != "",
+  message = "skipped test for concorde/linkern. Not installed.")
+
+tour_tsp <- solve_TSP(tsp, method = "concorde")
 tour_atsp <- filter_ATSP_as_TSP_dummies(tour_tsp, atsp)
 
 expect_equal(length(tour_atsp), n_of_cities(USCA50))
