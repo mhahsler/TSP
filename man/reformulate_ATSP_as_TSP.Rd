@@ -15,8 +15,7 @@ filter_ATSP_as_TSP_dummies(tour, atsp)
 \item{infeasible}{value for infeasible connections.}
 
 \item{cheap}{value for distance between a city and its corresponding dummy
-city. This needs to be very small compared to the smallest distance. Value
-\code{"auto"} calculates cheap as mimimum distance minus twice the distance range.}
+city.}
 
 \item{tour}{a \link{TOUR} created for a ATSP reformulated as a TSP.}
 
@@ -45,9 +44,12 @@ the distance going to the city and the dummy city is responsible for the
 distance coming from the city. The distances between all cities and the
 distances between all dummy cities are set to \code{infeasible}, a very
 large value which prevents the solver from using these links.
+We use infinite values here and \code{\link[=solve_TSP]{solve_TSP()}} treats them appropriately.
 
 \code{filter_ATSP_as_TSP_dummies()} can be used to extract the solution for the original
-ATSP from the solution for an ATSP reformulated as a TSP.
+ATSP from the tour found for an ATSP reformulated as a TSP. Note that the symmetric TSP
+tour does not reveal the direction for the ATSP. The filter function computed the
+tour length for both directions and returns the shorter tour.
 
 \code{\link[=solve_TSP]{solve_TSP()}} has a parameter \code{as_TSP} which preforms the reformulation and
 filtering the dummy cities automatically.
