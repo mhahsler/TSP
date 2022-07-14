@@ -1,8 +1,8 @@
 Package: TSP
 Type: Package
 Title: Traveling Salesperson Problem (TSP)
-Version: 1.2-0-1
-Date: 2022-xx-xx
+Version: 1.2-1
+Date: 2022-07-14
 Authors@R: 
   c(person("Michael", "Hahsler", 
            role = c("aut", "cre", "cph"),
