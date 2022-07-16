@@ -1,5 +1,5 @@
 
-# R package TSP - Traveling Salesperson Problem (TSP)
+# <img src="man/figures/logo.svg" align="right" height="139" /> R package TSP - Traveling Salesperson Problem (TSP)
 
 [![CRAN
 version](http://www.r-pkg.org/badges/version/TSP)](https://CRAN.R-project.org/package=TSP)
