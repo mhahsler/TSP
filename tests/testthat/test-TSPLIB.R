@@ -42,7 +42,7 @@ tsp <- TSP(d)
 write_TSPLIB(tsp, file="example.tsp", precision = 6)
 r <- read_TSPLIB("example.tsp", precision = 6)
 expect_equivalent(tsp[-2], r[-2])
-expect_more_than(r[2], range(tsp, finite = TRUE)[2])
+expect_gt(r[2], range(tsp, finite = TRUE)[2])
 
 ## clean up
 unlink("example.tsp")

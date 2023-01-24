@@ -259,6 +259,7 @@ solve_TSP.ATSP <-
     control = NULL,
     as_TSP = FALSE,
     ...) {
+    # force as_TSP for solvers that cannot deal with ATSPs
     m <- pmatch(tolower(method), c("concorde", "linkern"))
     if (!is.na(m) && length(m) > 0L && !as_TSP) {
       warning(

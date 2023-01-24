@@ -75,7 +75,9 @@ skip_if_not(
     Sys.which("linkern") != "",
   message = "skipped test for concorde/linkern. Not installed.")
 
-tour_tsp <- solve_TSP(tsp, method = "concorde")
+v <- FALSE
+
+tour_tsp <- solve_TSP(tsp, method = "concorde", verbose = v)
 tour_atsp <- filter_ATSP_as_TSP_dummies(tour_tsp, atsp)
 
 expect_equal(length(tour_atsp), n_of_cities(USCA50))

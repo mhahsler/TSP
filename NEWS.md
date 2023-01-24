@@ -1,26 +1,31 @@
+# TSP 1.2-2 (01/24/2023)
+
+## Bug Fixes
+* Fixed bool definition for C23.
+
 # TSP 1.2-1 (07/14/2022)
 
-## Changes
+## New Features
 * added filter_ATSP_as_TSP_dummies().
 * tour_length() now also accepts integer vectors instead of TOUR.
 
-## Bugfix
+## Bug Fixes
 * Small integer values are now left unscaled for Concorde.
 
 # TSP 1.2-0 (02/21/2022)
 
-## Changes
+## Internal Changes
 * The package uses now roxygen.
 * C code has now long vector support for dist.
 
 # TSP 1.1-11 (10/06/2021)
 
-## Bugfixes
+## Bug Fixes
 * cut_tour: fixed dropped city for multiple cut points (reported by RegularnaMatrica)
 
 # TSP 1.1-10 (04/17/2020)
 
-## Bugfixes
+## Bug Fixes
 * Fixed Linkern file management on Windows.
 * Converting distances that only contain 0 and Inf (e.g., from an adjacency matrix) 
   is now fixed for Concorde and Linkern.
@@ -39,7 +44,7 @@
 
 # TSP 1.1-7 (05/22/2019)
 
-## Bugfixes
+## Bug Fixes
 * concorde_path now normalizes the path (translates . and ~).
 * reformulate_ATSP_as_TSP now keeps the method attribute (i.e., used distance measure)
 * TSP and ATSP gained parameter method to store the name of the used distance metric.
@@ -48,7 +53,7 @@
 
 # TSP 1.1-6 (04/29/2018)
 
-## Bugfixes
+## Bug Fixes
 * Start for insertion algorithms is now coerced to integer.
 * Fixed problem with TSP with 1 city on Win 32 on R 3.5.0.
 
@@ -120,7 +125,7 @@
 # TSP 1.0-5 (11/10/2011)
 
 * Changed constructor for TOUR to allow for method and tour_length.
-* Bugfix: labels in creator ATSP() (reported by Tiffany Chen)
+* Bug fixes
 
 # TSP 1.0-4 (8/31/2011)
 

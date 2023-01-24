@@ -1,8 +1,8 @@
 Package: TSP
 Type: Package
 Title: Traveling Salesperson Problem (TSP)
-Version: 1.2-1
-Date: 2022-07-14
+Version: 1.2-2
+Date: 2023-01-24
 Authors@R: 
   c(person("Michael", "Hahsler", 
            role = c("aut", "cre", "cph"),
@@ -24,7 +24,7 @@ Depends: R (>= 3.5.0)
 Imports: graphics, foreach, utils, stats, grDevices
 Suggests: sp, maps, maptools, doParallel, testthat
 Encoding: UTF-8
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 License: GPL-3
 Copyright: All code is Copyright (C) Michael Hahsler and Kurt Hornik.

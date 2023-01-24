@@ -20,25 +20,26 @@ skip_if_not(
     Sys.which("linkern") != "",
   message = "skipped test for concorde/linkern. Not installed.")
 
-o <- solve_TSP(tsp, method="concorde")
+v <- FALSE
+o <- solve_TSP(tsp, method="concorde", verbose = v)
 expect_equivalent(tour_length(tsp, o), 4)
 
 # large numbers should be scaled right.
-o_large <- solve_TSP(tsp*2^15, method="concorde")
+expect_warning(o_large <- solve_TSP(tsp*2^15, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
 expect_equivalent(o, o_large)
 
-o_large <- solve_TSP(tsp*10^10, method="concorde")
+expect_warning(o_large <- solve_TSP(tsp*10^10, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
 expect_equivalent(o, o_large)
 
 # expect warning for rounding
-expect_warning(o_large <- solve_TSP(tsp*2^15+0.1, method="concorde"))
+expect_warning(o_large <- solve_TSP(tsp*2^15+0.1, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
 expect_equivalent(o, o_large)
 
 # expect a warning for rounding
-expect_warning(o_round <- solve_TSP(tsp/0.3, method="concorde"))
+expect_warning(o_round <- solve_TSP(tsp/0.3, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
 expect_equivalent(o, o_round)
 
-o <- solve_TSP(tsp, method="linkern")
+o <- solve_TSP(tsp, method="linkern", verbose = v)
 expect_equivalent(tour_length(tsp, o), 4)
 
 # test ATSP
@@ -55,8 +56,8 @@ data <- structure(c(0.13930352916941, 0.897691324818879, 0.509101516567171,
 atsp <- ATSP(data)
 
 ## Concorde (gives conversation warning for reformulation of ATSP to TSP)
-expect_warning(o1 <- solve_TSP(atsp, method = "concorde"))
-o2 <- solve_TSP(atsp, method = "concorde", as_TSP = TRUE)
+expect_warning(o1 <- solve_TSP(atsp, method = "concorde", verbose = v), regex = "Solver cannot solve the ATSP directly")
+o2 <- solve_TSP(atsp, method = "concorde", as_TSP = TRUE, verbose = v)
 expect_equal(length(o1), 5L)
 expect_equal(length(o2), 5L)
 
@@ -65,8 +66,9 @@ expect_equal(round(tour_length(o1), 7), 0.8082826)
 expect_equal(round(tour_length(o2), 7), 0.8082826)
 
 ## Linkern
-expect_warning(o1 <- solve_TSP(atsp, method = "linkern"))
-o2 <- solve_TSP(atsp, method = "linkern", as_TSP = TRUE)
+## warning for reformulate as TSP automatically
+expect_warning(o1 <- solve_TSP(atsp, method = "linkern", verbose = v), regex = "Solver cannot solve the ATSP directly")
+o2 <- solve_TSP(atsp, method = "linkern", as_TSP = TRUE, verbose = v)
 expect_equal(length(o1), 5L)
 expect_equal(length(o2), 5L)
 

@@ -1,6 +1,6 @@
 #######################################################################
 # TSP - Traveling Salesperson Problem
-# Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
+# Copyright (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -107,17 +107,16 @@ NULL
 
 
 ## prepare distances as integers in the appropriate range [0..MAX]
-.prepare_dist_concorde <- function(x, MAX, precision) {
+.prepare_dist_concorde <- function(x, MAX, precision, verbose = FALSE) {
   ## handle inf
   x <- .replaceInf(x)
 
   ## fix neg. values
   min_x <- min(x)
   if (min_x < 0) {
+    if (verbose)
     warning(
-      "TSP contains negative distances. Shifting distances by subtracting the minimum.",
-      immediate. = TRUE
-    )
+      "pTSP contains negative distances (maybe the result of a reformulation from ATSP). Shifting distances by subtracting the minimum.", immediate. = FALSE)
     x <- x - min_x
   }
 
@@ -171,7 +170,7 @@ tsp_concorde <- function(x, control = NULL) {
       MAX <- 2 ^ 15 - 1
     else
       MAX <- 2 ^ 28 - 1
-    x <- .prepare_dist_concorde(x, MAX, control$precision)
+    x <- .prepare_dist_concorde(x, MAX, precision = control$precision, verbose = control$verbose)
 
   } else if (inherits(x, "ETSP")) {
     ## nothing to do!
@@ -261,7 +260,7 @@ tsp_linkern <- function(x, control = NULL) {
   if (inherits(x, "TSP")) {
     #MAX <- 2^31 - 1
     MAX <- 2 ^ 28 - 1
-    x <- .prepare_dist_concorde(x, MAX, control$precision)
+    x <- .prepare_dist_concorde(x, MAX, precision = control$precision, verbose = control$verbose)
 
   } else if (inherits(x, "ETSP")) {
     ## nothing to do

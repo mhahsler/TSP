@@ -1,8 +1,7 @@
 #include <R.h>
 #include <Rdefines.h>
+#include <stdbool.h>
 #include "matrix_pos.h"
-
-typedef enum {false = 0, true = 1} bool;
 
 /*
  * Calculate the tour length given a distance matrix and a permutation vector
