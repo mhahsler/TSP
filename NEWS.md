@@ -1,3 +1,8 @@
+# TSP 1.2-2-1 (xx/xx/2023)
+
+## Bug Fixes
+* register S3 method n_of_cities.default
+
 # TSP 1.2-2 (01/24/2023)
 
 ## Bug Fixes

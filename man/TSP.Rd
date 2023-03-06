@@ -9,6 +9,7 @@
 \alias{print.TSP}
 \alias{n_of_cities}
 \alias{n_of_cities.TSP}
+\alias{n_of_cities.default}
 \alias{labels.TSP}
 \alias{image.TSP}
 \title{Class TSP -- Symmetric traveling salesperson problem}
@@ -28,6 +29,8 @@ as.TSP(x)
 n_of_cities(x)
 
 \method{n_of_cities}{TSP}(x)
+
+\method{n_of_cities}{default}(x)
 
 \method{labels}{TSP}(object, ...)
 

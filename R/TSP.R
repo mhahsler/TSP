@@ -157,6 +157,8 @@ n_of_cities <- function(x)
 n_of_cities.TSP <- function(x)
   attr(x, "Size")
 
+#' @rdname TSP
+#' @export
 n_of_cities.default <- n_of_cities.TSP
 
 ## labels
