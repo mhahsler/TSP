@@ -34,14 +34,13 @@ as.ETSP(x)
 
 \method{image}{ETSP}(x, order, col = gray.colors(64), ...)
 
-\method{plot}{ETSP}(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 1, ...)
+\method{plot}{ETSP}(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 2, labels = TRUE, ...)
 }
 \arguments{
 \item{x, object}{an object (data.frame or matrix) to be converted into a
 \code{ETSP} or, for the methods, an object of class \code{ETSP}.}
 
-\item{labels}{optional city labels. If not given, labels are taken from
-\code{x}.}
+\item{labels}{logical; plot city labels.}
 
 \item{...}{further arguments are passed on.}
 
@@ -70,10 +69,9 @@ Objects of class \code{ETSP} are internally represented as a \code{matrix}
 objects (use \code{as.matrix()} to get the \code{matrix} object).
 }
 \examples{
-
-x <- data.frame(x = runif(20), y = runif(20), row.names = LETTERS[1:20])
-
-## create a TSP
+## create a random ETSP
+n <- 20
+x <- data.frame(x = runif(n), y = runif(n), row.names = LETTERS[1:n])
 etsp <- ETSP(x)
 etsp
 

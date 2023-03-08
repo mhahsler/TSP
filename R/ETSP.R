@@ -133,6 +133,7 @@ image.ETSP <- function(x, order, col = gray.colors(64), ...) {
 }
 
 #' @rdname ETSP
+#' @importFrom graphics text
 #' @export
 plot.ETSP <- function(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 2, labels = TRUE, ...) {
   x <- as.matrix(x)
