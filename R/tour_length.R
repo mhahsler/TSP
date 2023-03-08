@@ -72,6 +72,9 @@ tour_length.ATSP <- function(x, order, ...) {
   .Call(R_tour_length_matrix, x, order)
 }
 
+### faster for small n but takes O(n^2) memory
+#tour_length.ETSP <- function(x, order) tour_length(as.TSP(x), order)
+
 #' @rdname tour_length
 #' @export
 tour_length.ETSP <- function(x, order, ...) {
@@ -82,12 +85,12 @@ tour_length.ETSP <- function(x, order, ...) {
   if (missing(order))
     order <- 1:n
 
-  sum(sapply(
+  as.numeric(sum(sapply(
     1:(n - 1),
     FUN = function(i)
-      dist(x[order[i:(i + 1)], ])
+      dist(x[order[c(i, i + 1)], , drop = FALSE])
   )) +
-    as.numeric(dist(x[order[c(n, 1)], ]))
+      dist(x[order[c(n, 1)], , drop = FALSE]))
 }
 
 #' @rdname tour_length
@@ -111,6 +114,3 @@ tour_length.integer <- function(x, tsp = NULL, ...) {
 
   tour_length(x = tsp, order = x)
 }
-
-### faster for small n but takes O(n^2) memory
-#tour_length.ETSP <- function(x, order) tour_length(as.TSP(x), order)

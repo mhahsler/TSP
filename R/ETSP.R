@@ -36,6 +36,7 @@
 #' of class [TOUR].
 #' @param tour,y a tour to be visualized.
 #' @param tour_lty,tour_col line type and color for tour.
+#' @param labels logical; plot city labels.
 #' @param ... further arguments are passed on.
 #' @returns
 #' - `ETSP()` returns `x` as an object of class `ETSP`.
@@ -44,10 +45,9 @@
 #' @author Michael Hahsler
 #' @keywords classes
 #' @examples
-#'
-#' x <- data.frame(x = runif(20), y = runif(20), row.names = LETTERS[1:20])
-#'
-#' ## create a TSP
+#' ## create a random ETSP
+#' n <- 20
+#' x <- data.frame(x = runif(n), y = runif(n), row.names = LETTERS[1:n])
 #' etsp <- ETSP(x)
 #' etsp
 #'
@@ -134,9 +134,10 @@ image.ETSP <- function(x, order, col = gray.colors(64), ...) {
 
 #' @rdname ETSP
 #' @export
-plot.ETSP <- function(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 1,...) {
+plot.ETSP <- function(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 2, labels = TRUE, ...) {
   x <- as.matrix(x)
   plot(x, y = NULL, ...)
   if(!is.null(y)) tour <- TOUR(y)
   if(!is.null(tour)) polygon(x[tour,], lty = tour_lty, border = tour_col)
+  if(labels) text(x, y = NULL, labels = rownames(x), pos = 3)
 }
