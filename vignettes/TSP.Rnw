@@ -69,7 +69,7 @@ one of the best exact TSP solvers currently available.  }
       Kurt Hornik\\
 	  Department of Finance, Accounting and Statistics\\
 	  Wirtschaftsuniversit\"at Wien\\
-	  1090 Wien, Austria\\
+	  1090 Wien, Austria\\i
 	  E-mail: \email{kurt.hornik@wu-wien.ac.at}\\
 	  URL: \url{http://statmath.wu.ac.at/~hornik/}
 }
@@ -733,42 +733,26 @@ tail(labels(path))
 
 The tour found in the example results in a path from Lihue on Hawaii to
 Prince Rupert in British Columbia. Such a tour can also be visualized
-using the packages \pkg{sp}, \pkg{maps} and \pkg{maptools}
-\citep{TSP:Pebesma+Bivand:2005}. Note that he \code{if} statement and the \code{plot} in the \code{else} part in the following is not needed and only checks if the appropriate packages are installed when building this document.
+using a scatter plot with a map from package \pkg{maps}. Note that the \code{if} statement and the \code{plot} in the \code{else} part in the following is not needed and only checks if the map package is installed when building this document.
 
 <<fig=TRUE, include=FALSE, label=map1, width=8, height=8>>=
-if(require(sp) && require(maps) && require(maptools)) {
+if(require(maps)) {
+  library("maps")
 
-library("sp")
-library("maps")
-library("maptools")
+  data("USCA312_GPS")
 
-data("USCA312_GPS")
+  plot_path <- function(path) {
+    plot((USCA312_GPS[, c("long", "lat")]), cex = .3, col = "red")
+    map("world", col = "gray", add = TRUE)
+    lines(USCA312_GPS[, c("long", "lat")][path,], col = "black")
+    points(USCA312_GPS[c(head(path, 1), tail(path, 1)),  c("long", "lat")], pch = 19, col = "black")
+  }
 
-# create spatial coordinates and a basemap using WGS84 projection.
-USCA312_coords <- SpatialPointsDataFrame(cbind(USCA312_GPS$long, USCA312_GPS$lat),
-  proj4string=CRS("+proj=longlat +datum=WGS84"), data = USCA312_GPS)
-USCA312_basemap <- map2SpatialLines(map("world",
-  xlim=c(-166,-47), ylim=c(15,83),
-  plot=FALSE), proj4string=CRS("+proj=longlat +datum=WGS84"))
-
-plot_path <- function(path){
-    plot(as(USCA312_coords, "Spatial"), axes = TRUE)
-    plot(USCA312_basemap, add = TRUE, col = "gray")
-    points(USCA312_coords, pch = 3, cex = 0.4, col = "red")
-
-    path_line <- SpatialLines(list(Lines(list(Line(USCA312_coords[path,])),
-	ID="1")))
-    plot(path_line, add=TRUE, col = "black")
-    points(USCA312_coords[c(head(path,1), tail(path,1)),], pch = 19,
-        col = "black")
-}
-
-plot_path(path)
+  plot_path(path)
 
 } else {
-    plot(NA, xlim= c(0,1), ylim = c(0,1)); text(.5, .5, "Suggested packages not available")
-
+    plot(NA, xlim= c(0,1), ylim = c(0,1))
+    text(.5, .5, "Suggested packages not available")
 }
 @
 

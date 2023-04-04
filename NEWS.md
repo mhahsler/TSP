@@ -1,4 +1,7 @@
-# TSP 1.2-3 (3/08/2023)
+# TSP 1.2-4 (04/03/2023)
+* removed dependency on maptools.
+
+# TSP 1.2-3 (03/08/2023)
 
 ## New Features
 * plot for ETSP gained parameter labels to plot city labels.
