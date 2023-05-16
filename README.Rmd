@@ -45,6 +45,13 @@ head(tour, n = 10)
 
 An online example application of TSP can be found on [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
 
+## Help and Bug Reports
+
+You can find Q&A's and ask your own questions at 
+https://stackoverflow.com/search?q=TSP+R
+
+Please submit bug reports to https://github.com/mhahsler/TSP/issues
+
 ## References
 
 * Michael Hahsler and Kurt Hornik, [TSP - Infrastructure for the Traveling Salesperson Problem,](http://dx.doi.org/10.18637/jss.v023.i02) _Journal of Statistical Software,_ 22(2), 2007.

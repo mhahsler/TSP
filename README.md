@@ -37,7 +37,7 @@ object.
 ``` r
 library("TSP")
 data("USCA312")
-
+ 
 tsp <- TSP(USCA312)
 tsp
 ```
@@ -54,7 +54,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41389
+    ## tour length: 42108
 
 Show the first few cities in the tour.
 
@@ -62,17 +62,20 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##     Jacksonville, FL      Gainesville, FL    Daytona Beach, FL 
-    ##                  127                  101                   72 
-    ##          Orlando, FL            Tampa, FL Saint Petersburg, FL 
-    ##                  190                  275                  234 
-    ##         Sarasota, FL  West Palm Beach, FL            Miami, FL 
-    ##                  247                  296                  164 
-    ##         Key West, FL 
-    ##                  136
+    ##   Edmonton, AB  Saskatoon, SK  Moose Jaw, SK     Regina, SK    Brandon, MB 
+    ##             82            248            173            218             36 
+    ##   Winnipeg, MB      Minot, ND   Bismarck, ND Rapid City, SD     Pierre, SD 
+    ##            305            167             31            216            200
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
+
+## Help and Bug Reports
+
+You can find Q&A’s and ask your own questions at
+<https://stackoverflow.com/search?q=TSP+R>
+
+Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
 
 ## References
 
