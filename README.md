@@ -7,12 +7,34 @@ version](http://www.r-pkg.org/badges/version/TSP)](https://CRAN.R-project.org/pa
 status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/package=TSP)
+[![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
+
+## Introduction
 
 This package provides the basic infrastructure and some algorithms for
 the traveling salesman problems (symmetric, asymmetric and Euclidean
 TSPs). The package provides some simple algorithms and an interface to
 the [Concorde TSP solver](http://www.math.uwaterloo.ca/tsp/concorde/)
 and its implementation of the Chained-Lin-Kernighan heuristic.
+
+The following R packages use `TSP`:
+[archetypes](https://CRAN.R-project.org/package=archetypes),
+[cholera](https://CRAN.R-project.org/package=cholera),
+[colorpatch](https://CRAN.R-project.org/package=colorpatch),
+[condvis](https://CRAN.R-project.org/package=condvis),
+[ForagingOrg](https://CRAN.R-project.org/package=ForagingOrg),
+[isocir](https://CRAN.R-project.org/package=isocir),
+[jocre](https://CRAN.R-project.org/package=jocre),
+[nilde](https://CRAN.R-project.org/package=nilde),
+[nlnet](https://CRAN.R-project.org/package=nlnet),
+[PairViz](https://CRAN.R-project.org/package=PairViz),
+[pencopulaCond](https://CRAN.R-project.org/package=pencopulaCond),
+[sensitivity](https://CRAN.R-project.org/package=sensitivity),
+[seriation](https://CRAN.R-project.org/package=seriation),
+[sfnetworks](https://CRAN.R-project.org/package=sfnetworks),
+[tspmeta](https://CRAN.R-project.org/package=tspmeta),
+[VineCopula](https://CRAN.R-project.org/package=VineCopula),
+[vines](https://CRAN.R-project.org/package=vines)
 
 ## Installation
 
@@ -37,7 +59,7 @@ object.
 ``` r
 library("TSP")
 data("USCA312")
- 
+
 tsp <- TSP(USCA312)
 tsp
 ```
@@ -54,7 +76,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 42108
+    ## tour length: 41131
 
 Show the first few cities in the tour.
 
@@ -62,10 +84,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##   Edmonton, AB  Saskatoon, SK  Moose Jaw, SK     Regina, SK    Brandon, MB 
-    ##             82            248            173            218             36 
-    ##   Winnipeg, MB      Minot, ND   Bismarck, ND Rapid City, SD     Pierre, SD 
-    ##            305            167             31            216            200
+    ##    Harrisburg, PA     Baltimore, MD     Lancaster, PA     Johnstown, PA 
+    ##               116                18               141               129 
+    ##       Reading, PA     Allentown, PA  Philadelphia, PA    Wilmington, DE 
+    ##               217                 6               198               302 
+    ## Atlantic City, NJ       Trenton, NJ 
+    ##                13               283
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).

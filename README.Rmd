@@ -8,7 +8,9 @@ pkg <- 'TSP'
 source("https://raw.githubusercontent.com/mhahsler/pkg_helpers/main/pkg_helpers.R")
 pkg_title(pkg)
 ```
+[![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
 
+## Introduction
 
 This package provides the 
 basic infrastructure and some algorithms for the traveling
@@ -16,6 +18,11 @@ salesman problems (symmetric, asymmetric and Euclidean TSPs).
 The package provides some simple algorithms and
 an interface to the [Concorde TSP solver](http://www.math.uwaterloo.ca/tsp/concorde/) and its implementation of the 
 Chained-Lin-Kernighan heuristic. 
+
+```{r echo=FALSE, results = 'asis'}
+pkg_usage(pkg)
+```
+
 
 ```{r echo=FALSE, results = 'asis'}
 pkg_install(pkg)
