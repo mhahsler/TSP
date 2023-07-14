@@ -36,6 +36,26 @@ The following R packages use `TSP`:
 [VineCopula](https://CRAN.R-project.org/package=VineCopula),
 [vines](https://CRAN.R-project.org/package=vines)
 
+Please cite the use of this package as:
+
+> Hahsler M, Hornik K (2007). “TSP - Infrastructure for the traveling
+> salesperson problem.” *Journal of Statistical Software*, *23*(2),
+> 1-21. ISSN 1548-7660, <doi:10.18637/jss.v023.i02>
+> <https://doi.org/10.18637/jss.v023.i02>.
+
+    @Article{,
+      title = {TSP -- {I}nfrastructure for the traveling salesperson problem},
+      author = {Michael Hahsler and Kurt Hornik},
+      year = {2007},
+      journal = {Journal of Statistical Software},
+      volume = {23},
+      number = {2},
+      pages = {1--21},
+      doi = {10.18637/jss.v023.i02},
+      month = {December},
+      issn = {1548-7660},
+    }
+
 ## Installation
 
 **Stable CRAN version:** Install from within R with
@@ -76,7 +96,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41131
+    ## tour length: 41025
 
 Show the first few cities in the tour.
 
@@ -84,12 +104,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##    Harrisburg, PA     Baltimore, MD     Lancaster, PA     Johnstown, PA 
-    ##               116                18               141               129 
-    ##       Reading, PA     Allentown, PA  Philadelphia, PA    Wilmington, DE 
-    ##               217                 6               198               302 
-    ## Atlantic City, NJ       Trenton, NJ 
-    ##                13               283
+    ##        Tucson, AZ       El Paso, TX        Gallup, NM   Albuquerque, NM 
+    ##               286                84               102                 4 
+    ##      Santa Fe, NM       Lubbock, TX      Amarillo, TX    Dodge City, KS 
+    ##               246               156                 7                77 
+    ## Oklahoma City, OK          Enid, OK 
+    ##               188                85
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).

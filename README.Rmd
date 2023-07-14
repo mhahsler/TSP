@@ -21,10 +21,7 @@ Chained-Lin-Kernighan heuristic.
 
 ```{r echo=FALSE, results = 'asis'}
 pkg_usage(pkg)
-```
-
-
-```{r echo=FALSE, results = 'asis'}
+pkg_citation(pkg, 2L)
 pkg_install(pkg)
 ```
 
