@@ -36,7 +36,7 @@ The following R packages use `TSP`:
 [VineCopula](https://CRAN.R-project.org/package=VineCopula),
 [vines](https://CRAN.R-project.org/package=vines)
 
-Please cite the use of this package as:
+To cite package ‘TSP’ in publications use:
 
 > Hahsler M, Hornik K (2007). “TSP - Infrastructure for the traveling
 > salesperson problem.” *Journal of Statistical Software*, *23*(2),
@@ -96,7 +96,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41025
+    ## tour length: 40733
 
 Show the first few cities in the tour.
 
@@ -104,12 +104,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##        Tucson, AZ       El Paso, TX        Gallup, NM   Albuquerque, NM 
-    ##               286                84               102                 4 
-    ##      Santa Fe, NM       Lubbock, TX      Amarillo, TX    Dodge City, KS 
-    ##               246               156                 7                77 
-    ## Oklahoma City, OK          Enid, OK 
-    ##               188                85
+    ##    Wilmington, NC       Raleigh, NC        Durham, NC    Greensboro, NC 
+    ##               303               215                80               109 
+    ## Winston-Salem, NC       Roanoke, VA      Richmond, VA    Portsmouth, VA 
+    ##               306               221               220               208 
+    ##       Norfolk, VA    Washington, DC 
+    ##               184               294
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
