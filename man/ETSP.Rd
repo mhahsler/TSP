@@ -84,6 +84,10 @@ tour <- solve_TSP(etsp)
 tour
 
 plot(etsp, tour, tour_col = "red")
+
+# plot with custom labels
+plot(etsp, tour, tour_col = "red", labels = FALSE)
+text(etsp, paste("City", rownames(etsp)), pos = 1)
 }
 \seealso{
 Other TSP: 

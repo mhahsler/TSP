@@ -60,6 +60,10 @@
 #' tour
 #'
 #' plot(etsp, tour, tour_col = "red")
+#'
+#' # plot with custom labels
+#' plot(etsp, tour, tour_col = "red", labels = FALSE)
+#' text(etsp, paste("City", rownames(etsp)), pos = 1)
 #' @export
 ETSP <- function(x, labels = NULL) {
   if(inherits(x, "ETSP")) return(x)
