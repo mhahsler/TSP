@@ -93,8 +93,8 @@ text(etsp, paste("City", rownames(etsp)), pos = 1)
 Other TSP: 
 \code{\link{ATSP}()},
 \code{\link{Concorde}},
-\code{\link{TSPLIB}},
 \code{\link{TSP}()},
+\code{\link{TSPLIB}},
 \code{\link{insert_dummy}()},
 \code{\link{reformulate_ATSP_as_TSP}()},
 \code{\link{solve_TSP}()}

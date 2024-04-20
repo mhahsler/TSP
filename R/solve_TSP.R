@@ -124,7 +124,7 @@
 #'
 #' [TSP] and [ATSP] need to contain valid distances. `NA`s are not allowed. `Inf` is
 #' allowed and can be used to model the missing edges in incomplete graphs
-#' (i.e., the distance between the two objects is infinite) or unfeasable connections.
+#' (i.e., the distance between the two objects is infinite) or infeasible connections.
 #' Internally, `Inf` is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
 #' Note that the solution might still place the two objects next to each other
 #' (e.g., if `x` contains several unconnected subgraphs) which results in

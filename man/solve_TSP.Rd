@@ -144,7 +144,7 @@ Additional control options: see Concorde above.
 
 \link{TSP} and \link{ATSP} need to contain valid distances. \code{NA}s are not allowed. \code{Inf} is
 allowed and can be used to model the missing edges in incomplete graphs
-(i.e., the distance between the two objects is infinite) or unfeasable connections.
+(i.e., the distance between the two objects is infinite) or infeasible connections.
 Internally, \code{Inf} is replaced by a large value given by \eqn{max(x) + 2 range(x)}.
 Note that the solution might still place the two objects next to each other
 (e.g., if \code{x} contains several unconnected subgraphs) which results in
@@ -247,8 +247,8 @@ Other TSP:
 \code{\link{ATSP}()},
 \code{\link{Concorde}},
 \code{\link{ETSP}()},
-\code{\link{TSPLIB}},
 \code{\link{TSP}()},
+\code{\link{TSPLIB}},
 \code{\link{insert_dummy}()},
 \code{\link{reformulate_ATSP_as_TSP}()}
 

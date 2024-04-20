@@ -104,8 +104,8 @@ Other TSP:
 \code{\link{ATSP}()},
 \code{\link{Concorde}},
 \code{\link{ETSP}()},
-\code{\link{TSPLIB}},
 \code{\link{TSP}()},
+\code{\link{TSPLIB}},
 \code{\link{insert_dummy}()},
 \code{\link{solve_TSP}()}
 }
