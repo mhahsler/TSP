@@ -1,12 +1,12 @@
 
 # <img src="man/figures/logo.svg" align="right" height="139" /> R package TSP - Traveling Salesperson Problem (TSP)
 
-[![CRAN
-version](http://www.r-pkg.org/badges/version/TSP)](https://CRAN.R-project.org/package=TSP)
-[![stream r-universe
+[![r-universe
 status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
+[![Package on
+CRAN](https://www.r-pkg.org/badges/version/TSP)](https://CRAN.R-project.org/package=TSP)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/package=TSP)
+downloads](https://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/package=TSP)
 [![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
 
 ## Introduction
@@ -22,13 +22,16 @@ The following R packages use `TSP`:
 [cholera](https://CRAN.R-project.org/package=cholera),
 [colorpatch](https://CRAN.R-project.org/package=colorpatch),
 [condvis](https://CRAN.R-project.org/package=condvis),
+[CRTspat](https://CRAN.R-project.org/package=CRTspat),
 [ForagingOrg](https://CRAN.R-project.org/package=ForagingOrg),
 [isocir](https://CRAN.R-project.org/package=isocir),
 [jocre](https://CRAN.R-project.org/package=jocre),
+[MLCOPULA](https://CRAN.R-project.org/package=MLCOPULA),
 [nilde](https://CRAN.R-project.org/package=nilde),
 [nlnet](https://CRAN.R-project.org/package=nlnet),
 [PairViz](https://CRAN.R-project.org/package=PairViz),
 [pencopulaCond](https://CRAN.R-project.org/package=pencopulaCond),
+[SCORPIUS](https://CRAN.R-project.org/package=SCORPIUS),
 [sensitivity](https://CRAN.R-project.org/package=sensitivity),
 [seriation](https://CRAN.R-project.org/package=seriation),
 [sfnetworks](https://CRAN.R-project.org/package=sfnetworks),
@@ -68,7 +71,9 @@ install.packages("TSP")
 [r-universe.](https://mhahsler.r-universe.dev/TSP)
 
 ``` r
-install.packages("TSP", repos = "https://mhahsler.r-universe.dev")
+install.packages("TSP",
+    repos = c("https://mhahsler.r-universe.dev",
+              "https://cloud.r-project.org/"))
 ```
 
 ## Usage
@@ -96,7 +101,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40733
+    ## tour length: 40837
 
 Show the first few cities in the tour.
 
@@ -104,12 +109,10 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##    Wilmington, NC       Raleigh, NC        Durham, NC    Greensboro, NC 
-    ##               303               215                80               109 
-    ## Winston-Salem, NC       Roanoke, VA      Richmond, VA    Portsmouth, VA 
-    ##               306               221               220               208 
-    ##       Norfolk, VA    Washington, DC 
-    ##               184               294
+    ##     Eugene, OR      Salem, OR   Portland, OR     Yakima, WA     Tacoma, WA 
+    ##             87            235            206            308            273 
+    ##    Seattle, WA   Victoria, BC  Vancouver, BC Bellingham, WA    Spokane, WA 
+    ##            252            291            290             25            261
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
