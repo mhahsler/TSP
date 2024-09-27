@@ -1,6 +1,5 @@
 # TSP 1.2-4.1 (xx/xx/2023)
-
-
+* Changed Package description title.
 
 # TSP 1.2-4 (04/03/2023)
 * removed dependency on maptools.

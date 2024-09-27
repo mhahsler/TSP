@@ -1,5 +1,5 @@
 
-# <img src="man/figures/logo.svg" align="right" height="139" /> R package TSP - Traveling Salesperson Problem (TSP)
+# <img src="man/figures/logo.svg" align="right" height="139" /> R package TSP - Infrastructure for the Traveling Salesperson Problem
 
 [![r-universe
 status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
@@ -101,7 +101,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40837
+    ## tour length: 40959
 
 Show the first few cities in the tour.
 
@@ -109,10 +109,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##     Eugene, OR      Salem, OR   Portland, OR     Yakima, WA     Tacoma, WA 
-    ##             87            235            206            308            273 
-    ##    Seattle, WA   Victoria, BC  Vancouver, BC Bellingham, WA    Spokane, WA 
-    ##            252            291            290             25            261
+    ##   Bakersfield, CA        Fresno, CA      Stockton, CA      Berkeley, CA 
+    ##                17                99               268                26 
+    ##       Oakland, CA San Francisco, CA      San Jose, CA    Santa Cruz, CA 
+    ##               186               241               242               245 
+    ##          Hilo, HI      Honolulu, HI 
+    ##               119               120
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).

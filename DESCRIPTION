@@ -1,6 +1,6 @@
 Package: TSP
 Type: Package
-Title: Traveling Salesperson Problem (TSP)
+Title: Infrastructure for the Traveling Salesperson Problem
 Version: 1.2-4.1
 Date: 2023-xx-xx
 Authors@R: 
