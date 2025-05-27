@@ -1,5 +1,7 @@
 # TSP 1.2-4.1 (xx/xx/2023)
 * Changed Package description title.
+* Bugfix: ETSP write issue for method Concorde. parameter precision is 
+          now used correctly (reported by: malipivo)
 
 # TSP 1.2-4 (04/03/2023)
 * removed dependency on maptools.

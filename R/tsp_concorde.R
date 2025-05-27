@@ -162,20 +162,6 @@ tsp_concorde <- function(x, control = NULL) {
     )
   )
 
-  ## check x
-  if (inherits(x, "TSP")) {
-    #if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^31 - 1
-    ### MFH: concorde may overflow with 2^31-1
-    if (n_of_cities(x) < 10)
-      MAX <- 2 ^ 15 - 1
-    else
-      MAX <- 2 ^ 28 - 1
-    x <- .prepare_dist_concorde(x, MAX, precision = control$precision, verbose = control$verbose)
-
-  } else if (inherits(x, "ETSP")) {
-    ## nothing to do!
-  } else
-    stop("Concorde only handles TSP and ETSP.")
 
 
   ## get temp files and change working directory
@@ -192,8 +178,23 @@ tsp_concorde <- function(x, control = NULL) {
   tmp_file_in  <- paste(temp_file, ".dat", sep = "")
   tmp_file_out <- paste(temp_file, ".sol", sep = "")
 
-  ## precision is already handled!
-  write_TSPLIB(x, file = tmp_file_in, precision = 0)
+  ## check x
+  if (inherits(x, "TSP")) {
+    #if(n_of_cities(x) < 10) MAX <- 2^15 - 1 else MAX <- 2^31 - 1
+    ### MFH: concorde may overflow with 2^31-1
+    if (n_of_cities(x) < 10)
+      MAX <- 2 ^ 15 - 1
+    else
+      MAX <- 2 ^ 28 - 1
+    x <- .prepare_dist_concorde(x, MAX, precision = control$precision, verbose = control$verbose)
+    ## precision is already handled!
+    write_TSPLIB(x, file = tmp_file_in, precision = 0)
+
+  } else if (inherits(x, "ETSP")) {
+    ## nothing to do!
+    write_TSPLIB(x, file = tmp_file_in, precision = control$precision)
+  } else
+    stop("Concorde only handles TSP and ETSP.")
 
   ## change working directory
 
@@ -212,7 +213,6 @@ tsp_concorde <- function(x, control = NULL) {
     else
       FALSE,
   )
-
 
   if (!file.access(tmp_file_out) == 0)
     stop(
