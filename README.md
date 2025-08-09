@@ -1,12 +1,12 @@
 
 # <img src="man/figures/logo.svg" align="right" height="139" /> R package TSP - Infrastructure for the Traveling Salesperson Problem
 
-[![r-universe
-status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
 [![Package on
 CRAN](https://www.r-pkg.org/badges/version/TSP)](https://CRAN.R-project.org/package=TSP)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/package=TSP)
+![License](https://img.shields.io/cran/l/TSP) [![r-universe
+status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
 [![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
 
 ## Introduction
@@ -20,13 +20,12 @@ and its implementation of the Chained-Lin-Kernighan heuristic.
 The following R packages use `TSP`:
 [archetypes](https://CRAN.R-project.org/package=archetypes),
 [cholera](https://CRAN.R-project.org/package=cholera),
-[colorpatch](https://CRAN.R-project.org/package=colorpatch),
 [condvis](https://CRAN.R-project.org/package=condvis),
 [CRTspat](https://CRAN.R-project.org/package=CRTspat),
 [ForagingOrg](https://CRAN.R-project.org/package=ForagingOrg),
+[ggEDA](https://CRAN.R-project.org/package=ggEDA),
 [isocir](https://CRAN.R-project.org/package=isocir),
 [jocre](https://CRAN.R-project.org/package=jocre),
-[MLCOPULA](https://CRAN.R-project.org/package=MLCOPULA),
 [nilde](https://CRAN.R-project.org/package=nilde),
 [nlnet](https://CRAN.R-project.org/package=nlnet),
 [PairViz](https://CRAN.R-project.org/package=PairViz),
@@ -36,8 +35,7 @@ The following R packages use `TSP`:
 [seriation](https://CRAN.R-project.org/package=seriation),
 [sfnetworks](https://CRAN.R-project.org/package=sfnetworks),
 [tspmeta](https://CRAN.R-project.org/package=tspmeta),
-[VineCopula](https://CRAN.R-project.org/package=VineCopula),
-[vines](https://CRAN.R-project.org/package=vines)
+[VineCopula](https://CRAN.R-project.org/package=VineCopula)
 
 To cite package ‘TSP’ in publications use:
 
@@ -101,7 +99,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40959
+    ## tour length: 41269
 
 Show the first few cities in the tour.
 
@@ -109,12 +107,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##   Bakersfield, CA        Fresno, CA      Stockton, CA      Berkeley, CA 
-    ##                17                99               268                26 
-    ##       Oakland, CA San Francisco, CA      San Jose, CA    Santa Cruz, CA 
-    ##               186               241               242               245 
-    ##          Hilo, HI      Honolulu, HI 
-    ##               119               120
+    ## Winston-Salem, NC    Greensboro, NC     Charlotte, NC      Columbia, SC 
+    ##               306               109                54                64 
+    ##       Augusta, GA   Spartanburg, NC    Greenville, SC     Asheville, NC 
+    ##                14               260               110                10 
+    ##     Knoxville, TN   Chattanooga, TN 
+    ##               139                56
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).

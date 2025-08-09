@@ -3,7 +3,7 @@
 \docType{package}
 \name{TSP-package}
 \alias{TSP-package}
-\title{TSP: Traveling Salesperson Problem (TSP)}
+\title{TSP: Infrastructure for the Traveling Salesperson Problem}
 \description{
 Basic infrastructure and some algorithms for the traveling salesperson problem (also traveling salesman problem; TSP). The package provides some simple algorithms and an interface to the Concorde TSP solver and its implementation of the Chained-Lin-Kernighan heuristic. The code for Concorde itself is not included in the package and has to be obtained separately. Hahsler and Hornik (2007) \doi{10.18637/jss.v023.i02}.
 }

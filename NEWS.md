@@ -1,4 +1,6 @@
-# TSP 1.2-4.1 (xx/xx/2023)
+# TSP 1.2.5-1 (xx/xx/2025)
+
+# TSP 1.2-5 (05/27/2025)
 * Changed Package description title.
 * Bugfix: ETSP write issue for method Concorde. parameter precision is 
           now used correctly (reported by: malipivo)
