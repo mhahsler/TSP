@@ -1,4 +1,6 @@
 # TSP 1.2.5-1 (xx/xx/2025)
+* Updated README.
+* Added method sa for simulated annealing.
 
 # TSP 1.2-5 (05/27/2025)
 * Changed Package description title.

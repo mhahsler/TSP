@@ -15,9 +15,15 @@ pkg_title(pkg)
 This package provides the 
 basic infrastructure and some algorithms for the traveling
 salesman problems (symmetric, asymmetric and Euclidean TSPs). 
-The package provides some simple algorithms and
-an interface to the [Concorde TSP solver](http://www.math.uwaterloo.ca/tsp/concorde/) and its implementation of the 
-Chained-Lin-Kernighan heuristic. 
+The package provides some fast implementations of simple algorithms including:
+
+* __insertion algorithms__: nearest insertion, farthest insertion, cheapest insertion, arbitrary insertion
+* __nearest neighbor methods__: Nearest neighbor and repetitive nearest neighbor
+* __two-opt__ improvement
+* __simulated annealing__ improvement
+
+Also, an interface to the [__Concorde TSP solver__](http://www.math.uwaterloo.ca/tsp/concorde/) and its implementation of the 
+__Chained-Lin-Kernighan heuristic__ is provided (needs to be installed separately). 
 
 ```{r echo=FALSE, results = 'asis'}
 pkg_usage(pkg)
@@ -46,6 +52,17 @@ Show the first few cities in the tour.
 ```{r}
 head(tour, n = 10)
 ```
+
+Visualize the complete tour.
+```{r, fig.dim=c(6, 6)}
+library(maps)
+data("USCA312_GPS")
+
+plot((USCA312_GPS[, c("long", "lat")]), cex = .3)
+map("world", col = "gray", add = TRUE)
+polygon(USCA312_GPS[, c("long", "lat")][tour,], border = "red")
+```
+
 
 An online example application of TSP can be found on [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
 

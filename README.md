@@ -13,9 +13,20 @@ status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe
 
 This package provides the basic infrastructure and some algorithms for
 the traveling salesman problems (symmetric, asymmetric and Euclidean
-TSPs). The package provides some simple algorithms and an interface to
-the [Concorde TSP solver](http://www.math.uwaterloo.ca/tsp/concorde/)
-and its implementation of the Chained-Lin-Kernighan heuristic.
+TSPs). The package provides some fast implementations of simple
+algorithms including:
+
+- **insertion algorithms**: nearest insertion, farthest insertion,
+  cheapest insertion, arbitrary insertion
+- **nearest neighbor methods**: Nearest neighbor and repetitive nearest
+  neighbor
+- **two-opt** improvement
+- **simulated annealing** improvement
+
+Also, an interface to the [**Concorde TSP
+solver**](http://www.math.uwaterloo.ca/tsp/concorde/) and its
+implementation of the **Chained-Lin-Kernighan heuristic** is provided
+(needs to be installed separately).
 
 The following R packages use `TSP`:
 [archetypes](https://CRAN.R-project.org/package=archetypes),
@@ -26,6 +37,7 @@ The following R packages use `TSP`:
 [ggEDA](https://CRAN.R-project.org/package=ggEDA),
 [isocir](https://CRAN.R-project.org/package=isocir),
 [jocre](https://CRAN.R-project.org/package=jocre),
+[MLCOPULA](https://CRAN.R-project.org/package=MLCOPULA),
 [nilde](https://CRAN.R-project.org/package=nilde),
 [nlnet](https://CRAN.R-project.org/package=nlnet),
 [PairViz](https://CRAN.R-project.org/package=PairViz),
@@ -99,7 +111,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41269
+    ## tour length: 40285
 
 Show the first few cities in the tour.
 
@@ -107,12 +119,23 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ## Winston-Salem, NC    Greensboro, NC     Charlotte, NC      Columbia, SC 
-    ##               306               109                54                64 
-    ##       Augusta, GA   Spartanburg, NC    Greenville, SC     Asheville, NC 
-    ##                14               260               110                10 
-    ##     Knoxville, TN   Chattanooga, TN 
-    ##               139                56
+    ##    Superior, WI      Duluth, MN Thunder Bay, ON   Green Bay, WI   Sheboygan, WI 
+    ##             270              79             278             108             253 
+    ##   Milwaukee, WI      Racine, WI     Kenosha, WI    Rockford, IL     Madison, WI 
+    ##             165             214             135             224             158
+
+Visualize the complete tour.
+
+``` r
+library(maps)
+data("USCA312_GPS")
+
+plot((USCA312_GPS[, c("long", "lat")]), cex = 0.3)
+map("world", col = "gray", add = TRUE)
+polygon(USCA312_GPS[, c("long", "lat")][tour, ], border = "red")
+```
+
+![](inst/README_files/unnamed-chunk-6-1.png)<!-- -->
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).

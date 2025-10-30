@@ -72,6 +72,29 @@
 #'   Additional control options:
 #'   - "start" index of the first city (default: a random city).
 #'
+#' - "sa" Simulated Annealing. \[TSP\]
+#'
+#'   A tour refinement method that uses simulated annealing with subtour 
+#'   reversal as local move. The used optimizer is
+#'   [stats::optim()] with method `"SANN"`. This method is 
+#'   typically a lot slower than `"two_opt"` and requires parameter tuning for the 
+#'   cooling schedule.
+#'
+#'   Additional control options:
+#'   - "tour" an existing tour which should be improved.
+#'     If no tour is given, a random tour is used.
+#'   - "local_move" a function that creates a local move with the current 
+#'      tour as the first and the TSP as the second parameter. Defaults to
+#'      randomized subtour reversal.
+#'   - "temp" initial temperature. Defaults to the length of the current tour divided
+#'      by the number of cities.
+#'   - "tmax" number of evaluations per temperature step. Default is 10.
+#'   - "maxit" number of evaluations. Default is 10000 for speed, but larger values 
+#'      will result in more competitive results.
+#'   - "trace" set to 1 to print progress. 
+#'   
+#'   See [stats::optim()] for more details on the parameters.
+#'   
 #' - "two_opt" Two edge exchange improvement procedure (Croes 1958). \[TSP, ATSP\]
 #'
 #'   This is a tour refinement procedure which systematically exchanges two edges
@@ -201,7 +224,7 @@
 #' USCA50
 #' methods <- c("identity", "random", "nearest_insertion",
 #'   "cheapest_insertion", "farthest_insertion", "arbitrary_insertion",
-#'   "nn", "repetitive_nn", "two_opt")
+#'   "nn", "repetitive_nn", "two_opt", "sa")
 #'
 #' ## calculate tours
 #' tours <- lapply(methods, FUN = function(m) solve_TSP(USCA50, method = m))
@@ -345,7 +368,8 @@ solve_TSP.ETSP <- function(x,
     "2-opt",
     "two_opt",
     "concorde",
-    "linkern"
+    "linkern",
+    "sa"
   )
 
   ## default is arbitrary_insertion + two_opt
@@ -380,7 +404,8 @@ solve_TSP.ETSP <- function(x,
       two_opt = tsp_two_opt(x_, control = control),
       '2-opt' = tsp_two_opt(x_, control = control),
       concorde = tsp_concorde(x_, control = control),
-      linkern = tsp_linkern(x_, control = control)
+      linkern = tsp_linkern(x_, control = control),
+      sa = tsp_SA(x_, control = control)
     )
 
     ### do refinement two_opt

@@ -89,6 +89,30 @@ Additional control options:
 \itemize{
 \item "start" index of the first city (default: a random city).
 }
+\item "sa" Simulated Annealing. [TSP]
+
+A tour refinement method that uses simulated annealing with subtour
+reversal as local move. The used optimizer is
+\code{\link[stats:optim]{stats::optim()}} with method \code{"SANN"}. This method is
+typically a lot slower than \code{"two_opt"} and requires parameter tuning for the
+cooling schedule.
+
+Additional control options:
+\itemize{
+\item "tour" an existing tour which should be improved.
+If no tour is given, a random tour is used.
+\item "local_move" a function that creates a local move with the current
+tour as the first and the TSP as the second parameter. Defaults to
+randomized subtour reversal.
+\item "temp" initial temperature. Defaults to the length of the current tour divided
+by the number of cities.
+\item "tmax" number of evaluations per temperature step. Default is 10.
+\item "maxit" number of evaluations. Default is 10000 for speed, but larger values
+will result in more competitive results.
+\item "trace" set to 1 to print progress.
+}
+
+See \code{\link[stats:optim]{stats::optim()}} for more details on the parameters.
 \item "two_opt" Two edge exchange improvement procedure (Croes 1958). [TSP, ATSP]
 
 This is a tour refinement procedure which systematically exchanges two edges
@@ -189,7 +213,7 @@ data("USCA50")
 USCA50
 methods <- c("identity", "random", "nearest_insertion",
   "cheapest_insertion", "farthest_insertion", "arbitrary_insertion",
-  "nn", "repetitive_nn", "two_opt")
+  "nn", "repetitive_nn", "two_opt", "sa")
 
 ## calculate tours
 tours <- lapply(methods, FUN = function(m) solve_TSP(USCA50, method = m))
