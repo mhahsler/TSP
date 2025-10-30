@@ -20,6 +20,23 @@
 
 ## simulated annealing
 
+
+# Subtour reversal
+# FIXME: when i>j then we should revert the beginning 
+# and the end of the tour instead!
+tsp_SA_reversal <- function(tour, x) {
+  n <- length(tour)
+  # Pick two random distinct positions
+  pos <- sample(1:n, 2, replace = FALSE)
+  i <- pos[1]
+  j <- pos[2]
+  
+  # Swap the cities at these positions
+  new_tour <- tour
+  new_tour[i:j] <- rev(tour[i:j])
+  return(new_tour)
+}
+
 # A simple swap operator is commonly used for TSP
 tsp_SA_swap <- function(tour, x) {
   n <- length(tour)
@@ -35,24 +52,9 @@ tsp_SA_swap <- function(tour, x) {
   return(new_tour)
 }
 
-# A simple swap operator is commonly used for TSP
-tsp_SA_reversal <- function(tour, x) {
-  n <- length(tour)
-  # Pick two random distinct positions
-  pos <- sample(1:n, 2, replace = FALSE)
-  i <- pos[1]
-  j <- pos[2]
-  
-  # Swap the cities at these positions
-  new_tour <- tour
-  new_tour[i:j] <- rev(tour[i:j])
-  return(new_tour)
-}
-
 tsp_SA_mixed <- function(tour, x) {
-  if (runif(1) > .5) tsp_SA_reversal(tour, x)
+  if (stats::runif(1) > .5) tsp_SA_reversal(tour, x)
   else tsp_SA_swap(tour, x)
-  
 }
 
 tsp_SA <- function(x, control = NULL){
@@ -72,7 +74,7 @@ tsp_SA <- function(x, control = NULL){
   
   cost_function <- function(tour, x) tour_length(x, as.integer(tour))
     
-  ret <- optim(
+  ret <- stats::optim(
     par = initial_tour,
     fn = cost_function,
     gr = control$local_move,
