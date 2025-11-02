@@ -124,7 +124,9 @@ NULL
   max_x <- max(x)
   prec <- floor(log10(MAX / max_x))
   if (any((x %% 1) != 0) || prec < 0) {
-    if (prec < precision) {
+    if (prec >= precision) {
+      x <- x * 10 ^ precision
+    } else {
       warning(
         paste0(
           "Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ",
@@ -134,7 +136,7 @@ NULL
         immediate. = TRUE
       )
       x <- x * 10 ^ prec
-    }
+    } 
   }
 
   storage.mode(x) <-
