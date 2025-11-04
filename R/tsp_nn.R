@@ -29,7 +29,8 @@ tsp_nn <- function(x, control = NULL) {
     x <- as.matrix(x)
 
     control <- .get_parameters(control, list(
-      start = sample(n, 1)
+      start = sample(n, 1),
+      verbose = FALSE
     ), method = "nn")
     start <- control$start
     if(start < 0 || start > n)
@@ -54,10 +55,13 @@ tsp_nn <- function(x, control = NULL) {
         ## place city
         order[n + 1L - length(rest)] <- current
         placed[current] <- TRUE
+        
+        if (control$verbose && (length(order) - length(rest)) %% 1000 == 0) 
+          cat("\r", "Placed: ", (length(order) - length(rest)), "/", length(order), sep = "")
     }
 
     if (control$verbose)
-      cat("All cities placed.\n\n")
+      cat("\nAll cities placed.\n\n")
 
     order
 }

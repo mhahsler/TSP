@@ -19,7 +19,7 @@ linkern_help()
 executables are installed.}
 }
 \value{
-Nothing.
+\code{concorde_path()} returns the path to the executable. Others functions: Nothing.
 }
 \description{
 The Concorde TSP Solver package contains several solvers.  Currently,
@@ -29,9 +29,7 @@ Lin-Kernighan (Applegate et al. 2003) implementation are provided in
 \pkg{TSP}. Concorde can solve \link{TSP}s and \link{ETSP}s directly. \link{ATSP}s are
 reformulated as larger TSP's and then solved.
 }
-\details{
-\strong{Installation of Concorde}
-
+\section{Installation of Concorde}{
 The Concorde TSP Solver is freely available for academic research.
 It is not included in the \pkg{TSP} R package and has
 to be obtained separately from the
@@ -47,9 +45,9 @@ directory containing the executables for concorde and linkern, or
 sure that the executables are in the search path stored in the \code{PATH}
 environment variable (see \code{\link[=Sys.setenv]{Sys.setenv()}}).
 }
+}
 
-\strong{Using Concorde for \code{solve_TSP()}}
-
+\section{Using Concorde for \code{solve_TSP()}}{
 \code{\link[=solve_TSP]{solve_TSP()}} uses \code{\link[=write_TSPLIB]{write_TSPLIB()}} to write the TSP for
 Concorde and tries to find the appropriate \code{precision} value (digits
 after the decimal point) to convert the provided distances into the needed
@@ -65,9 +63,12 @@ the \code{clo} option for \code{solve_TSP} use \code{concorde_help()} and
 \option{-N}, \option{-Q}) are not available via \code{\link[=solve_TSP]{solve_TSP()}} since they
 are used by the interface.
 
-If Concorde takes too long, then you can kill the 'concorde' process via your
-operating system and you can continue with R.
+If Concorde takes too long, then you can interrupt \code{\link[=solve_TSP]{solve_TSP()}}
+using \code{Esc/CTRL-C}. On most operating systems, this will also
+terminate the Concorde executable. If Concorde keeps running, then you can
+kill the 'concorde' process via your operating system.
 }
+
 \examples{
 
 \dontrun{
@@ -83,7 +84,8 @@ concorde_help()
 
 data("USCA312")
 
-## run concorde in verbose mode (-v) with fast cuts only (-V)
+## run Concorde in verbose mode (-v) with fast cuts only (-V)
+## Note: use the contol parameter verbose = FALSE to supress Concorde's output
 solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
 }
 

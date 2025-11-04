@@ -37,9 +37,9 @@ Common interface to all TSP solvers in this package.
 \section{TSP Methods}{
 Currently the following methods are available:
 \itemize{
-\item "identity", "random" return a tour representing the order in the data
+\item \strong{"identity", "random"} return a tour representing the order in the data
 (identity order) or a random order. [TSP, ATSP]
-\item "nearest_insertion", "farthest_insertion", "cheapest_insertion", "arbitrary_insertion"
+\item \strong{"nearest_insertion", "farthest_insertion", "cheapest_insertion", "arbitrary_insertion"}
 Nearest, farthest, cheapest and
 arbitrary insertion algorithms for a symmetric and asymmetric TSP
 (Rosenkrantz et al. 1977). [TSP, ATSP]
@@ -72,7 +72,7 @@ Additional control options:
 \itemize{
 \item "start" index of the first city (default: a random city).
 }
-\item "nn", "repetitive_nn" Nearest neighbor and repetitive
+\item \strong{"nn", "repetitive_nn"} Nearest neighbor and repetitive
 nearest neighbor algorithms for symmetric and asymmetric TSPs (Rosenkrantz
 et al. 1977). [TSP, ATSP]
 
@@ -87,7 +87,7 @@ Additional control options:
 \itemize{
 \item "start" index of the first city (default: a random city).
 }
-\item "sa" Simulated Annealing. [TSP]
+\item \strong{"sa"} Simulated Annealing. [TSP, ATSP]
 
 A tour refinement method that uses simulated annealing with subtour
 reversal as local move. The used optimizer is
@@ -111,7 +111,7 @@ will result in more competitive results.
 }
 
 See \code{\link[stats:optim]{stats::optim()}} for more details on the parameters.
-\item "two_opt" Two edge exchange improvement procedure (Croes 1958). [TSP, ATSP]
+\item \strong{"two_opt"} Two edge exchange improvement procedure (Croes 1958). [TSP, ATSP]
 
 This is a tour refinement procedure which systematically exchanges two edges
 in the graph represented by the distance matrix till no improvements are
@@ -128,7 +128,7 @@ If no tour is given, a random tour is used.
 \item "two_opt_repetitions" number of times to try two_opt with a
 different initial random tour (default: 1).
 }
-\item "concorde" Concorde algorithm (Applegate et al. 2001). [TSP, ETSP]
+\item \strong{"concorde"} Concorde algorithm (Applegate et al. 2001). [TSP, ETSP]
 
 Concorde is an advanced exact TSP solver for \emph{symmetric} TSPs
 based on branch-and-cut.
@@ -152,8 +152,9 @@ passed on to Concorde. Note that therefore the results produced by Concorde
 \eqn{10^{precision}} (i.e., the decimal point has to be shifted
 \code{precision} placed to the left). The interface to Concorde uses
 \code{\link[=write_TSPLIB]{write_TSPLIB()}}.
+\item "verbose" logical; \code{FALSE} suppresses the output printed to the terminal.
 }
-\item "linkern" Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003). [TSP, ETSP]
+\item \strong{"linkern"} Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003). [TSP, ETSP]
 
 The Lin-Kernighan (Lin and Kernighan 1973) heuristic uses variable \eqn{k}
 edge exchanges to improve an initial tour.  The program is not included in
@@ -163,12 +164,17 @@ Additional control options: see Concorde above.
 }
 }
 
+\section{Verbose Operation}{
+Most implementations provide verbose output to monitor progress using the
+logical control parameter "verbose".
+}
+
 \section{Additional refinement and random restarts}{
 Most constructive methods also accept the following extra control parameters:
 \itemize{
-\item \code{two_opt}: a logical indicating if two-opt refinement should be performed on the
+\item "two_opt": a logical indicating if two-opt refinement should be performed on the
 constructed tour.
-\item \code{rep}: an integer indicating how many replications (random restarts) should be performed.
+\item "rep": an integer indicating how many replications (random restarts) should be performed.
 }
 }
 
@@ -201,9 +207,10 @@ this way. For convenience, \code{solve_TSP()} has an extra argument
 \code{as_TSP} which can be set to \code{TRUE} to automatically solve the
 \code{ATSP} reformulated as a \code{TSP} (see \code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}}).
 
-Only methods "concorde" and "linkern" can solve \link{ETSP}s directly.
-For all other methods, ETSPs are currently converted into TSPs by creating a
-distance matrix and then solved.
+Only methods "concorde" and "linkern" currently solve \link{ETSP}s directly.
+For all other methods, ETSPs are converted into TSPs by creating a
+distance matrix and then solved. Note: distance matrices can become
+very large leading to long memory issues and long computation times.
 }
 
 \examples{
