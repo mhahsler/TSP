@@ -20,7 +20,7 @@
 #'
 #' Common interface to all TSP solvers in this package.
 #'
-#' **TSP Methods**
+#' # TSP Methods
 #'
 #' Currently the following methods are available:
 #' - "identity", "random" return a tour representing the order in the data
@@ -143,7 +143,15 @@
 #'
 #'   Additional control options: see Concorde above.
 #'
-#' **Treatment of `NA`s and infinite values in `x`**
+#' # Additional refinement and random restarts
+#' 
+#' Most constructive methods also accept the following extra control parameters:
+#' 
+#' * `two_opt`: a logical indicating if two-opt refinement should be performed on the
+#'   constructed tour.
+#' * `rep`: an integer indicating how many replications (random restarts) should be performed. 
+#'
+#' # Treatment of `NA`s and infinite values in `x`
 #'
 #' [TSP] and [ATSP] need to contain valid distances. `NA`s are not allowed. `Inf` is
 #' allowed and can be used to model the missing edges in incomplete graphs
@@ -154,7 +162,7 @@
 #' a path length of `Inf`. `-Inf` is replaced by \eqn{min(x) - 2 range(x)} and
 #' can be used to encourage the solver to place two objects next to each other.
 #'
-#' **Parallel execution support**
+#' # Parallel execution support
 #'
 #' All heuristics can be used with the control arguments `repetitions`
 #' (uses the best from that many repetitions with random starts) and
@@ -165,7 +173,7 @@
 #' appropriate parallel backend needs to be registered (e.g., load
 #' \pkg{doParallel} and register it with [doParallel::registerDoParallel()]).
 #'
-#' **Solving ATSP and ETSP**
+#' # Solving ATSP and ETSP
 #'
 #' Some solvers (including Concorde) cannot directly solve [ATSP]
 #' directly. `ATSP` can be reformulated as larger `TSP` and solved
@@ -375,11 +383,17 @@ solve_TSP.ETSP <- function(x,
   ## default is arbitrary_insertion + two_opt
   if (is.null(method)) {
     method <- "arbitrary_insertion"
-    if (is.null(control[["two_opt"]]))
-      control <- c(control, list(two_opt = TRUE))
+    control$two_opt <- TRUE
   } else
     method <- match.arg(tolower(method), methods)
-
+    
+  ## no rep or two_opt for these!
+  if (method == "concorde" || method == "linkern") {
+    if (control$rep %||% 1L > 1L || control$two_opt %||% FALSE)
+      warning("control parameters rep and two_opt not available for methods concorde and linkern and are ignored!")
+    control$rep <- NULL
+    control$two_opt <- NULL
+  }
 
   ## check for NAs
   if (any(is.na(x)))
@@ -407,7 +421,7 @@ solve_TSP.ETSP <- function(x,
       linkern = tsp_linkern(x_, control = control),
       sa = tsp_SA(x_, control = control)
     )
-
+  
     ### do refinement two_opt
     if (!is.null(control[["two_opt"]]) && control[["two_opt"]]) {
       order <- tsp_two_opt(x_, control = c(control, list(tour = order)))
@@ -418,18 +432,9 @@ solve_TSP.ETSP <- function(x,
   }
 
   ## do rep?
-  if (!is.null(control$rep))
-    n <- control$rep
-  else
-    n <- 1L
+  n <- control$rep %||% 1L
 
-  ## no rep or two_opt for these!
-  if (method == "concorde" || method == "linkern") {
-    n <- 1L
-    control$two_opt <- NULL
-  }
-
-  ## no rep!
+  ## reps are handled internally!
   if (method == "repetitive_nn")
     n <- 1L
 
