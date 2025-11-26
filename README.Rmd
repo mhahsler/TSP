@@ -1,6 +1,7 @@
 ---
 output: github_document
 bibliography: vignettes/TSP.bib
+link-citations: yes
 ---
 
 ```{r echo=FALSE, results = 'asis'}
