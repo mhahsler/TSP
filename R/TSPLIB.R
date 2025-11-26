@@ -19,9 +19,10 @@
 #' Read and write TSPLIB files
 #'
 #' Reads and writes TSPLIB format files. TSPLIB files can be used by most TSP
-#' solvers. Sample instances for the TSP in TSPLIB format are available on the
-#' TSPLIB homepage (see references).
-#'
+#' solvers. Many problems in TSPLIB format can be found in the local 
+#' copy of the [TSPLIB95 problem library](https://github.com/mhahsler/TSP/tree/master/TSPLIB95).
+#' 
+#' 
 #' In the TSPLIB format distances are represented by integer values. Therefore,
 #' if `x` contains `double` values (which is normal in R) the values
 #' given in `x` are multiplied by \eqn{10^{precision}} before coercion to
@@ -51,8 +52,9 @@
 #' @returns returns an object of class `TSP` or
 #' `ATSP`.
 #' @author Michael Hahsler
-#' @references TSPLIB home page,
-#' \url{http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/}
+#' @references 
+#' Reinelt, Gerhard. 1991. “TSPLIB—a Traveling Salesman Problem Library.” ORSA Journal on Computing 3 (4): 376–84. \doi{10.1287/ijoc.3.4.376}
+#' 
 #' @keywords file
 #' @examples
 #'

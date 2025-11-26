@@ -1,8 +1,9 @@
-# TSP 1.2.5-1 (xx/xx/2025)
-* Updated README.
+# TSP 1.2.6 (11/26/2025)
 * Added method sa for simulated annealing.
+* Unknown parameters now create warnings.
 * Added verbose output to insertion algorithms.
 * Improved some man pages.
+* Updated README.
 * Bugfix: Fixed precision issue for concorde/linkern with small distance values.
 
 # TSP 1.2-5 (05/27/2025)

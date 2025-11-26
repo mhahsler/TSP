@@ -11,22 +11,30 @@ status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe
 
 ## Introduction
 
-This package provides the basic infrastructure and some algorithms for
-the traveling salesman problems (symmetric, asymmetric and Euclidean
-TSPs). The package provides some fast implementations of simple
-algorithms including:
+The TSP package (Hahsler and Hornik 2007) provides the basic
+infrastructure and some algorithms for the traveling salesman problems
+(symmetric, asymmetric and Euclidean TSPs). The package provides some
+fast implementations of simple algorithms including:
 
-- **insertion algorithms**: nearest insertion, farthest insertion,
-  cheapest insertion, arbitrary insertion
-- **nearest neighbor methods**: Nearest neighbor and repetitive nearest
-  neighbor
-- **two-opt** improvement
-- **simulated annealing** improvement
+- Tour construction heuristics
+  - **insertion algorithms**: nearest insertion, farthest insertion,
+    cheapest insertion, arbitrary insertion (Rosenkrantz, Stearns, and
+    Philip M. Lewis 1977)
+  - **nearest neighbor methods**: Nearest neighbor and repetitive
+    nearest neighbor (Rosenkrantz, Stearns, and Philip M. Lewis 1977)
+- Improvement methods
+  - **two-opt heuristic** (Croes 1958)
+  - **simulated annealing** (Kirkpatrick, Gelatt, and Vecchi 1983)
+- State-of-the-art solver
+  - An interface to the **Concorde TSP solver** (Applegate et al.
+    2000, 2006) and its implementation of the **Chained-Lin-Kernighan
+    heuristic** (Applegate, Cook, and Rohe 2003) is provided (needs to
+    be installed separately).
 
-Also, an interface to the [**Concorde TSP
-solver**](http://www.math.uwaterloo.ca/tsp/concorde/) and its
-implementation of the **Chained-Lin-Kernighan heuristic** is provided
-(needs to be installed separately).
+The package can read and write the TSPLIB format (Reinelt 1991) and it
+can solve many of the problems in the [TSPLIB95 problem library (local
+copy of the
+archive)](https://github.com/mhahsler/TSP/tree/master/TSPLIB95).
 
 The following R packages use `TSP`:
 [archetypes](https://CRAN.R-project.org/package=archetypes),
@@ -111,7 +119,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40285
+    ## tour length: 41941
 
 Show the first few cities in the tour.
 
@@ -119,10 +127,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##    Superior, WI      Duluth, MN Thunder Bay, ON   Green Bay, WI   Sheboygan, WI 
-    ##             270              79             278             108             253 
-    ##   Milwaukee, WI      Racine, WI     Kenosha, WI    Rockford, IL     Madison, WI 
-    ##             165             214             135             224             158
+    ## Winston-Salem, NC     Charlotte, NC     Asheville, NC    Greenville, SC 
+    ##               306                54                10               110 
+    ##   Spartanburg, NC       Augusta, GA      Columbia, SC    Charleston, SC 
+    ##               260                14                64                52 
+    ##      Savannah, GA  Jacksonville, FL 
+    ##               250               127
 
 Visualize the complete tour.
 
@@ -149,13 +159,76 @@ Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
 
 ## References
 
-- Michael Hahsler and Kurt Hornik, [TSP - Infrastructure for the
-  Traveling Salesperson
-  Problem,](http://dx.doi.org/10.18637/jss.v023.i02) *Journal of
-  Statistical Software,* 22(2), 2007.
-- [TSP package
-  vignette](https://cran.r-project.org/package=TSP/vignettes/TSP.pdf)
-  with complete examples.
-- [Reference manual](https://cran.r-project.org/package=TSP/TSP.pdf)
-- [Concorde TSP solver home
-  page.](http://www.math.uwaterloo.ca/tsp/concorde/)
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
+
+<div id="ref-Applegate2000" class="csl-entry">
+
+Applegate, David, Robert E. Bixby, Vasek Chvátal, and William Cook.
+2000. “TSP Cuts Which Do Not Conform to the Template Paradigm.” In
+*Computational Combinatorial Optimization, Optimal or Provably
+Near-Optimal Solutions*, edited by M. Junger and D. Naddef,
+2241:261–304. Lecture Notes in Computer Science. London, UK:
+Springer-Verlag. <https://doi.org/10.1007/3-540-45586-8_7>.
+
+</div>
+
+<div id="ref-Applegate2006" class="csl-entry">
+
+Applegate, David, Robert Bixby, Vasek Chvátal, and William Cook. 2006.
+*Concorde TSP Solver*.
+<https://www.math.uwaterloo.ca/tsp/concorde.html>.
+
+</div>
+
+<div id="ref-Applegate2003" class="csl-entry">
+
+Applegate, David, William Cook, and Andre Rohe. 2003. “Chained
+Lin-Kernighan for Large Traveling Salesman Problems.” *INFORMS Journal
+on Computing* 15 (1): 82–92.
+<https://doi.org/10.1287/ijoc.15.1.82.15157>.
+
+</div>
+
+<div id="ref-Croes1958" class="csl-entry">
+
+Croes, G. A. 1958. “A Method for Solving Traveling-Salesman Problems.”
+*Operations Research* 6 (6): 791–812.
+<https://doi.org/10.1287/opre.6.6.791>.
+
+</div>
+
+<div id="ref-TSP:Hahsler+Hornik2007" class="csl-entry">
+
+Hahsler, Michael, and Kurt Hornik. 2007. “TSP – Infrastructure for the
+Traveling Salesperson Problem.” *Journal of Statistical Software* 23
+(2): 1–21. <https://doi.org/10.18637/jss.v023.i02>.
+
+</div>
+
+<div id="ref-Kirkpatrick1983" class="csl-entry">
+
+Kirkpatrick, S., C. D. Gelatt, and M. P. Vecchi. 1983. “Optimization by
+Simulated Annealing.” *Science* 220 (4598): 671–80.
+<https://doi.org/10.1126/science.220.4598.671>.
+
+</div>
+
+<div id="ref-Reinelt1991" class="csl-entry">
+
+Reinelt, Gerhard. 1991. “TSPLIB—a Traveling Salesman Problem Library.”
+*ORSA Journal on Computing* 3 (4): 376–84.
+<https://doi.org/10.1287/ijoc.3.4.376>.
+
+</div>
+
+<div id="ref-Rosenkrantz1977" class="csl-entry">
+
+Rosenkrantz, Daniel J., Richard E. Stearns, and II Philip M. Lewis.
+1977. “An Analysis of Several Heuristics for the Traveling Salesman
+Problem.” *SIAM Journal on Computing* 6 (3): 563–81.
+<https://doi.org/10.1007/978-1-4020-9688-4_3>.
+
+</div>
+
+</div>

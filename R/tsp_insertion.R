@@ -25,7 +25,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
 
   ## since sample has an annoying convenience feature for
   ## length(x) == 1
-  choose1 <- function(x) if(length(x) > 1) sample(x, 1) else x
+  choose1 <- function(x) if(length(x) > 1L) sample(x, 1L) else x
 
   ## this is slower than which.min and which.max but works also
   ## correctly for only values Inf in x and breaks ties randomly
@@ -55,7 +55,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
   placed <- logical(n)
   placed[start] <- TRUE
   order <- c(start)
-
+  
   ## place other cities
   while(any(placed == FALSE)) {
 
@@ -69,15 +69,14 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
     ## nearest / farthest
     if(type_num < 3) {
       m <- x[ks,js, drop = FALSE]
-
+      
       ## for the asymmetric case we have to take distances
       ## from and to the city into account
       if(asym){
         m <- cbind(m, t(x)[ks,js, drop = FALSE])
       }
 
-      ds <- sapply(1:length(ks), FUN =
-          function(i)  min(m[i, , drop = FALSE]))
+      ds <- apply(m, MARGIN = 1, min)
 
       ## nearest/farthest insertion
       winner_index <- if(type_num == 1) choose1_min(ds)

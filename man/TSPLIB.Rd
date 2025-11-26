@@ -43,8 +43,8 @@ returns an object of class \code{TSP} or
 }
 \description{
 Reads and writes TSPLIB format files. TSPLIB files can be used by most TSP
-solvers. Sample instances for the TSP in TSPLIB format are available on the
-TSPLIB homepage (see references).
+solvers. Many problems in TSPLIB format can be found in the local
+copy of the \href{https://github.com/mhahsler/TSP/tree/master/TSPLIB95}{TSPLIB95 problem library}.
 }
 \details{
 In the TSPLIB format distances are represented by integer values. Therefore,
@@ -94,8 +94,7 @@ r
 unlink("example.tsp")
 }
 \references{
-TSPLIB home page,
-\url{http://comopt.ifi.uni-heidelberg.de/software/TSPLIB95/}
+Reinelt, Gerhard. 1991. “TSPLIB—a Traveling Salesman Problem Library.” ORSA Journal on Computing 3 (4): 376–84. \doi{10.1287/ijoc.3.4.376}
 }
 \seealso{
 Other TSP: 

@@ -87,7 +87,7 @@ Additional control options:
 \itemize{
 \item "start" index of the first city (default: a random city).
 }
-\item \strong{"sa"} Simulated Annealing. [TSP, ATSP]
+\item \strong{"sa"} Simulated Annealing for TSPs (Kirkpatrick et al, 1983) [TSP, ATSP]
 
 A tour refinement method that uses simulated annealing with subtour
 reversal as local move. The used optimizer is
@@ -265,21 +265,26 @@ dotchart(tour_lengths / opt * 100 - 100, xlab = "percent excess over optimum")
 David Applegate, Robert Bixby, Vasek Chvatal, William Cook
 (2001): TSP cuts which do not conform to the template paradigm,
 Computational Combinatorial Optimization, M. Junger and D. Naddef (editors),
-Springer.
+Springer.\doi{10.1007/3-540-45586-8_7}
 
 D. Applegate, W. Cook and A. Rohe (2003): Chained Lin-Kernighan for Large
-Traveling Salesman Problems.  \emph{INFORMS Journal on Computing,
-15(1):82--92.}
+Traveling Salesman Problems.  \emph{INFORMS Journal on Computing},
+15(1):82--92. \doi{10.1287/ijoc.15.1.82.15157}
 
 G.A. Croes (1958): A method for solving traveling-salesman problems.
-\emph{Operations Research, 6(6):791--812.}
+\emph{Operations Research}, 6(6):791--812. \doi{10.1287/opre.6.6.791}
+
+Kirkpatrick, S., C. D. Gelatt, and M. P. Vecchi (1983):
+Optimization by Simulated Annealing. \emph{Science} 220 (4598): 671–80
+\doi{10.1126/science.220.4598.671}
 
 S. Lin and B. Kernighan (1973): An effective heuristic algorithm for the
-traveling-salesman problem. \emph{Operations Research, 21(2): 498--516.}
+traveling-salesman problem. \emph{Operations Research}, 21(2): 498--516.
+\doi{10.1287/opre.21.2.498}
 
 D.J. Rosenkrantz, R. E. Stearns, and Philip M. Lewis II (1977): An analysis
 of several heuristics for the traveling salesman problem.  \emph{SIAM
-Journal on Computing, 6(3):563--581.}
+Journal on Computing}, 6(3):563--581. \doi{10.1007/978-1-4020-9688-4_3}
 }
 \seealso{
 Other TSP: 

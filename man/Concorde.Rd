@@ -33,7 +33,7 @@ reformulated as larger TSP's and then solved.
 The Concorde TSP Solver is freely available for academic research.
 It is not included in the \pkg{TSP} R package and has
 to be obtained separately from the
-\href{http://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm}{Concorde download page}.
+\href{https://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm}{Concorde download page}.
 Either download the precompiled executables and place them in a suitable
 directory (make sure they are executable), or you can get the source code and
 compile the program on your own. \pkg{TSP} needs to know where the executables are.
@@ -92,7 +92,7 @@ solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
 }
 \references{
 Concorde home page,
-\url{http://www.math.uwaterloo.ca/tsp/concorde/}
+\url{https://www.math.uwaterloo.ca/tsp/concorde/}
 
 David Applegate, Robert Bixby, Vasek Chvatal, William Cook (2001): TSP cuts
 which do not conform to the template paradigm, Computational Combinatorial

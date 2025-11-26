@@ -1,5 +1,6 @@
 ---
 output: github_document
+bibliography: vignettes/TSP.bib
 ---
 
 ```{r echo=FALSE, results = 'asis'}
@@ -12,18 +13,25 @@ pkg_title(pkg)
 
 ## Introduction
 
-This package provides the 
+The TSP package [@TSP:Hahsler+Hornik2007] provides the 
 basic infrastructure and some algorithms for the traveling
 salesman problems (symmetric, asymmetric and Euclidean TSPs). 
 The package provides some fast implementations of simple algorithms including:
 
-* __insertion algorithms__: nearest insertion, farthest insertion, cheapest insertion, arbitrary insertion
-* __nearest neighbor methods__: Nearest neighbor and repetitive nearest neighbor
-* __two-opt__ improvement
-* __simulated annealing__ improvement
+* Tour construction heuristics
+  * __insertion algorithms__: nearest insertion, farthest insertion, cheapest insertion, arbitrary insertion [@Rosenkrantz1977]
+  * __nearest neighbor methods__: Nearest neighbor and repetitive nearest neighbor [@Rosenkrantz1977]
 
-Also, an interface to the [__Concorde TSP solver__](http://www.math.uwaterloo.ca/tsp/concorde/) and its implementation of the 
-__Chained-Lin-Kernighan heuristic__ is provided (needs to be installed separately). 
+* Improvement methods
+  * __two-opt heuristic__ [@Croes1958]
+  * __simulated annealing__ [@Kirkpatrick1983]
+
+* State-of-the-art solver
+  * An interface to the __Concorde TSP solver__ [@Applegate2000; @Applegate2006] and its implementation of 
+  the __Chained-Lin-Kernighan heuristic__ [@Applegate2003] is provided (needs to be installed separately). 
+
+The package can read and write the TSPLIB format [@Reinelt1991] and it can solve many of the 
+problems in the [TSPLIB95 problem library (local copy of the archive)](https://github.com/mhahsler/TSP/tree/master/TSPLIB95).
 
 ```{r echo=FALSE, results = 'asis'}
 pkg_usage(pkg)
@@ -74,8 +82,3 @@ https://stackoverflow.com/search?q=TSP+R
 Please submit bug reports to https://github.com/mhahsler/TSP/issues
 
 ## References
-
-* Michael Hahsler and Kurt Hornik, [TSP - Infrastructure for the Traveling Salesperson Problem,](http://dx.doi.org/10.18637/jss.v023.i02) _Journal of Statistical Software,_ 22(2), 2007.
-* [TSP package vignette](https://cran.r-project.org/package=TSP/vignettes/TSP.pdf) with complete examples.
-* [Reference manual](https://cran.r-project.org/package=TSP/TSP.pdf)
-* [Concorde TSP solver home page.](http://www.math.uwaterloo.ca/tsp/concorde/)

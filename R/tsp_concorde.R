@@ -33,7 +33,7 @@
 #' The Concorde TSP Solver is freely available for academic research.
 #' It is not included in the \pkg{TSP} R package and has
 #' to be obtained separately from the
-#' [Concorde download page](http://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm).
+#' [Concorde download page](https://www.math.uwaterloo.ca/tsp/concorde/downloads/downloads.htm).
 #' Either download the precompiled executables and place them in a suitable
 #' directory (make sure they are executable), or you can get the source code and
 #' compile the program on your own. \pkg{TSP} needs to know where the executables are.
@@ -76,7 +76,7 @@
 #' @returns `concorde_path()` returns the path to the executable. Others functions: Nothing.
 #' @author Michael Hahsler
 #' @references Concorde home page,
-#' \url{http://www.math.uwaterloo.ca/tsp/concorde/}
+#' \url{https://www.math.uwaterloo.ca/tsp/concorde/}
 #'
 #' David Applegate, Robert Bixby, Vasek Chvatal, William Cook (2001): TSP cuts
 #' which do not conform to the template paradigm, Computational Combinatorial

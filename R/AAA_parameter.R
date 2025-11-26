@@ -24,8 +24,9 @@
     paste(names(l), "=",l, collapse=", "))
 }
 
+
 .get_parameters <- function(parameter, defaults, method = NA) {
-  defaults <- as.list(defaults)
+  defaults <- c(as.list(defaults), "two_opt" = FALSE, rep = FALSE)
   parameter <- as.list(parameter)
 
   ## add verbose
@@ -35,18 +36,18 @@
     o <- pmatch(names(parameter), names(defaults))
 
     ## unknown parameter
-    # if(any(is.na(o))){
-    #   warning(sprintf(ngettext(length(is.na(o)),
-    #     "Unknown parameter: %s",
-    #     "Unknown parameters: %s"),
-    #     paste(names(parameter)[is.na(o)],
-    #       collapse = ", ")), call. = FALSE, immediate. = TRUE)
-    #
-    #   cat("Available parameter (with default values):\n")
-    #   #print(defaults)
-    #   cat(rbind(names(defaults)," = ", gsub("\n"," ",as.character(defaults))),
-    #     sep=c("\t"," ","\n"))
-    # }
+    if(any(is.na(o))){
+      warning(sprintf(ngettext(length(is.na(o)),
+         "Unknown parameter: %s",
+         "Unknown parameters: %s"),
+         paste(names(parameter)[is.na(o)],
+           collapse = ", ")), call. = FALSE, immediate. = FALSE)
+      
+      #cat("Available parameter (with default values):\n")
+       #print(defaults)
+      # cat(rbind(names(defaults)," = ", gsub("\n"," ",as.character(defaults))),
+      #   sep=c("\t"," ","\n"))
+    }
 
     defaults[o[!is.na(o)]] <- parameter[!is.na(o)]
   }
