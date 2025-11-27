@@ -11,29 +11,29 @@ status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe
 
 ## Introduction
 
-The TSP package ([Hahsler and Hornik 2007](#ref-TSP:Hahsler+Hornik2007))
+The TSP package ([Hahsler and Hornik 2007](#ref-Hahsler+Hornik2007))
 provides the basic infrastructure and some algorithms for the traveling
 salesman problems (symmetric, asymmetric and Euclidean TSPs). The
 package provides some fast implementations of simple algorithms
 including:
 
-- Tour construction heuristics
-  - **insertion algorithms**: nearest insertion, farthest insertion,
+- **Tour construction heuristics**
+  - **Insertion algorithms**: nearest insertion, farthest insertion,
     cheapest insertion, arbitrary insertion ([Rosenkrantz, Stearns, and
     Philip M. Lewis 1977](#ref-Rosenkrantz1977))
-  - **nearest neighbor methods**: Nearest neighbor and repetitive
+  - **Nearest neighbor methods**: Nearest neighbor and repetitive
     nearest neighbor ([Rosenkrantz, Stearns, and Philip M. Lewis
     1977](#ref-Rosenkrantz1977))
-- Improvement methods
-  - **two-opt heuristic** ([Croes 1958](#ref-Croes1958))
-  - **simulated annealing** ([Kirkpatrick, Gelatt, and Vecchi
+- **Tour improvement methods**
+  - **Two-opt heuristic** ([Croes 1958](#ref-Croes1958))
+  - **Simulated annealing** ([Kirkpatrick, Gelatt, and Vecchi
     1983](#ref-Kirkpatrick1983))
-- State-of-the-art solver
-  - An interface to the **Concorde TSP solver** ([Applegate et al.
-    2000](#ref-Applegate2000), [2006](#ref-Applegate2006)) and its
-    implementation of the **Chained-Lin-Kernighan heuristic**
-    ([Applegate, Cook, and Rohe 2003](#ref-Applegate2003)) is provided
-    (needs to be installed separately).
+- **State-of-the-art solver interface** (Concorde software needs to be
+  installed separately)
+  - **Concorde TSP solver** ([Applegate et al.
+    2000](#ref-Applegate2000), [2006](#ref-Applegate2006))
+  - **Chained-Lin-Kernighan heuristic** ([Applegate, Cook, and Rohe
+    2003](#ref-Applegate2003))
 
 The package can read and write the TSPLIB format ([Reinelt
 1991](#ref-Reinelt1991)) and it can solve many of the problems in the
@@ -123,7 +123,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41369
+    ## tour length: 41829
 
 Show the first few cities in the tour.
 
@@ -131,12 +131,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##           Alert, NT       Churchill, MB     Thunder Bay, ON Sault Ste Marie, ON 
-    ##                   5                  59                 278                 249 
-    ##         Timmins, ON         Sudbury, ON       North Bay, ON     Quebec City, QC 
-    ##                 279                 269                 185                 213 
-    ##    Saint John's, NF          Syndey, NS 
-    ##                 230                 271
+    ##      San Juan, PR  Saint John's, NF        Syndey, NS Charlottetown, PE 
+    ##               243               230               271                55 
+    ##       Halifax, NS       Moncton, NB    Saint John, NB   Fredericton, NB 
+    ##               113               169               229                98 
+    ##        Bangor, ME       Augusta, ME 
+    ##                19                15
 
 Visualize the complete tour.
 
@@ -202,7 +202,7 @@ Croes, G. A. 1958. “A Method for Solving Traveling-Salesman Problems.”
 
 </div>
 
-<div id="ref-TSP:Hahsler+Hornik2007" class="csl-entry">
+<div id="ref-Hahsler+Hornik2007" class="csl-entry">
 
 Hahsler, Michael, and Kurt Hornik. 2007. “TSP – Infrastructure for the
 Traveling Salesperson Problem.” *Journal of Statistical Software* 23

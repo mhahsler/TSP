@@ -160,7 +160,7 @@ package's capabilities.  Section~\ref{sec:conclusion} concludes the
 paper.
 
 A previous version of this manuscript was published in the \emph{Journal
-  of Statistical Software} \citep{TSP:Hahsler+Hornik2007}.
+  of Statistical Software} \citep{Hahsler+Hornik2007}.
 
 \section{Theory}
 \label{sec:TSP}
@@ -629,7 +629,7 @@ interface of the TSP solver to compare different heuristics.  Then we
 show how to solve related tasks, using the Hamiltonian shortest path
 problem as an example.  Finally, we give an example of clustering using
 the \pkg{TSP} package.  An additional application can be found
-in package \pkg{seriation}~\citep{TSP:Hahsler+Buchta+Hornik:2006} which uses
+in package \pkg{seriation}~\citep{Hahsler+Buchta+Hornik:2006} which uses
 the TSP solvers from \pkg{TSP} to order (seriate) objects given a proximity
 matrix.
 

@@ -14,22 +14,22 @@ pkg_title(pkg)
 
 ## Introduction
 
-The TSP package [@TSP:Hahsler+Hornik2007] provides the 
+The TSP package [@Hahsler+Hornik2007] provides the 
 basic infrastructure and some algorithms for the traveling
 salesman problems (symmetric, asymmetric and Euclidean TSPs). 
 The package provides some fast implementations of simple algorithms including:
 
-* Tour construction heuristics
-  * __insertion algorithms__: nearest insertion, farthest insertion, cheapest insertion, arbitrary insertion [@Rosenkrantz1977]
-  * __nearest neighbor methods__: Nearest neighbor and repetitive nearest neighbor [@Rosenkrantz1977]
+* __Tour construction heuristics__
+  * __Insertion algorithms__: nearest insertion, farthest insertion, cheapest insertion, arbitrary insertion [@Rosenkrantz1977]
+  * __Nearest neighbor methods__: Nearest neighbor and repetitive nearest neighbor [@Rosenkrantz1977]
 
-* Improvement methods
-  * __two-opt heuristic__ [@Croes1958]
-  * __simulated annealing__ [@Kirkpatrick1983]
+* __Tour improvement methods__
+  * __Two-opt heuristic__ [@Croes1958]
+  * __Simulated annealing__ [@Kirkpatrick1983]
 
-* State-of-the-art solver
-  * An interface to the __Concorde TSP solver__ [@Applegate2000; @Applegate2006] and its implementation of 
-  the __Chained-Lin-Kernighan heuristic__ [@Applegate2003] is provided (needs to be installed separately). 
+* __State-of-the-art solver interface__ (Concorde software needs to be installed separately)
+  * __Concorde TSP solver__ [@Applegate2000; @Applegate2006]
+  * __Chained-Lin-Kernighan heuristic__ [@Applegate2003]
 
 The package can read and write the TSPLIB format [@Reinelt1991] and it can solve many of the 
 problems in the [TSPLIB95 problem library (local copy of the archive)](https://github.com/mhahsler/TSP/tree/master/TSPLIB95).

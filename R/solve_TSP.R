@@ -22,7 +22,18 @@
 #'
 #' # TSP Methods
 #'
-#' Currently the following methods are available:
+#' ## Tour Construction Methods
+#' 
+#' These methods construct tours from scratch. 
+#' Most constructive methods also accept the following extra control parameters
+#' to add tour improvement:
+#' 
+#' * "two_opt": a logical indicating if two-opt refinement should be performed on the
+#'   constructed tour.
+#' * "rep": an integer indicating how many replications (random restarts) should be performed. 
+#'
+#' The available tour construction methods are:
+#'
 #' - __"identity", "random"__ return a tour representing the order in the data
 #'   (identity order) or a random order. \[TSP, ATSP\]
 #'
@@ -72,6 +83,13 @@
 #'   Additional control options:
 #'   - "start" index of the first city (default: a random city).
 #'
+#' ## Tour Improvement Heuristics
+#'
+#' Tour improvement methods take a tour as the argument `tour` and try to improve the 
+#' tour. If no tour is provided. A random tour is used to start.
+#' 
+#' The following tour improvement heuristics are available:
+#'
 #' - __"sa"__ Simulated Annealing for TSPs (Kirkpatrick et al, 1983) \[TSP, ATSP\]
 #'
 #'   A tour refinement method that uses simulated annealing with subtour 
@@ -79,6 +97,9 @@
 #'   [stats::optim()] with method `"SANN"`. This method is 
 #'   typically a lot slower than `"two_opt"` and requires parameter tuning for the 
 #'   cooling schedule.
+#'   
+#'   __Note:__ For speed, a relatively small number of evaluations (`maxit`) is 
+#'   used by default. A much larger value will result in more competitive results.
 #'
 #'   Additional control options:
 #'   - "tour" an existing tour which should be improved.
@@ -89,8 +110,7 @@
 #'   - "temp" initial temperature. Defaults to the length of the current tour divided
 #'      by the number of cities.
 #'   - "tmax" number of evaluations per temperature step. Default is 10.
-#'   - "maxit" number of evaluations. Default is 10000 for speed, but larger values 
-#'      will result in more competitive results.
+#'   - "maxit" number of evaluations. Default is 10000.
 #'   - "trace" set to 1 to print progress. 
 #'   
 #'   See [stats::optim()] for more details on the parameters.
@@ -102,14 +122,13 @@
 #'   possible. Exchanging two edges is equal to reversing part of the tour. The
 #'   resulting tour is called _2-optimal._
 #'
-#'   This method can be applied to tours created by other methods or used as its
-#'   own method. In this case improvement starts with a random tour.
-#'
 #'   Additional control options:
 #'   - "tour" an existing tour which should be improved.
 #'     If no tour is given, a random tour is used.
 #'   - "two_opt_repetitions" number of times to try two_opt with a
 #'     different initial random tour (default: 1).
+#'
+#'  ## State-of-the-art Solvers Interfaces
 #'
 #' - __"concorde"__ Concorde algorithm (Applegate et al. 2001). \[TSP, ETSP\]
 #'
@@ -149,15 +168,7 @@
 #' Most implementations provide verbose output to monitor progress using the 
 #' logical control parameter "verbose".
 #' 
-#' # Additional refinement and random restarts
-#' 
-#' Most constructive methods also accept the following extra control parameters:
-#' 
-#' * "two_opt": a logical indicating if two-opt refinement should be performed on the
-#'   constructed tour.
-#' * "rep": an integer indicating how many replications (random restarts) should be performed. 
-#'
-#' # Treatment of `NA`s and infinite values in `x`
+#' # Treatment of `NA`s and Infinite Values in `x`
 #'
 #' [TSP] and [ATSP] need to contain valid distances. `NA`s are not allowed. `Inf` is
 #' allowed and can be used to model the missing edges in incomplete graphs
@@ -168,7 +179,7 @@
 #' a path length of `Inf`. `-Inf` is replaced by \eqn{min(x) - 2 range(x)} and
 #' can be used to encourage the solver to place two objects next to each other.
 #'
-#' # Parallel execution support
+#' # Parallel Execution Support
 #'
 #' All heuristics can be used with the control arguments `repetitions`
 #' (uses the best from that many repetitions with random starts) and
@@ -238,7 +249,6 @@
 #' tour_length(tour)
 #' plot(etsp, tour)
 #'
-#'
 #' ## compare methods
 #' data("USCA50")
 #' USCA50
@@ -273,9 +283,9 @@
 #'
 #' ## compare tour lengths
 #' opt <- 14497 # obtained by Concorde
-#' tour_lengths <- c(sort(sapply(tours, tour_length), decreasing = TRUE),
-#'   optimal = opt)
+#' tour_lengths <- sort(sapply(tours, tour_length), decreasing = TRUE)
 #' dotchart(tour_lengths / opt * 100 - 100, xlab = "percent excess over optimum")
+#' abline(v = 0, col = "red")
 #' @export
 solve_TSP <- function(x,
   method = NULL,
