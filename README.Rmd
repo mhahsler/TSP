@@ -27,9 +27,9 @@ The package provides some fast implementations of simple algorithms including:
   * __Two-opt heuristic__ [@Croes1958]
   * __Simulated annealing__ [@Kirkpatrick1983]
 
-* __State-of-the-art solver interface__ (Concorde software needs to be installed separately)
-  * __Concorde TSP solver__ [@Applegate2000; @Applegate2006]
-  * __Chained-Lin-Kernighan heuristic__ [@Applegate2003]
+* __State-of-the-art solver interfaces__
+  * __Concorde TSP solver interface__ [@Applegate2000; @Applegate2006]
+  * __Concorde Chained-Lin-Kernighan heuristic interface__ [@Applegate2003]
 
 The package can read and write the TSPLIB format [@Reinelt1991] and it can solve many of the 
 problems in the [TSPLIB95 problem library (local copy of the archive)](https://github.com/mhahsler/TSP/tree/master/TSPLIB95).

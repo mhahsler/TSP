@@ -28,12 +28,11 @@ including:
   - **Two-opt heuristic** ([Croes 1958](#ref-Croes1958))
   - **Simulated annealing** ([Kirkpatrick, Gelatt, and Vecchi
     1983](#ref-Kirkpatrick1983))
-- **State-of-the-art solver interface** (Concorde software needs to be
-  installed separately)
-  - **Concorde TSP solver** ([Applegate et al.
+- **State-of-the-art solver interfaces**
+  - **Concorde TSP solver interface** ([Applegate et al.
     2000](#ref-Applegate2000), [2006](#ref-Applegate2006))
-  - **Chained-Lin-Kernighan heuristic** ([Applegate, Cook, and Rohe
-    2003](#ref-Applegate2003))
+  - **Concorde Chained-Lin-Kernighan heuristic interface** ([Applegate,
+    Cook, and Rohe 2003](#ref-Applegate2003))
 
 The package can read and write the TSPLIB format ([Reinelt
 1991](#ref-Reinelt1991)) and it can solve many of the problems in the
@@ -123,7 +122,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41829
+    ## tour length: 40653
 
 Show the first few cities in the tour.
 
@@ -131,12 +130,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##      San Juan, PR  Saint John's, NF        Syndey, NS Charlottetown, PE 
-    ##               243               230               271                55 
-    ##       Halifax, NS       Moncton, NB    Saint John, NB   Fredericton, NB 
-    ##               113               169               229                98 
-    ##        Bangor, ME       Augusta, ME 
-    ##                19                15
+    ## Daytona Beach, FL  Jacksonville, FL      Columbus, GA       Atlanta, GA 
+    ##                72               127                65                12 
+    ##         Macon, GA       Augusta, GA      Savannah, GA    Charleston, SC 
+    ##               157                14               250                52 
+    ##      Columbia, SC    Wilmington, NC 
+    ##                64               303
 
 Visualize the complete tour.
 
