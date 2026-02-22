@@ -19,7 +19,7 @@ solve_TSP(x, method = NULL, control = NULL, ...)
 \item{x}{a TSP problem.}
 
 \item{method}{method to solve the TSP (default: "arbitrary insertion"
-algorithm with two_opt refinement.}
+construction followed by the "two_opt" improvement heuristic.}
 
 \item{control}{a list of arguments passed on to the TSP solver selected by
 \code{method}.}
@@ -35,17 +35,29 @@ An object of class \link{TOUR}.
 Common interface to all TSP solvers in this package.
 }
 \section{TSP Methods}{
+TSP supports tour construction methods, tour improvement heuristics and
+an interface to Concorde (a state-of-the-art external solver).
+Tour construction methods create a tour from scratch, typically using a
+construction heuristic. Tour improvement heuristics take an existing tour and
+try to improve it. If no initial tour is provided for the improvement
+heuristic, then an initial tour (e.g., a random tour) are automatically created.
+
+Most heuristic methods accept the following extra control parameters in addition
+the parameters specified below:
+\itemize{
+\item "rep": an integer indicating how many replications (random restarts) should be performed.
+The best result is returned. The replications can be performed in parallel
+(see Section Parallel Execution Support).
+\item "two_opt": a logical indicating if two-opt refinement should be performed on the
+constructed tour. This is just for convenience so a constructive heuristic can be
+followed by two-opt refinement in a single call.
+\item "verbose": a logical. Most implementations provide verbose output to monitor progress.
+This argument can also be helpful to see what heuristics are used and what the
+default parameters are.
+}
 \subsection{Tour Construction Methods}{
 
 These methods construct tours from scratch.
-Most constructive methods also accept the following extra control parameters
-to add tour improvement:
-\itemize{
-\item "two_opt": a logical indicating if two-opt refinement should be performed on the
-constructed tour.
-\item "rep": an integer indicating how many replications (random restarts) should be performed.
-}
-
 The available tour construction methods are:
 \itemize{
 \item \strong{"identity", "random"} return a tour representing the order in the data
@@ -104,7 +116,7 @@ Additional control options:
 \subsection{Tour Improvement Heuristics}{
 
 Tour improvement methods take a tour as the argument \code{tour} and try to improve the
-tour. If no tour is provided. A random tour is used to start.
+tour. If no tour is provided. A random tour is used as the initial tour.
 
 The following tour improvement heuristics are available:
 \itemize{
@@ -145,8 +157,8 @@ Additional control options:
 \itemize{
 \item "tour" an existing tour which should be improved.
 If no tour is given, a random tour is used.
-\item "two_opt_repetitions" number of times to try two_opt with a
-different initial random tour (default: 1).
+\item "two_opt_repetitions" number of times to try with random restarts
+(default: 1).
 }
 }
 }
@@ -190,9 +202,12 @@ Additional control options: see Concorde above.
 }
 }
 
-\section{Verbose Operation}{
-Most implementations provide verbose output to monitor progress using the
-logical control parameter "verbose".
+\section{Parallel Execution Support}{
+If several repetitions are performed (this includes method
+\code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
+in parallel on multiple cores/machines. To enable parallel execution an
+appropriate parallel backend needs to be registered (e.g., load
+\pkg{doParallel} and register it with \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
 }
 
 \section{Treatment of \code{NA}s and Infinite Values in \code{x}}{
@@ -204,17 +219,6 @@ Note that the solution might still place the two objects next to each other
 (e.g., if \code{x} contains several unconnected subgraphs) which results in
 a path length of \code{Inf}. \code{-Inf} is replaced by \eqn{min(x) - 2 range(x)} and
 can be used to encourage the solver to place two objects next to each other.
-}
-
-\section{Parallel Execution Support}{
-All heuristics can be used with the control arguments \code{repetitions}
-(uses the best from that many repetitions with random starts) and
-\code{two_opt} (a logical indicating if two_opt refinement should be
-performed). If several repetitions are done (this includes method
-\code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
-in parallel on multiple cores/machines. To enable parallel execution an
-appropriate parallel backend needs to be registered (e.g., load
-\pkg{doParallel} and register it with \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
 }
 
 \section{Solving ATSP and ETSP}{
@@ -238,6 +242,14 @@ tour <- solve_TSP(etsp)
 tour
 tour_length(tour)
 plot(etsp, tour)
+
+## manually run a construction followed by an improvement heuristic by 
+## calling solve_TSP() twice.
+tour_constr <- solve_TSP(etsp, method = "nn")
+tour_constr
+
+tour_improved <- solve_TSP(etsp, method = "sa", tour = tour_constr)
+tour_improved
 
 ## compare methods
 data("USCA50")

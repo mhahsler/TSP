@@ -22,16 +22,29 @@
 #'
 #' # TSP Methods
 #'
+#' TSP supports tour construction methods, tour improvement heuristics and 
+#' an interface to Concorde (a state-of-the-art external solver).
+#' Tour construction methods create a tour from scratch, typically using a 
+#' construction heuristic. Tour improvement heuristics take an existing tour and
+#' try to improve it. If no initial tour is provided for the improvement 
+#' heuristic, then an initial tour (e.g., a random tour) are automatically created.
+#' 
+#' Most heuristic methods accept the following extra control parameters in addition
+#' the parameters specified below:
+#'
+#' * "rep": an integer indicating how many replications (random restarts) should be performed.
+#'  The best result is returned. The replications can be performed in parallel 
+#'  (see Section Parallel Execution Support). 
+#' * "two_opt": a logical indicating if two-opt refinement should be performed on the
+#'   constructed tour. This is just for convenience so a constructive heuristic can be
+#'   followed by two-opt refinement in a single call.
+#' * "verbose": a logical. Most implementations provide verbose output to monitor progress.
+#'   This argument can also be helpful to see what heuristics are used and what the
+#'   default parameters are.
+#'
 #' ## Tour Construction Methods
 #' 
 #' These methods construct tours from scratch. 
-#' Most constructive methods also accept the following extra control parameters
-#' to add tour improvement:
-#' 
-#' * "two_opt": a logical indicating if two-opt refinement should be performed on the
-#'   constructed tour.
-#' * "rep": an integer indicating how many replications (random restarts) should be performed. 
-#'
 #' The available tour construction methods are:
 #'
 #' - __"identity", "random"__ return a tour representing the order in the data
@@ -86,7 +99,7 @@
 #' ## Tour Improvement Heuristics
 #'
 #' Tour improvement methods take a tour as the argument `tour` and try to improve the 
-#' tour. If no tour is provided. A random tour is used to start.
+#' tour. If no tour is provided. A random tour is used as the initial tour.
 #' 
 #' The following tour improvement heuristics are available:
 #'
@@ -125,8 +138,8 @@
 #'   Additional control options:
 #'   - "tour" an existing tour which should be improved.
 #'     If no tour is given, a random tour is used.
-#'   - "two_opt_repetitions" number of times to try two_opt with a
-#'     different initial random tour (default: 1).
+#'   - "two_opt_repetitions" number of times to try with random restarts 
+#'    (default: 1).
 #'
 #'  ## State-of-the-art Solvers Interfaces
 #'
@@ -163,10 +176,13 @@
 #'
 #'   Additional control options: see Concorde above.
 #'
-#' # Verbose Operation
-#' 
-#' Most implementations provide verbose output to monitor progress using the 
-#' logical control parameter "verbose".
+#' # Parallel Execution Support
+#'
+#' If several repetitions are performed (this includes method
+#' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
+#' in parallel on multiple cores/machines. To enable parallel execution an
+#' appropriate parallel backend needs to be registered (e.g., load
+#' \pkg{doParallel} and register it with [doParallel::registerDoParallel()]).
 #' 
 #' # Treatment of `NA`s and Infinite Values in `x`
 #'
@@ -178,17 +194,6 @@
 #' (e.g., if `x` contains several unconnected subgraphs) which results in
 #' a path length of `Inf`. `-Inf` is replaced by \eqn{min(x) - 2 range(x)} and
 #' can be used to encourage the solver to place two objects next to each other.
-#'
-#' # Parallel Execution Support
-#'
-#' All heuristics can be used with the control arguments `repetitions`
-#' (uses the best from that many repetitions with random starts) and
-#' `two_opt` (a logical indicating if two_opt refinement should be
-#' performed). If several repetitions are done (this includes method
-#' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
-#' in parallel on multiple cores/machines. To enable parallel execution an
-#' appropriate parallel backend needs to be registered (e.g., load
-#' \pkg{doParallel} and register it with [doParallel::registerDoParallel()]).
 #'
 #' # Solving ATSP and ETSP
 #'
@@ -207,8 +212,8 @@
 #' @family TOUR
 #'
 #' @param x a TSP problem.
-#' @param method method to solve the TSP (default: "arbitrary insertion"
-#' algorithm with two_opt refinement.
+#' @param method method to solve the TSP (default: "arbitrary insertion" 
+#' construction followed by the "two_opt" improvement heuristic.
 #' @param control a list of arguments passed on to the TSP solver selected by
 #' `method`.
 #' @param as_TSP should the ATSP reformulated as a TSP for the solver?
@@ -248,6 +253,14 @@
 #' tour
 #' tour_length(tour)
 #' plot(etsp, tour)
+#'
+#' ## manually run a construction followed by an improvement heuristic by 
+#' ## calling solve_TSP() twice.
+#' tour_constr <- solve_TSP(etsp, method = "nn")
+#' tour_constr
+#' 
+#' tour_improved <- solve_TSP(etsp, method = "sa", tour = tour_constr)
+#' tour_improved
 #'
 #' ## compare methods
 #' data("USCA50")
