@@ -68,9 +68,15 @@ tsp_SA <- function(x, control = NULL){
     trace = 0
   ), method = "SA")
 
+  if (control$verbose) 
+    control$trace <- 1
+  
   initial_tour <- as.TOUR(control$tour %||% sample(n_of_cities(x)))
   control$temp <- control$temp %||% 
     tour_length(x, initial_tour) / n_of_cities(x)
+  
+  if (control$trace > 0)
+    cat("Initial temperature set to:", control$temp, "\n\n")
   
   cost_function <- function(tour, x) tour_length(x, as.integer(tour))
     
