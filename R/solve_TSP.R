@@ -181,8 +181,8 @@
 #' If several repetitions are performed (this includes method
 #' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
 #' in parallel on multiple cores/machines. To enable parallel execution an
-#' appropriate parallel backend needs to be registered (e.g., load
-#' \pkg{doParallel} and register it with [doParallel::registerDoParallel()]).
+#' appropriate parallel backend needs to be registered 
+#' (e.g., [doParallel::registerDoParallel()]).
 #' 
 #' # Treatment of `NA`s and Infinite Values in `x`
 #'
