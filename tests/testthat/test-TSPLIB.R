@@ -90,6 +90,23 @@ expected <- matrix(c(
 expected <- TSP(expected, labels = as.character(1:3), method = "GEO")
 expect_equivalent(r, expected)
 
+## GEO with indented coordinates
+writeLines(c(
+  "NAME: GEO_INDENTED",
+  "TYPE: TSP",
+  "DIMENSION: 3",
+  "EDGE_WEIGHT_TYPE: GEO",
+  "NODE_COORD_SECTION",
+  " 1 48.12 16.22",
+  " 2 46.38 14.18",
+  " 3 48.18 14.17",
+  " EOF"
+), con = "geo-example.tsp")
+
+r <- read_TSPLIB("geo-example.tsp")
+expected <- TSP(expected, labels = as.character(1:3), method = "GEO")
+expect_equivalent(r, expected)
+
 ## clean up
 unlink("example.tsp")
 unlink("att-example.tsp")

@@ -213,6 +213,7 @@ read_TSPLIB <- function(file, precision = 0) {
   if(length(data_start) == 0) stop("NODE_COORD_SECTION missing")
 
   data <- lines[(data_start+1):(data_start+dim)]
+  data <- trimws(data)
   data <- matrix(as.numeric(unlist(strsplit(data, split="\\s+"))),
     nrow = dim, byrow = TRUE)
   rownames(data) <- as.character(data[,1]) # also parse node labels if they are not in order
