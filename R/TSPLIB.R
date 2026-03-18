@@ -194,15 +194,18 @@ read_TSPLIB <- function(file, precision = 0) {
 
     return(TSP(data))
 
-  } else if (info$EDGE_WEIGHT_TYPE %in% c("EUC_2D", "EUC_3D", "ATT")) {
+  } else if (info$EDGE_WEIGHT_TYPE %in% c("EUC_2D", "EUC_3D", "ATT", "GEO")) {
     return(.read_tsplib_coord_problem(lines, dim, info$EDGE_WEIGHT_TYPE))
   }
-  stop("EDGE_WEIGHT_TYPE not implemented! Implemented types are EXPLICIT, EUC_2D, EUC_3D and ATT")
+  stop("EDGE_WEIGHT_TYPE not implemented! Implemented types are EXPLICIT, EUC_2D, EUC_3D, ATT and GEO")
 }
 
 .read_tsplib_coord_problem <- function(lines, dim, edge_weight_type) {
   coords <- .read_tsplib_node_coords(lines, dim)
-  switch(edge_weight_type, ATT = TSP(.tsplib_att_dist(coords), labels = rownames(coords), method = "ATT"), ETSP(coords))
+  switch(edge_weight_type,
+    ATT = TSP(.tsplib_att_dist(coords), labels = rownames(coords), method = "ATT"),
+    GEO = TSP(.tsplib_geo_dist(coords), labels = rownames(coords), method = "GEO"),
+    ETSP(coords))
 }
 
 .read_tsplib_node_coords <- function(lines, dim) {
@@ -220,6 +223,25 @@ read_TSPLIB <- function(file, precision = 0) {
   rij <- sqrt((stats::dist(coords[, 1:2]) ^ 2) / 10.0)
   tij <- round(rij)
   tij + (tij < rij)
+}
+
+.tsplib_geo_dist <- function(coords) {
+  dddmm_rad <- function(x) pi * (round(x) + 5 * (x - round(x)) / 3) / 180
+  lat <- dddmm_rad(coords[, 1])
+  lon <- dddmm_rad(coords[, 2])
+
+  idx <- which(upper.tri(matrix(0, nrow = nrow(coords), ncol = nrow(coords))),
+    arr.ind = TRUE)
+  q1 <- cos(lon[idx[, 1]] - lon[idx[, 2]])
+  q2 <- cos(lat[idx[, 1]] - lat[idx[, 2]])
+  q3 <- cos(lat[idx[, 1]] + lat[idx[, 2]])
+  x <- 0.5 * ((1 + q1) * q2 - (1 - q1) * q3)
+  dij <- as.integer(6378.388 * acos(pmax(-1, pmin(1, x))) + 1)
+
+  d <- matrix(0L, nrow = nrow(coords), ncol = nrow(coords),
+    dimnames = list(rownames(coords), rownames(coords)))
+  d[idx] <- dij
+  as.dist(d)
 }
 
 #' @rdname TSPLIB
