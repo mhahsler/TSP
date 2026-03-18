@@ -75,20 +75,19 @@ writeLines(c(
   "DIMENSION: 3",
   "EDGE_WEIGHT_TYPE: GEO",
   "NODE_COORD_SECTION",
-  "1 48.23 10.53",
-  "2 52.31 13.24",
-  "3 50.03 8.34",
+  "1 48.12 16.22",
+  "2 46.38 14.18",
+  "3 48.18 14.17",
   "EOF"
 ), con = "geo-example.tsp")
 
 r <- read_TSPLIB("geo-example.tsp")
-coords <- matrix(c(
-  48.23, 10.53,
-  52.31, 13.24,
-  50.03, 8.34
-), ncol = 2, byrow = TRUE)
-rownames(coords) <- as.character(1:3)
-expected <- TSP(.tsplib_geo_dist(coords), labels = rownames(coords), method = "GEO")
+expected <- matrix(c(
+  0, 234, 155,
+  234, 0, 186,
+  155, 186, 0
+), nrow = 3, byrow = TRUE)
+expected <- TSP(expected, labels = as.character(1:3), method = "GEO")
 expect_equivalent(r, expected)
 
 ## clean up

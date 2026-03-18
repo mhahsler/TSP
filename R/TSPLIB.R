@@ -240,7 +240,7 @@ read_TSPLIB <- function(file, precision = 0) {
 
   d <- matrix(0L, nrow = nrow(coords), ncol = nrow(coords),
     dimnames = list(rownames(coords), rownames(coords)))
-  d[idx] <- dij
+  d[idx[, 2:1]] <- dij
   as.dist(d)
 }
 
