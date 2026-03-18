@@ -31,7 +31,7 @@
 #' the decimal point has to be shifted `precision` placed to the left).
 #'
 #' Currently only the following `EDGE_WEIGHT_TYPE`s are implemented:
-#' `EXPLICIT`, `EUC_2D` and `EUC_3D`.
+#' `EXPLICIT`, `EUC_2D`, `EUC_3D` and `ATT`.
 #'
 #' @name TSPLIB
 #' @aliases TSPLIB
@@ -194,20 +194,35 @@ read_TSPLIB <- function(file, precision = 0) {
 
     return(TSP(data))
 
-  } else if (info$EDGE_WEIGHT_TYPE == "EUC_2D" ||
-      info$EDGE_WEIGHT_TYPE == "EUC_2D") {
-
-    data_start <- grep("NODE_COORD_SECTION", lines, ignore.case = TRUE)
-    if(length(data_start) == 0) stop("NODE_COORD_SECTION missing")
-
-    data <- lines[(data_start+1):(data_start+dim)]
-    data <- matrix(as.numeric(unlist(strsplit(data, split="\\s+"))),
-      nrow = dim, byrow = TRUE)
-    data <- data[,-1]
-    return(ETSP(data))
-
+  } else if (info$EDGE_WEIGHT_TYPE %in% c("EUC_2D", "EUC_3D", "ATT")) {
+    return(.read_tsplib_coord_problem(lines, dim, info$EDGE_WEIGHT_TYPE))
   }
-  stop("EDGE_WEIGHT_TYPE not implemented! Implemented types are EXPLICIT, EUC_2D and EUC_3D")
+  stop("EDGE_WEIGHT_TYPE not implemented! Implemented types are EXPLICIT, EUC_2D, EUC_3D and ATT")
+}
+
+.read_tsplib_coord_problem <- function(lines, dim, edge_weight_type) {
+  coords <- .read_tsplib_node_coords(lines, dim)
+  switch(edge_weight_type, ATT = TSP(.tsplib_att_dist(coords), labels = rownames(coords), method = "ATT"), ETSP(coords))
+}
+
+.read_tsplib_node_coords <- function(lines, dim) {
+  data_start <- grep("NODE_COORD_SECTION", lines, ignore.case = TRUE)
+  if(length(data_start) == 0) stop("NODE_COORD_SECTION missing")
+
+  data <- lines[(data_start + 1):(data_start + dim)]
+  data <- strsplit(trimws(data), split = "[[:space:]]+")
+  data <- lapply(data, as.numeric)
+
+  ids <- vapply(data, function(x) x[1], numeric(1))
+  coords <- do.call(rbind, lapply(data, function(x) x[-1]))
+  rownames(coords) <- as.character(ids)
+  coords
+}
+
+.tsplib_att_dist <- function(coords) {
+  rij <- sqrt((stats::dist(coords[, 1:2]) ^ 2) / 10.0)
+  tij <- round(rij)
+  tij + (tij < rij)
 }
 
 #' @rdname TSPLIB
