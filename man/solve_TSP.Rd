@@ -206,8 +206,8 @@ Additional control options: see Concorde above.
 If several repetitions are performed (this includes method
 \code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
 in parallel on multiple cores/machines. To enable parallel execution an
-appropriate parallel backend needs to be registered (e.g., load
-\pkg{doParallel} and register it with \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
+appropriate parallel backend needs to be registered
+(e.g., \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
 }
 
 \section{Treatment of \code{NA}s and Infinite Values in \code{x}}{
