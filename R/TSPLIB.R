@@ -31,7 +31,7 @@
 #' the decimal point has to be shifted `precision` placed to the left).
 #'
 #' Currently only the following `EDGE_WEIGHT_TYPE`s are implemented:
-#' `EXPLICIT`, `EUC_2D`, `EUC_3D` and `ATT`.
+#' `EXPLICIT`, `EUC_2D`, `EUC_3D`, `ATT` and `GEO`.
 #'
 #' @name TSPLIB
 #' @aliases TSPLIB

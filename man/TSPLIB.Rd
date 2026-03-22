@@ -55,7 +55,7 @@ the TSPLIB file as input need to be divided by \eqn{10^{precision}} (i.e.,
 the decimal point has to be shifted \code{precision} placed to the left).
 
 Currently only the following \code{EDGE_WEIGHT_TYPE}s are implemented:
-\code{EXPLICIT}, \code{EUC_2D} and \code{EUC_3D}.
+\code{EXPLICIT}, \code{EUC_2D}, \code{EUC_3D}, \code{ATT} and \code{GEO}.
 }
 \examples{
 
