@@ -31,7 +31,7 @@
 #' the decimal point has to be shifted `precision` placed to the left).
 #'
 #' Currently only the following `EDGE_WEIGHT_TYPE`s are implemented:
-#' `EXPLICIT`, `EUC_2D` and `EUC_3D`.
+#' `EXPLICIT`, `EUC_2D`, `EUC_3D` and `ATT`.
 #'
 #' @name TSPLIB
 #' @aliases TSPLIB
@@ -194,20 +194,55 @@ read_TSPLIB <- function(file, precision = 0) {
 
     return(TSP(data))
 
-  } else if (info$EDGE_WEIGHT_TYPE == "EUC_2D" ||
-      info$EDGE_WEIGHT_TYPE == "EUC_2D") {
-
-    data_start <- grep("NODE_COORD_SECTION", lines, ignore.case = TRUE)
-    if(length(data_start) == 0) stop("NODE_COORD_SECTION missing")
-
-    data <- lines[(data_start+1):(data_start+dim)]
-    data <- matrix(as.numeric(unlist(strsplit(data, split="\\s+"))),
-      nrow = dim, byrow = TRUE)
-    data <- data[,-1]
-    return(ETSP(data))
-
+  } else if (info$EDGE_WEIGHT_TYPE %in% c("EUC_2D", "EUC_3D", "ATT", "GEO")) {
+    return(.read_tsplib_coord_problem(lines, dim, info$EDGE_WEIGHT_TYPE))
   }
-  stop("EDGE_WEIGHT_TYPE not implemented! Implemented types are EXPLICIT, EUC_2D and EUC_3D")
+  stop("EDGE_WEIGHT_TYPE not implemented! Implemented types are EXPLICIT, EUC_2D, EUC_3D, ATT and GEO")
+}
+
+.read_tsplib_coord_problem <- function(lines, dim, edge_weight_type) {
+  coords <- .read_tsplib_node_coords(lines, dim)
+  switch(edge_weight_type,
+    ATT = TSP(.tsplib_att_dist(coords), labels = rownames(coords), method = "ATT"),
+    GEO = TSP(.tsplib_geo_dist(coords), labels = rownames(coords), method = "GEO"),
+    ETSP(coords))
+}
+
+.read_tsplib_node_coords <- function(lines, dim) {
+  data_start <- grep("NODE_COORD_SECTION", lines, ignore.case = TRUE)
+  if(length(data_start) == 0) stop("NODE_COORD_SECTION missing")
+
+  data <- lines[(data_start+1):(data_start+dim)]
+  data <- trimws(data)
+  data <- matrix(as.numeric(unlist(strsplit(data, split="\\s+"))),
+    nrow = dim, byrow = TRUE)
+  rownames(data) <- as.character(data[,1]) # also parse node labels if they are not in order
+  data[,-1]
+}
+
+.tsplib_att_dist <- function(coords) {
+  rij <- sqrt((stats::dist(coords[, 1:2]) ^ 2) / 10.0)
+  tij <- round(rij)
+  tij + (tij < rij)
+}
+
+.tsplib_geo_dist <- function(coords) {
+  dddmm_rad <- function(x) pi * (round(x) + 5 * (x - round(x)) / 3) / 180
+  lat <- dddmm_rad(coords[, 1])
+  lon <- dddmm_rad(coords[, 2])
+
+  idx <- which(upper.tri(matrix(0, nrow = nrow(coords), ncol = nrow(coords))),
+    arr.ind = TRUE)
+  q1 <- cos(lon[idx[, 1]] - lon[idx[, 2]])
+  q2 <- cos(lat[idx[, 1]] - lat[idx[, 2]])
+  q3 <- cos(lat[idx[, 1]] + lat[idx[, 2]])
+  x <- 0.5 * ((1 + q1) * q2 - (1 - q1) * q3)
+  dij <- as.integer(6378.388 * acos(pmax(-1, pmin(1, x))) + 1)
+
+  d <- matrix(0L, nrow = nrow(coords), ncol = nrow(coords),
+    dimnames = list(rownames(coords), rownames(coords)))
+  d[idx[, 2:1]] <- dij
+  as.dist(d)
 }
 
 #' @rdname TSPLIB
