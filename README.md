@@ -52,7 +52,6 @@ The following R packages use `TSP`:
 [nilde](https://CRAN.R-project.org/package=nilde),
 [nlnet](https://CRAN.R-project.org/package=nlnet),
 [PairViz](https://CRAN.R-project.org/package=PairViz),
-[pencopulaCond](https://CRAN.R-project.org/package=pencopulaCond),
 [SCORPIUS](https://CRAN.R-project.org/package=SCORPIUS),
 [sensitivity](https://CRAN.R-project.org/package=sensitivity),
 [seriation](https://CRAN.R-project.org/package=seriation),
@@ -122,7 +121,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40653
+    ## tour length: 41202
 
 Show the first few cities in the tour.
 
@@ -130,12 +129,14 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ## Daytona Beach, FL  Jacksonville, FL      Columbus, GA       Atlanta, GA 
-    ##                72               127                65                12 
-    ##         Macon, GA       Augusta, GA      Savannah, GA    Charleston, SC 
-    ##               157                14               250                52 
-    ##      Columbia, SC    Wilmington, NC 
-    ##                64               303
+    ##         Columbus, GA          Atlanta, GA            Macon, GA 
+    ##                   65                   12                  157 
+    ##      Tallahassee, FL      Gainesville, FL            Tampa, FL 
+    ##                  274                  101                  275 
+    ## Saint Petersburg, FL         Sarasota, FL         Key West, FL 
+    ##                  234                  247                  136 
+    ##         San Juan, PR 
+    ##                  243
 
 Visualize the complete tour.
 

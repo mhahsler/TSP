@@ -69,9 +69,8 @@ one of the best exact TSP solvers currently available.  }
       Kurt Hornik\\
 	  Department of Finance, Accounting and Statistics\\
 	  Wirtschaftsuniversit\"at Wien\\
-	  1090 Wien, Austria\\i
-	  E-mail: \email{kurt.hornik@wu-wien.ac.at}\\
-	  URL: \url{http://statmath.wu.ac.at/~hornik/}
+	  1090 Wien, Austria\\
+	  E-mail: \email{kurt.hornik@wu-wien.ac.at}
 }
 
 

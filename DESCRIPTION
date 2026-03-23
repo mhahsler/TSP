@@ -2,7 +2,7 @@ Package: TSP
 Type: Package
 Title: Infrastructure for the Traveling Salesperson Problem
 Version: 1.2.7
-Date: 2026-xx-xx
+Date: 2026-03-22
 Authors@R: 
   c(person("Michael", "Hahsler", 
     role = c("aut", "cre", "cph"),
