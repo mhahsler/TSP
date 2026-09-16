@@ -10,5 +10,6 @@ proj$
 Work
 vignettes_real
 ^CRAN-RELEASE$
+_config.yml
 README.Rmd
 TSPLIB95
