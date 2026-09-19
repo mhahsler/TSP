@@ -5,9 +5,13 @@
 CRAN](https://www.r-pkg.org/badges/version/TSP)](https://CRAN.R-project.org/package=TSP)
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/package=TSP)
-![License](https://img.shields.io/cran/l/TSP) [![r-universe
-status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
+![License](https://img.shields.io/cran/l/TSP)
 [![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
+[![r-universe
+status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
+[![StackOverflow](https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg)](https://stackoverflow.com/questions/tagged/TSP+R)
+
+**Maintainer:** [Michael Hahsler](https://michael.hahsler.net)
 
 ## Introduction
 
@@ -19,20 +23,19 @@ including:
 
 - **Tour construction heuristics**
   - **Insertion algorithms**: nearest insertion, farthest insertion,
-    cheapest insertion, arbitrary insertion ([Rosenkrantz, Stearns, and
-    Philip M. Lewis 1977](#ref-Rosenkrantz1977))
-  - **Nearest neighbor methods**: Nearest neighbor and repetitive
-    nearest neighbor ([Rosenkrantz, Stearns, and Philip M. Lewis
+    cheapest insertion, arbitrary insertion ([Rosenkrantz et al.
     1977](#ref-Rosenkrantz1977))
+  - **Nearest neighbor methods**: Nearest neighbor and repetitive
+    nearest neighbor ([Rosenkrantz et al. 1977](#ref-Rosenkrantz1977))
 - **Tour improvement methods**
   - **Two-opt heuristic** ([Croes 1958](#ref-Croes1958))
-  - **Simulated annealing** ([Kirkpatrick, Gelatt, and Vecchi
+  - **Simulated annealing** ([Kirkpatrick et al.
     1983](#ref-Kirkpatrick1983))
 - **State-of-the-art solver interfaces**
   - **Concorde TSP solver interface** ([Applegate et al.
     2000](#ref-Applegate2000), [2006](#ref-Applegate2006))
-  - **Concorde Chained-Lin-Kernighan heuristic interface** ([Applegate,
-    Cook, and Rohe 2003](#ref-Applegate2003))
+  - **Concorde Chained-Lin-Kernighan heuristic interface** ([Applegate
+    et al. 2003](#ref-Applegate2003))
 
 The package can read and write the TSPLIB format ([Reinelt
 1991](#ref-Reinelt1991)) and it can solve many of the problems in the
@@ -47,23 +50,22 @@ The following R packages use `TSP`:
 [ForagingOrg](https://CRAN.R-project.org/package=ForagingOrg),
 [ggEDA](https://CRAN.R-project.org/package=ggEDA),
 [isocir](https://CRAN.R-project.org/package=isocir),
-[jocre](https://CRAN.R-project.org/package=jocre),
 [MLCOPULA](https://CRAN.R-project.org/package=MLCOPULA),
 [nilde](https://CRAN.R-project.org/package=nilde),
 [nlnet](https://CRAN.R-project.org/package=nlnet),
 [PairViz](https://CRAN.R-project.org/package=PairViz),
-[SCORPIUS](https://CRAN.R-project.org/package=SCORPIUS),
 [sensitivity](https://CRAN.R-project.org/package=sensitivity),
 [seriation](https://CRAN.R-project.org/package=seriation),
 [sfnetworks](https://CRAN.R-project.org/package=sfnetworks),
 [tspmeta](https://CRAN.R-project.org/package=tspmeta),
-[VineCopula](https://CRAN.R-project.org/package=VineCopula)
+[VineCopula](https://CRAN.R-project.org/package=VineCopula),
+[wompwomp](https://CRAN.R-project.org/package=wompwomp)
 
 To cite package ‘TSP’ in publications use:
 
 > Hahsler M, Hornik K (2007). “TSP - Infrastructure for the traveling
 > salesperson problem.” *Journal of Statistical Software*, *23*(2),
-> 1-21. ISSN 1548-7660, <doi:10.18637/jss.v023.i02>
+> 1-21. ISSN 1548-7660. <doi:10.18637/jss.v023.i02>
 > <https://doi.org/10.18637/jss.v023.i02>.
 
     @Article{,
@@ -104,7 +106,7 @@ object.
 ``` r
 library("TSP")
 data("USCA312")
-
+ 
 tsp <- TSP(USCA312)
 tsp
 ```
@@ -121,7 +123,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41202
+    ## tour length: 41929
 
 Show the first few cities in the tour.
 
@@ -129,14 +131,10 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##         Columbus, GA          Atlanta, GA            Macon, GA 
-    ##                   65                   12                  157 
-    ##      Tallahassee, FL      Gainesville, FL            Tampa, FL 
-    ##                  274                  101                  275 
-    ## Saint Petersburg, FL         Sarasota, FL         Key West, FL 
-    ##                  234                  247                  136 
-    ##         San Juan, PR 
-    ##                  243
+    ## Harrisburg, PA  Lancaster, PA  Baltimore, MD Washington, DC   Richmond, VA 
+    ##            116            141             18            294            220 
+    ## Portsmouth, VA    Norfolk, VA Wilmington, NC    Raleigh, NC     Durham, NC 
+    ##            208            184            303            215             80
 
 Visualize the complete tour.
 
@@ -144,9 +142,9 @@ Visualize the complete tour.
 library(maps)
 data("USCA312_GPS")
 
-plot((USCA312_GPS[, c("long", "lat")]), cex = 0.3)
+plot((USCA312_GPS[, c("long", "lat")]), cex = .3)
 map("world", col = "gray", add = TRUE)
-polygon(USCA312_GPS[, c("long", "lat")][tour, ], border = "red")
+polygon(USCA312_GPS[, c("long", "lat")][tour,], border = "red")
 ```
 
 ![](inst/README_files/unnamed-chunk-6-1.png)<!-- -->
@@ -163,17 +161,16 @@ Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-Applegate2000" class="csl-entry">
 
 Applegate, David, Robert E. Bixby, Vasek Chvátal, and William Cook.
 2000. “TSP Cuts Which Do Not Conform to the Template Paradigm.” In
 *Computational Combinatorial Optimization, Optimal or Provably
-Near-Optimal Solutions*, edited by M. Junger and D. Naddef,
-2241:261–304. Lecture Notes in Computer Science. London, UK:
-Springer-Verlag. <https://doi.org/10.1007/3-540-45586-8_7>.
+Near-Optimal Solutions*, edited by M. Junger and D. Naddef, vol. 2241.
+Lecture Notes in Computer Science. Springer-Verlag.
+<https://doi.org/10.1007/3-540-45586-8_7>.
 
 </div>
 
