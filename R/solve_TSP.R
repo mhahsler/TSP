@@ -35,6 +35,9 @@
 #' * "rep": an integer indicating how many replications (random restarts) should be performed.
 #'  The best result is returned. The replications can be performed in parallel 
 #'  (see Section Parallel Execution Support). 
+#' * "seed": a non-negative integer used to make randomized solvers and
+#'   repetitions reproducible. Each repetition uses a deterministic seed derived
+#'   from this value, independent of the registered parallel backend.
 #' * "two_opt": a logical indicating if two-opt refinement should be performed on the
 #'   constructed tour. This is just for convenience so a constructive heuristic can be
 #'   followed by two-opt refinement in a single call.
@@ -176,14 +179,6 @@
 #'
 #'   Additional control options: see Concorde above.
 #'
-#' # Parallel Execution Support
-#'
-#' If several repetitions are performed (this includes method
-#' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
-#' in parallel on multiple cores/machines. To enable parallel execution an
-#' appropriate parallel backend needs to be registered 
-#' (e.g., [doParallel::registerDoParallel()]).
-#' 
 #' # Treatment of `NA`s and Infinite Values in `x`
 #'
 #' [TSP] and [ATSP] need to contain valid distances. `NA`s are not allowed. `Inf` is
@@ -208,6 +203,27 @@
 #' distance matrix and then solved. Note: distance matrices can become 
 #' very large, leading to high memory usage and long computation times.
 #'
+#' # Parallel Execution Support
+#'
+#' If several repetitions are performed (this includes method
+#' `"repetitive_nn"`) then \pkg{foreach} is used so they can be performed
+#' in parallel on multiple cores/machines. To enable parallel execution an
+#' appropriate parallel backend needs to be registered
+#' (e.g., [doParallel::registerDoParallel()]).
+#'
+#' # Reproducible Results
+#'
+#' Set the `seed` argument to make randomized solvers and repetitions
+#' reproducible across sequential and parallel \pkg{foreach} backends. Each
+#' repetition uses a deterministic seed derived from `seed`. The seed affects
+#' all randomized methods implemented in this package, but it does not control
+#' randomness inside the external Concorde and linkern executables.
+#'
+#' Calling `solve_TSP()` with `seed` may change R's global random-number stream.
+#' The state of the global stream after the call can differ between sequential
+#' and parallel backends because parallel repetitions set their seeds in the
+#' worker processes.
+#'
 #' @family TSP
 #' @family TOUR
 #'
@@ -218,6 +234,9 @@
 #' `method`.
 #' @param as_TSP should the ATSP reformulated as a TSP for the solver?
 #' @param ...  additional arguments are added to `control`.
+#' @param seed an optional non-negative integer seed for reproducible randomized
+#' solvers and repetitions. The named argument takes precedence over a seed in
+#' `control`.
 #' @return An object of class [TOUR].
 #' @author Michael Hahsler
 #' @references
@@ -303,7 +322,8 @@
 solve_TSP <- function(x,
   method = NULL,
   control = NULL,
-  ...)
+  ...,
+  seed = NULL)
   UseMethod("solve_TSP")
 
 ## TSP
@@ -312,8 +332,9 @@ solve_TSP <- function(x,
 solve_TSP.TSP <- function(x,
   method = NULL,
   control = NULL,
-  ...) {
-  .solve_TSP(x, method, control, ...)
+  ...,
+  seed = NULL) {
+  .solve_TSP(x, method, control, ..., seed = seed)
 }
 
 ## ATSP
@@ -324,7 +345,8 @@ solve_TSP.ATSP <-
     method = NULL,
     control = NULL,
     as_TSP = FALSE,
-    ...) {
+    ...,
+    seed = NULL) {
     # force as_TSP for solvers that cannot deal with ATSPs
     m <- pmatch(tolower(method), c("concorde", "linkern"))
     if (!is.na(m) && length(m) > 0L && !as_TSP) {
@@ -340,7 +362,7 @@ solve_TSP.ATSP <-
       x <- reformulate_ATSP_as_TSP(x_atsp)
     }
 
-    tour <- .solve_TSP(x, method, control, ...)
+    tour <- .solve_TSP(x, method, control, ..., seed = seed)
 
     if (as_TSP)
       tour <- filter_ATSP_as_TSP_dummies(tour, atsp = x_atsp)
@@ -354,7 +376,8 @@ solve_TSP.ATSP <-
 solve_TSP.ETSP <- function(x,
   method = NULL,
   control = NULL,
-  ...) {
+  ...,
+  seed = NULL) {
   ## all but concorde and linkern can currently only do TSP
   ## TODO: Implement insertion, NN, etc directly for ETSP to avoid creating 
   ##       a large distance matrix
@@ -368,7 +391,7 @@ solve_TSP.ETSP <- function(x,
     x <- as.TSP(x)
   }
 
-  .solve_TSP(x, method, control, ...)
+  .solve_TSP(x, method, control, ..., seed = seed)
 }
 
 
@@ -401,9 +424,12 @@ solve_TSP.ETSP <- function(x,
 .solve_TSP <- function(x,
   method = NULL,
   control = NULL,
-  ...) {
+  ...,
+  seed = NULL) {
   ## add ... to control
   control <- c(control, list(...))
+  if (!is.null(seed))
+    control$seed <- seed
 
   ## methods
   methods <- c(
@@ -432,7 +458,7 @@ solve_TSP.ETSP <- function(x,
 
   ## Validate controls even for methods that do not call .get_parameters.
   control <- utils::modifyList(
-    list(verbose = FALSE, two_opt = FALSE, rep = 1L),
+    list(verbose = FALSE, two_opt = FALSE, rep = 1L, seed = NULL),
     control
   )
   control <- .validate_control(control)
@@ -488,12 +514,25 @@ solve_TSP.ETSP <- function(x,
   if (method == "repetitive_nn")
     n <- 1L
 
-  if (n == 1L)
+  if (n == 1L) {
+    .set_repetition_seed(control$seed, 1L)
     return(.solve_TSP_worker(x_, method, control))
+  }
+
+  repetition_seeds <- if (is.null(control$seed))
+    rep(NA_real_, n)
+  else
+    (as.double(control$seed) + seq_len(n) - 1) %%
+      (.Machine$integer.max + 1)
 
   #l <- replicate(n, .solve_TSP_worker(x_, method, control), simplify = FALSE)
+  i <- 0L ## for R CMD check (no global binding for i)
   l <-
-    foreach(i = 1:n) %dopar% .solve_TSP_worker(x_, method, control)
+    foreach(i = 1:n) %dopar% {
+      if (!is.na(repetition_seeds[i]))
+        set.seed(repetition_seeds[i])
+      .solve_TSP_worker(x_, method, control)
+    }
 
   l <- l[[which.min(sapply(l, attr, "tour_length"))]]
   attr(l, "method") <-

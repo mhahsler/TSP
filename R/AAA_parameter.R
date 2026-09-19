@@ -70,6 +70,9 @@
   .validate_scalar(control$verbose, "verbose", "logical")
   .validate_scalar(control$two_opt, "two_opt", "logical")
   .validate_scalar(control$rep, "rep", integer = TRUE, lower = 1)
+  if (!is.null(control$seed))
+    .validate_scalar(control$seed, "seed", integer = TRUE, lower = 0,
+      upper = .Machine$integer.max)
 
   if (!is.null(control$two_opt_repetitions))
     .validate_scalar(control$two_opt_repetitions, "two_opt_repetitions",
@@ -98,7 +101,8 @@
 
 
 .get_parameters <- function(parameter, defaults, method = NA) {
-  defaults <- c(as.list(defaults), "two_opt" = FALSE, rep = 1L)
+  defaults <- c(as.list(defaults),
+    list("two_opt" = FALSE, rep = 1L, seed = NULL))
   parameter <- as.list(parameter)
 
   ## add verbose
@@ -138,4 +142,14 @@
   }
 
   defaults
+}
+
+## Use a separate deterministic seed for each foreach iteration. This avoids
+## relying on the RNG behavior of the registered foreach backend.
+.set_repetition_seed <- function(seed, repetition) {
+  if (!is.null(seed)) {
+    iteration_seed <- (as.double(seed) + repetition - 1) %%
+      (.Machine$integer.max + 1)
+    set.seed(iteration_seed)
+  }
 }

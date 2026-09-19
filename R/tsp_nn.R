@@ -74,8 +74,17 @@ tsp_repetitive_nn <- function(x, control){
   #tours <- lapply(1:n, function(i) tsp_nn(x, control = list(start = i)))
   ## no backend would warn!
   i <- 0L ## for R CMD check (no global binding for i)
+  repetition_seeds <- if (is.null(control$seed))
+    rep(NA_real_, n)
+  else
+    (as.double(control$seed) + seq_len(n) - 1) %%
+      (.Machine$integer.max + 1)
   suppressWarnings(
-    tours <- foreach(i = 1:n) %dopar% tsp_nn(x, control = list(start = i))
+    tours <- foreach(i = 1:n) %dopar% {
+      if (!is.na(repetition_seeds[i]))
+        set.seed(repetition_seeds[i])
+      tsp_nn(x, control = list(start = i))
+    }
   )
 
   if (control$verbose)

@@ -38,6 +38,47 @@ res <- solve_TSP(tsp, rep=10)
 tl <- attr(res, "tour_length")
 expect_true(all(tl == 4 | tl == Inf))
 
+## seeded repetitions are reproducible across foreach backends
+set.seed(123)
+random_tsp <- TSP(dist(matrix(runif(40), ncol = 2)))
+
+foreach::registerDoSEQ()
+seeded_seq <- solve_TSP(random_tsp, method = "random", rep = 20, seed = 42)
+seeded_seq_again <- solve_TSP(random_tsp, method = "random", rep = 20, seed = 42)
+expect_identical(seeded_seq_again, seeded_seq)
+
+if (requireNamespace("doParallel", quietly = TRUE)) {
+  cluster <- parallel::makePSOCKcluster(2)
+  doParallel::registerDoParallel(cluster)
+  seeded_parallel <- tryCatch(
+    solve_TSP(random_tsp, method = "random", rep = 20, seed = 42),
+    finally = {
+      parallel::stopCluster(cluster)
+      foreach::registerDoSEQ()
+    })
+
+  expect_identical(seeded_parallel, seeded_seq)
+}
+
+## repetitive nearest neighbor also uses foreach internally
+tied <- matrix(1, nrow = 8, ncol = 8)
+diag(tied) <- 0
+tied_tsp <- TSP(as.dist(tied))
+foreach::registerDoSEQ()
+repetitive_seq <- solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42)
+if (requireNamespace("doParallel", quietly = TRUE)) {
+  cluster <- parallel::makePSOCKcluster(2)
+  doParallel::registerDoParallel(cluster)
+  repetitive_parallel <- tryCatch(
+    solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42),
+    finally = {
+      parallel::stopCluster(cluster)
+      foreach::registerDoSEQ()
+    })
+
+  expect_identical(repetitive_parallel, repetitive_seq)
+}
+
 ## no two_opt
 res <- solve_TSP(tsp, two_opt=FALSE)
 tl <- attr(res, "tour_length")

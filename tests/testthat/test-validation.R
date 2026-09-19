@@ -80,6 +80,8 @@ test_that("control parameters are scalar values in valid ranges", {
     list(method = "nn", control = list(two_opt = NA)),
     list(method = "nn", control = list(rep = 0)),
     list(method = "nn", control = list(rep = 1.5)),
+    list(method = "random", control = list(seed = -1)),
+    list(method = "random", control = list(seed = 1.5)),
     list(method = "two_opt", control = list(two_opt_repetitions = 0)),
     list(method = "sa", control = list(maxit = -1)),
     list(method = "sa", control = list(temp = c(1, 2)))

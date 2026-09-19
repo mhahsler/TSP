@@ -7,13 +7,13 @@
 \alias{solve_TSP.ETSP}
 \title{TSP solver interface}
 \usage{
-solve_TSP(x, method = NULL, control = NULL, ...)
+solve_TSP(x, method = NULL, control = NULL, ..., seed = NULL)
 
-\method{solve_TSP}{TSP}(x, method = NULL, control = NULL, ...)
+\method{solve_TSP}{TSP}(x, method = NULL, control = NULL, ..., seed = NULL)
 
-\method{solve_TSP}{ATSP}(x, method = NULL, control = NULL, as_TSP = FALSE, ...)
+\method{solve_TSP}{ATSP}(x, method = NULL, control = NULL, as_TSP = FALSE, ..., seed = NULL)
 
-\method{solve_TSP}{ETSP}(x, method = NULL, control = NULL, ...)
+\method{solve_TSP}{ETSP}(x, method = NULL, control = NULL, ..., seed = NULL)
 }
 \arguments{
 \item{x}{a TSP problem.}
@@ -25,6 +25,10 @@ construction followed by the "two_opt" improvement heuristic).}
 \code{method}.}
 
 \item{...}{additional arguments are added to \code{control}.}
+
+\item{seed}{an optional non-negative integer seed for reproducible randomized
+solvers and repetitions. The named argument takes precedence over a seed in
+\code{control}.}
 
 \item{as_TSP}{should the ATSP reformulated as a TSP for the solver?}
 }
@@ -48,6 +52,9 @@ to the parameters specified below:
 \item "rep": an integer indicating how many replications (random restarts) should be performed.
 The best result is returned. The replications can be performed in parallel
 (see Section Parallel Execution Support).
+\item "seed": a non-negative integer used to make randomized solvers and
+repetitions reproducible. Each repetition uses a deterministic seed derived
+from this value, independent of the registered parallel backend.
 \item "two_opt": a logical indicating if two-opt refinement should be performed on the
 constructed tour. This is just for convenience so a constructive heuristic can be
 followed by two-opt refinement in a single call.
@@ -202,14 +209,6 @@ Additional control options: see Concorde above.
 }
 }
 
-\section{Parallel Execution Support}{
-If several repetitions are performed (this includes method
-\code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
-in parallel on multiple cores/machines. To enable parallel execution an
-appropriate parallel backend needs to be registered
-(e.g., \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
-}
-
 \section{Treatment of \code{NA}s and Infinite Values in \code{x}}{
 \link{TSP} and \link{ATSP} need to contain valid distances. \code{NA}s are not allowed. \code{Inf} is
 allowed and can be used to model the missing edges in incomplete graphs
@@ -232,6 +231,27 @@ Only methods "concorde" and "linkern" currently solve \link{ETSP}s directly.
 For all other methods, ETSPs are converted into TSPs by creating a
 distance matrix and then solved. Note: distance matrices can become
 very large, leading to high memory usage and long computation times.
+}
+
+\section{Parallel Execution Support}{
+If several repetitions are performed (this includes method
+\code{"repetitive_nn"}) then \pkg{foreach} is used so they can be performed
+in parallel on multiple cores/machines. To enable parallel execution an
+appropriate parallel backend needs to be registered
+(e.g., \code{\link[doParallel:registerDoParallel]{doParallel::registerDoParallel()}}).
+}
+
+\section{Reproducible Results}{
+Set the \code{seed} argument to make randomized solvers and repetitions
+reproducible across sequential and parallel \pkg{foreach} backends. Each
+repetition uses a deterministic seed derived from \code{seed}. The seed affects
+all randomized methods implemented in this package, but it does not control
+randomness inside the external Concorde and linkern executables.
+
+Calling \code{solve_TSP()} with \code{seed} may change R's global random-number stream.
+The state of the global stream after the call can differ between sequential
+and parallel backends because parallel repetitions set their seeds in the
+worker processes.
 }
 
 \examples{
