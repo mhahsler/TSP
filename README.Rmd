@@ -1,7 +1,11 @@
 ---
-output: github_document
-bibliography: vignettes/TSP.bib
-link-citations: yes
+  output:
+    github_document:
+      pandoc_args:
+        - --lua-filter=vignettes/csl-to-list.lua
+  bibliography: vignettes/TSP.bib
+  link-citations: true
+  citeproc: false
 ---
 
 ```{r echo=FALSE, results = 'asis'}

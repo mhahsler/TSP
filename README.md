@@ -123,7 +123,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40446
+    ## tour length: 40841
 
 Show the first few cities in the tour.
 
@@ -131,12 +131,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##   Youngstown, OH   Pittsburgh, PA Steubenville, OH     Wheeling, WV 
-    ##              310              201              267              297 
-    ##   Zanesville, OH   Charleston, WV      Ashland, KY     Columbus, OH 
-    ##              312               53               11               66 
-    ##  Springfield, OH         Lima, OH 
-    ##              265              149
+    ##     Vancouver, BC Prince Rupert, BC        Juneau, AK    Whitehorse, YK 
+    ##               290               209               131               298 
+    ##     Anchorage, AK          Nome, AK     Fairbanks, AK        Dawson, YT 
+    ##                 8               183                90                70 
+    ##         Alert, NT   Yellowknife, NT 
+    ##                 5               309
 
 Visualize the complete tour.
 

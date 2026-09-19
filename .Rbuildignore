@@ -13,3 +13,4 @@ vignettes_real
 _config.yml
 README.Rmd
 TSPLIB95
+csl-to-list.lua
