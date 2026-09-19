@@ -23,9 +23,9 @@ void R_init_TSP(DllInfo *dll) {
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
 
-  R_RegisterCCallable("arules", "R_two_opt",            (DL_FUNC) two_opt);
-  R_RegisterCCallable("arules", "R_two_opt_sym",        (DL_FUNC) two_opt_sym);
-  R_RegisterCCallable("arules", "R_insertion_cost",     (DL_FUNC) insertion_cost);
-  R_RegisterCCallable("arules", "R_tour_length_dist",   (DL_FUNC) tour_length_dist);
-  R_RegisterCCallable("arules", "R_tour_length_matrix", (DL_FUNC) tour_length_matrix);
+  R_RegisterCCallable("TSP", "R_two_opt",            (DL_FUNC) two_opt);
+  R_RegisterCCallable("TSP", "R_two_opt_sym",        (DL_FUNC) two_opt_sym);
+  R_RegisterCCallable("TSP", "R_insertion_cost",     (DL_FUNC) insertion_cost);
+  R_RegisterCCallable("TSP", "R_tour_length_dist",   (DL_FUNC) tour_length_dist);
+  R_RegisterCCallable("TSP", "R_tour_length_matrix", (DL_FUNC) tour_length_matrix);
 }

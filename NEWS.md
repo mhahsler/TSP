@@ -1,7 +1,8 @@
 # TSP 1.2.7.1 (Unpublished)
 * Fixed spelling and documentation.
-* Fix input-validation bugs in TSP(), ATSP(), tour_length.ETSP(), 
+* Fixed input-validation bugs in TSP(), ATSP(), tour_length.ETSP(), 
   and validate tour indices before passing them to C.
+* Fixed dll registration.
 
 # TSP 1.2.7 (03/22/2026)
 * Improved verbose output for method "sa."
