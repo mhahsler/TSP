@@ -65,7 +65,7 @@ Constructor to create an instance of a Euclidean traveling salesperson
 problem (TSP) represented by city coordinates and some auxiliary methods.
 }
 \details{
-Objects of class \code{ETSP} are internally represented as a \code{matrix}
+Objects of class \code{ETSP} are internally represented as \code{matrix}
 objects (use \code{as.matrix()} to get the \code{matrix} object).
 }
 \examples{

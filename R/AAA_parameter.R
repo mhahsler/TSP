@@ -1,6 +1,6 @@
 #######################################################################
 # Code to check parameter/control objects
-# Copyrigth (C) 2011-2016 Michael Hahsler
+# Copyright (C) 2011-2016 Michael Hahsler
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -65,4 +65,3 @@
 
   defaults
 }
-

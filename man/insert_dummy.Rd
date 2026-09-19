@@ -36,10 +36,10 @@ dummy city has the same, constant distance (0) to all other cities and is
 infinitely far from other dummy cities. A dummy city can be used to
 transform a shortest Hamiltonian path problem (i.e., finding an optimal
 linear order) into a shortest Hamiltonian cycle problem which can be solved
-by a TSP solvers (Garfinkel 1985).
+by a TSP solver (Garfinkel 1985).
 }
 \details{
-Several dummy cities can be used together with a TSP solvers to perform
+Several dummy cities can be used together with a TSP solver to perform
 rearrangement clustering (Climer and Zhang 2006).
 
 The dummy cities are inserted after the other cities in \code{x}.
@@ -69,7 +69,7 @@ set.seed(1000)
 data("iris")
 tsp <- TSP(dist(iris[-5]))
 
-## insert 2 dummy cities to creates 2 clusters
+## insert 2 dummy cities to create 2 clusters
 tsp_dummy <- insert_dummy(tsp, n = 3, label = "boundary")
 
 ## get a solution for the TSP

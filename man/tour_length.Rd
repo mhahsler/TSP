@@ -28,7 +28,7 @@ tour_length(x, ...)
 
 \item{order}{an object of class \code{TOUR}}
 
-\item{tsp}{as TSP object.}
+\item{tsp}{a TSP object.}
 }
 \description{
 Calculate the length of a \link{TOUR} for a \link{TSP}.

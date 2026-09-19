@@ -985,7 +985,7 @@ encoding of the obtained tour labels:
 <<>>=
 out <- rle(labels(tour))
 data.frame(Species = out$values,
-           Lenghts = out$lengths,
+           Lengths = out$lengths,
            Pos = cumsum(out$lengths))
 @
 
@@ -1052,4 +1052,3 @@ code to correctly draw tours and paths on a projected map.
 \bibliography{TSP}
 %
 \end{document}
-

@@ -27,10 +27,10 @@
 #' Tour construction methods create a tour from scratch, typically using a 
 #' construction heuristic. Tour improvement heuristics take an existing tour and
 #' try to improve it. If no initial tour is provided for the improvement 
-#' heuristic, then an initial tour (e.g., a random tour) are automatically created.
+#' heuristic, then an initial tour (e.g., a random tour) is automatically created.
 #' 
 #' Most heuristic methods accept the following extra control parameters in addition
-#' the parameters specified below:
+#' to the parameters specified below:
 #'
 #' * "rep": an integer indicating how many replications (random restarts) should be performed.
 #'  The best result is returned. The replications can be performed in parallel 
@@ -52,7 +52,7 @@
 #'
 #' - __"nearest_insertion", "farthest_insertion", "cheapest_insertion", "arbitrary_insertion"__
 #'   Nearest, farthest, cheapest and
-#'   arbitrary insertion algorithms for a symmetric and asymmetric TSP
+#'   arbitrary insertion algorithms for symmetric and asymmetric TSPs
 #'   (Rosenkrantz et al. 1977). \[TSP, ATSP\]
 #'
 #'   The distances between cities are stored in a distance matrix \eqn{D} with
@@ -60,13 +60,13 @@
 #'   consisting of an arbitrary city and choose in each step a city \eqn{k} not
 #'   yet on the tour. This city is inserted into the existing tour between two
 #'   consecutive cities \eqn{i} and \eqn{j}, such that \deqn{d(i,k) + d(k,j) -
-#'   d(i,j)} is minimized. The algorithms stops when all cities are on the tour.
+#'   d(i,j)} is minimized. The algorithm stops when all cities are on the tour.
 #'
 #'   The nearest insertion algorithm chooses city \eqn{k} in each step as the
 #'   city which is \emph{nearest} to a city on the tour.
 #'
 #'   For farthest insertion, the city \eqn{k} is chosen in each step as the city
-#'   which is \emph{farthest} to any city on the tour.
+#'   which is \emph{farthest} from any city on the tour.
 #'
 #'   Cheapest insertion chooses the city \eqn{k} such that the cost of inserting
 #'   the new city (i.e., the increase in the tour's length) is minimal.
@@ -74,9 +74,9 @@
 #'   Arbitrary insertion chooses the city \eqn{k} randomly from all cities not
 #'   yet on the tour.
 #'
-#'   Nearest and cheapest insertion tries to build the tour using cities which
-#'   fit well into the partial tour constructed so far.  The idea behind behind
-#'   farthest insertion is to link cities far away into the tour fist to
+#'   Nearest and cheapest insertion try to build the tour using cities that
+#'   fit well into the partial tour constructed so far. The idea behind
+#'   farthest insertion is to link distant cities into the tour first to
 #'   establish an outline of the whole tour early.
 #'
 #'   Additional control options:
@@ -99,14 +99,14 @@
 #' ## Tour Improvement Heuristics
 #'
 #' Tour improvement methods take a tour as the argument `tour` and try to improve the 
-#' tour. If no tour is provided. A random tour is used as the initial tour.
+#' tour. If no tour is provided, a random tour is used as the initial tour.
 #' 
 #' The following tour improvement heuristics are available:
 #'
 #' - __"sa"__ Simulated Annealing for TSPs (Kirkpatrick et al, 1983) \[TSP, ATSP\]
 #'
 #'   A tour refinement method that uses simulated annealing with subtour 
-#'   reversal as local move. The used optimizer is
+#'   reversal as a local move. The optimizer is
 #'   [stats::optim()] with method `"SANN"`. This method is 
 #'   typically a lot slower than `"two_opt"` and requires parameter tuning for the 
 #'   cooling schedule.
@@ -128,10 +128,10 @@
 #'   
 #'   See [stats::optim()] for more details on the parameters.
 #'   
-#' - __"two_opt"__ Two edge exchange improvement procedure (Croes 1958). \[TSP, ATSP\]
+#' - __"two_opt"__ Two-edge exchange improvement procedure (Croes 1958). \[TSP, ATSP\]
 #'
 #'   This is a tour refinement procedure which systematically exchanges two edges
-#'   in the graph represented by the distance matrix till no improvements are
+#'   in the graph represented by the distance matrix until no improvements are
 #'   possible. Exchanging two edges is equal to reversing part of the tour. The
 #'   resulting tour is called _2-optimal._
 #'
@@ -164,7 +164,7 @@
 #'     passed on to Concorde. Note that therefore the results produced by Concorde
 #'     (especially lower and upper bounds) need to be divided by
 #'     \eqn{10^{precision}} (i.e., the decimal point has to be shifted
-#'     `precision` placed to the left). The interface to Concorde uses
+#'     `precision` places to the left). The interface to Concorde uses
 #'     [write_TSPLIB()].
 #'   - "verbose" logical; `FALSE` suppresses the output printed to the terminal.
 #'
@@ -197,8 +197,8 @@
 #'
 #' # Solving ATSP and ETSP
 #'
-#' Some solvers (including Concorde) cannot directly solve [ATSP]
-#' directly. `ATSP` can be reformulated as larger `TSP` and solved
+#' Some solvers (including Concorde) cannot solve [ATSP] directly.
+#' An `ATSP` can be reformulated as a larger `TSP` and solved
 #' this way. For convenience, `solve_TSP()` has an extra argument
 #' `as_TSP` which can be set to `TRUE` to automatically solve the
 #' `ATSP` reformulated as a `TSP` (see [reformulate_ATSP_as_TSP()]).
@@ -206,14 +206,14 @@
 #' Only methods "concorde" and "linkern" currently solve [ETSP]s directly.
 #' For all other methods, ETSPs are converted into TSPs by creating a
 #' distance matrix and then solved. Note: distance matrices can become 
-#' very large leading to long memory issues and long computation times.
+#' very large, leading to high memory usage and long computation times.
 #'
 #' @family TSP
 #' @family TOUR
 #'
 #' @param x a TSP problem.
-#' @param method method to solve the TSP (default: "arbitrary insertion" 
-#' construction followed by the "two_opt" improvement heuristic.
+#' @param method method to solve the TSP (default: "arbitrary insertion"
+#' construction followed by the "two_opt" improvement heuristic).
 #' @param control a list of arguments passed on to the TSP solver selected by
 #' `method`.
 #' @param as_TSP should the ATSP reformulated as a TSP for the solver?
@@ -329,7 +329,7 @@ solve_TSP.ATSP <-
     m <- pmatch(tolower(method), c("concorde", "linkern"))
     if (!is.na(m) && length(m) > 0L && !as_TSP) {
       warning(
-        "NOTE: Solver cannot solve the ATSP directly. Reformulating ATSP as TSP. Use 'as_TSP = TRUE' to supress this warning.\n"
+        "NOTE: Solver cannot solve the ATSP directly. Reformulating ATSP as TSP. Use 'as_TSP = TRUE' to suppress this warning.\n"
       )
       as_TSP <- TRUE
     }
@@ -361,7 +361,7 @@ solve_TSP.ETSP <- function(x,
   m <- pmatch(tolower(method), c("concorde", "linkern"))
   if (length(m) == 0L || is.na(m)) {
     if (nrow(x) > 10000L)
-      warning("Convertion of ETSP to TSP creates a distance matrix of size O(n^2). ", 
+      warning("Conversion of ETSP to TSP creates a distance matrix of size O(n^2). ",
               "This operation may be slow or you may run out of memory. ",
               "Currently, only \"concorde\" and \"linkern\" can directly work with ETSP.", 
               immediate. = TRUE)

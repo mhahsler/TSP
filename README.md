@@ -16,8 +16,8 @@ status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe
 ## Introduction
 
 The TSP package ([Hahsler and Hornik 2007](#ref-Hahsler+Hornik2007))
-provides the basic infrastructure and some algorithms for the traveling
-salesman problems (symmetric, asymmetric and Euclidean TSPs). The
+provides the basic infrastructure and some algorithms for traveling
+salesman problems (symmetric, asymmetric, and Euclidean TSPs). The
 package provides some fast implementations of simple algorithms
 including:
 
@@ -156,7 +156,7 @@ An online example application of TSP can be found on
 
 ## Help and Bug Reports
 
-You can find Q&A’s and ask your own questions at
+You can find Q&As and ask your own questions at
 <https://stackoverflow.com/search?q=TSP+R>
 
 Please submit bug reports to <https://github.com/mhahsler/TSP/issues>

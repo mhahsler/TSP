@@ -1,6 +1,6 @@
 #######################################################################
 # TSP - Traveling Salesperson Problem
-# Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
+# Copyright (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
 #' Objects of class `TSP` are internally represented as `dist`
 #' objects (use [as.dist()] to get the `dist` object).
 #'
-#' Not permissible paths can be set to a distance of `+Inf`. `NA`s are not allowed and `-Inf` will lead
-#' to the algorithm only being able to find an admissible tour, but not the best one.
+#' Impermissible paths can be set to a distance of `+Inf`. `NA`s are not allowed,
+#' and `-Inf` will allow the algorithm to find only an admissible tour, not the best one.
 #'
 #' @family TSP
 #'

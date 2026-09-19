@@ -22,7 +22,7 @@
 #' Constructor to create an instance of a Euclidean traveling salesperson
 #' problem (TSP) represented by city coordinates and some auxiliary methods.
 #'
-#' Objects of class `ETSP` are internally represented as a `matrix`
+#' Objects of class `ETSP` are internally represented as `matrix`
 #' objects (use `as.matrix()` to get the `matrix` object).
 #'
 #' @family TSP

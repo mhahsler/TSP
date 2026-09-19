@@ -121,7 +121,7 @@
 * we use foreach (use doParallel) to compute repetitions in parallel
 * ETSP (Euclidean TSP) added.
 * generic and arguments for tour_length have # Changed
-      (fist argument is now a tour).
+      (first argument is now a tour).
 * method "2-opt" was renamed to "two_opt" so it can also be used as a
         proper variable name.
 * solve_TSP gained methods "identity" and "random".

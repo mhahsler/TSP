@@ -3,7 +3,7 @@
 \name{reformulate_ATSP_as_TSP}
 \alias{reformulate_ATSP_as_TSP}
 \alias{filter_ATSP_as_TSP_dummies}
-\title{Reformulate a ATSP as a symmetric TSP}
+\title{Reformulate an ATSP as a symmetric TSP}
 \usage{
 reformulate_ATSP_as_TSP(x, infeasible = Inf, cheap = -Inf)
 
@@ -17,7 +17,7 @@ filter_ATSP_as_TSP_dummies(tour, atsp)
 \item{cheap}{value for distance between a city and its corresponding dummy
 city.}
 
-\item{tour}{a \link{TOUR} created for a ATSP reformulated as a TSP.}
+\item{tour}{a \link{TOUR} created for an ATSP reformulated as a TSP.}
 
 \item{atsp}{the original \link{ATSP}.}
 }
@@ -26,17 +26,17 @@ city.}
 \code{filter_ATSP_as_TSP_dummies()} returns a \link{TOUR} object.
 }
 \description{
-A ATSP can be formulated as a symmetric TSP by doubling the number of cities
+An ATSP can be formulated as a symmetric TSP by doubling the number of cities
 (Jonker and Volgenant 1983). The solution of the TSP also represents the
 solution of the original ATSP.
 }
 \details{
-To reformulate a \link{ATSP} as a \link{TSP}, for each city a dummy city (e.g, for 'New
+To reformulate an \link{ATSP} as a \link{TSP}, a dummy city (e.g., for 'New
 York' a dummy city 'New York*') is added. Between each city and its
 corresponding dummy city a very small (or negative) distance with value
 \code{cheap} is used.
-To ensure that the solver places each cities always occurs in the
-solution together with its dummy city, this cost has to be much smaller than
+To ensure that each city always occurs in the solution together with its
+dummy city, this cost has to be much smaller than
 the distances in the TSP.
 The original distances are used
 between the cities and the dummy cities, where each city is responsible for
@@ -48,14 +48,14 @@ We use infinite values here and \code{\link[=solve_TSP]{solve_TSP()}} treats the
 
 \code{filter_ATSP_as_TSP_dummies()} can be used to extract the solution for the original
 ATSP from the tour found for an ATSP reformulated as a TSP. Note that the symmetric TSP
-tour does not reveal the direction for the ATSP. The filter function computed the
+tour does not reveal the direction for the ATSP. The filter function computes the
 tour length for both directions and returns the shorter tour.
 
-\code{\link[=solve_TSP]{solve_TSP()}} has a parameter \code{as_TSP} which preforms the reformulation and
-filtering the dummy cities automatically.
+\code{\link[=solve_TSP]{solve_TSP()}} has a parameter \code{as_TSP} that performs the reformulation and
+filters the dummy cities automatically.
 
-\strong{Note on performance:} Doubling the problem size is a performance issue especially
-has a negative impact on solution quality for heuristics. It should only be used
+\strong{Note on performance:} Doubling the problem size reduces performance and can have
+a particularly negative impact on solution quality for heuristics. It should be used only
 together with Concorde when the optimal solution is required. Most heuristics can solve
 ATSPs directly with good solution quality.
 }

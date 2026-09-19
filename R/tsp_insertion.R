@@ -1,6 +1,6 @@
 #######################################################################
 # TSP - Traveling Salesperson Problem
-# Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
+# Copyright (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
   type_num <- pmatch(type, types)
   if(is.na(type_num)) stop(paste("Unknown insertion type: ", sQuote(type)))
 
-  ## x comes checked form solve_TSP/solve_ATSP
+  ## x comes checked from solve_TSP/solve_ATSP
   n <- n_of_cities(x)
 
   ## we use a matrix for now (covers TSP and ATSP)
@@ -120,7 +120,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
 
 ### faster arbitrary insertion (random sampling takes care of breaking ties)
 tsp_insertion_arbitrary <- function(x, control = NULL){
-  ## x comes checked form solve_TSP/solve_ATSP
+  ## x comes checked from solve_TSP/solve_ATSP
   n <- n_of_cities(x)
 
   control <- .get_parameters(control, list(), method = "arbitrary_insertion")
@@ -159,4 +159,3 @@ tsp_insertion_arbitrary <- function(x, control = NULL){
 
   rorder[order]
 }
-

@@ -25,7 +25,7 @@
 #' advanced and fastest TSP solvers using branch-and-cut, and the Chained
 #' Lin-Kernighan (Applegate et al. 2003) implementation are provided in
 #' \pkg{TSP}. Concorde can solve [TSP]s and [ETSP]s directly. [ATSP]s are
-#' reformulated as larger TSP's and then solved.
+#' reformulated as larger TSPs and then solved.
 #'
 #'
 #' # Installation of Concorde
@@ -52,7 +52,7 @@
 #' integer value range. The `precision` value can also be specified in
 #' `control` in [solve_TSP()] with method Concorde. Warning
 #' messages will alert the user if the conversion to integer values results
-#' into rounding errors that are worse then what is specified in the
+#' in rounding errors that are worse than what is specified in the
 #' `precision` control parameter.
 #'
 #' To get a list of all available command line options which can be used via
@@ -73,7 +73,7 @@
 #'
 #' @param path a character string with the path to the directory where the
 #' executables are installed.
-#' @returns `concorde_path()` returns the path to the executable. Others functions: Nothing.
+#' @returns `concorde_path()` returns the path to the executable. The other functions return nothing.
 #' @author Michael Hahsler
 #' @references Concorde home page,
 #' \url{https://www.math.uwaterloo.ca/tsp/concorde/}
@@ -93,7 +93,7 @@
 #' concorde_path()
 #'
 #'
-#' ## set path to the Concorde executible if it is not in the search PATH
+#' ## set path to the Concorde executable if it is not in the search PATH
 #' ## Example:
 #' ## concorde_path("~/concorde/")
 #'
@@ -102,7 +102,7 @@
 #' data("USCA312")
 #'
 #' ## run Concorde in verbose mode (-v) with fast cuts only (-V)
-#' ## Note: use the contol parameter verbose = FALSE to supress Concorde's output
+#' ## Note: use the control parameter verbose = FALSE to suppress Concorde's output
 #' solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
 #' }
 #'
@@ -132,7 +132,7 @@ NULL
     } else {
       warning(
         paste0(
-          "Concorde/Linken can only handle distances represented as integers. Converting the provided distances to integers with precison ",
+          "Concorde/Linkern can only handle distances represented as integers. Converting the provided distances to integers with precision ",
           prec,
           ". This may lead to rounding errors."
         ),
@@ -143,7 +143,7 @@ NULL
   }
 
   storage.mode(x) <-
-    "integer" ## so write.TSBLIB does not do precision changes
+    "integer" ## so write_TSPLIB does not change the precision
 
   x
 }
@@ -221,7 +221,7 @@ tsp_concorde <- function(x, control = NULL) {
 
   if (!file.access(tmp_file_out) == 0)
     stop(
-      "Concorde has not produced a result file.\nIs concorde properly installed? (see ? Concorde)\nDid Concorde finish without an error or being interupted?"
+      "Concorde has not produced a result file.\nIs Concorde properly installed? (see ?Concorde)\nDid Concorde finish without an error or interruption?"
     )
   ##else cat("Concorde done.\n")
 

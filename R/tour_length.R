@@ -1,6 +1,6 @@
 #######################################################################
 # TSP - Traveling Salesperson Problem
-# Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
+# Copyright (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 #'
 #' @param x a TSP problem or a [TOUR].
 #' @param order an object of class `TOUR`
-#' @param tsp as TSP object.
+#' @param tsp a TSP object.
 #' @param ... further arguments are currently unused.
 #' @author Michael Hahsler
 #' @keywords optimize

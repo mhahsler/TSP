@@ -18,8 +18,8 @@ pkg_title(pkg, anaconda = 'r-tsp', stackoverflow = 'TSP+R')
 ## Introduction
 
 The TSP package [@Hahsler+Hornik2007] provides the 
-basic infrastructure and some algorithms for the traveling
-salesman problems (symmetric, asymmetric and Euclidean TSPs). 
+basic infrastructure and some algorithms for traveling
+salesman problems (symmetric, asymmetric, and Euclidean TSPs).
 The package provides some fast implementations of simple algorithms including:
 
 * __Tour construction heuristics__
@@ -80,7 +80,7 @@ An online example application of TSP can be found on [shinyapps](https://shrinid
 
 ## Help and Bug Reports
 
-You can find Q&A's and ask your own questions at 
+You can find Q&As and ask your own questions at
 https://stackoverflow.com/search?q=TSP+R
 
 Please submit bug reports to https://github.com/mhahsler/TSP/issues

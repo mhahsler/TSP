@@ -52,7 +52,7 @@ if \code{x} contains \code{double} values (which is normal in R) the values
 given in \code{x} are multiplied by \eqn{10^{precision}} before coercion to
 \code{integer}. Note that therefore all results produced by programs using
 the TSPLIB file as input need to be divided by \eqn{10^{precision}} (i.e.,
-the decimal point has to be shifted \code{precision} placed to the left).
+the decimal point has to be shifted \code{precision} places to the left).
 
 Currently only the following \code{EDGE_WEIGHT_TYPE}s are implemented:
 \code{EXPLICIT}, \code{EUC_2D}, \code{EUC_3D}, \code{ATT} and \code{GEO}.

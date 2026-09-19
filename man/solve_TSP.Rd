@@ -19,7 +19,7 @@ solve_TSP(x, method = NULL, control = NULL, ...)
 \item{x}{a TSP problem.}
 
 \item{method}{method to solve the TSP (default: "arbitrary insertion"
-construction followed by the "two_opt" improvement heuristic.}
+construction followed by the "two_opt" improvement heuristic).}
 
 \item{control}{a list of arguments passed on to the TSP solver selected by
 \code{method}.}
@@ -40,10 +40,10 @@ an interface to Concorde (a state-of-the-art external solver).
 Tour construction methods create a tour from scratch, typically using a
 construction heuristic. Tour improvement heuristics take an existing tour and
 try to improve it. If no initial tour is provided for the improvement
-heuristic, then an initial tour (e.g., a random tour) are automatically created.
+heuristic, then an initial tour (e.g., a random tour) is automatically created.
 
 Most heuristic methods accept the following extra control parameters in addition
-the parameters specified below:
+to the parameters specified below:
 \itemize{
 \item "rep": an integer indicating how many replications (random restarts) should be performed.
 The best result is returned. The replications can be performed in parallel
@@ -64,7 +64,7 @@ The available tour construction methods are:
 (identity order) or a random order. [TSP, ATSP]
 \item \strong{"nearest_insertion", "farthest_insertion", "cheapest_insertion", "arbitrary_insertion"}
 Nearest, farthest, cheapest and
-arbitrary insertion algorithms for a symmetric and asymmetric TSP
+arbitrary insertion algorithms for symmetric and asymmetric TSPs
 (Rosenkrantz et al. 1977). [TSP, ATSP]
 
 The distances between cities are stored in a distance matrix \eqn{D} with
@@ -72,13 +72,13 @@ elements \eqn{d(i,j)}.  All insertion algorithms start with a tour
 consisting of an arbitrary city and choose in each step a city \eqn{k} not
 yet on the tour. This city is inserted into the existing tour between two
 consecutive cities \eqn{i} and \eqn{j}, such that \deqn{d(i,k) + d(k,j) -
-  d(i,j)} is minimized. The algorithms stops when all cities are on the tour.
+  d(i,j)} is minimized. The algorithm stops when all cities are on the tour.
 
 The nearest insertion algorithm chooses city \eqn{k} in each step as the
 city which is \emph{nearest} to a city on the tour.
 
 For farthest insertion, the city \eqn{k} is chosen in each step as the city
-which is \emph{farthest} to any city on the tour.
+which is \emph{farthest} from any city on the tour.
 
 Cheapest insertion chooses the city \eqn{k} such that the cost of inserting
 the new city (i.e., the increase in the tour's length) is minimal.
@@ -86,9 +86,9 @@ the new city (i.e., the increase in the tour's length) is minimal.
 Arbitrary insertion chooses the city \eqn{k} randomly from all cities not
 yet on the tour.
 
-Nearest and cheapest insertion tries to build the tour using cities which
-fit well into the partial tour constructed so far.  The idea behind behind
-farthest insertion is to link cities far away into the tour fist to
+Nearest and cheapest insertion try to build the tour using cities that
+fit well into the partial tour constructed so far. The idea behind
+farthest insertion is to link distant cities into the tour first to
 establish an outline of the whole tour early.
 
 Additional control options:
@@ -116,14 +116,14 @@ Additional control options:
 \subsection{Tour Improvement Heuristics}{
 
 Tour improvement methods take a tour as the argument \code{tour} and try to improve the
-tour. If no tour is provided. A random tour is used as the initial tour.
+tour. If no tour is provided, a random tour is used as the initial tour.
 
 The following tour improvement heuristics are available:
 \itemize{
 \item \strong{"sa"} Simulated Annealing for TSPs (Kirkpatrick et al, 1983) [TSP, ATSP]
 
 A tour refinement method that uses simulated annealing with subtour
-reversal as local move. The used optimizer is
+reversal as a local move. The optimizer is
 \code{\link[stats:optim]{stats::optim()}} with method \code{"SANN"}. This method is
 typically a lot slower than \code{"two_opt"} and requires parameter tuning for the
 cooling schedule.
@@ -146,10 +146,10 @@ by the number of cities.
 }
 
 See \code{\link[stats:optim]{stats::optim()}} for more details on the parameters.
-\item \strong{"two_opt"} Two edge exchange improvement procedure (Croes 1958). [TSP, ATSP]
+\item \strong{"two_opt"} Two-edge exchange improvement procedure (Croes 1958). [TSP, ATSP]
 
 This is a tour refinement procedure which systematically exchanges two edges
-in the graph represented by the distance matrix till no improvements are
+in the graph represented by the distance matrix until no improvements are
 possible. Exchanging two edges is equal to reversing part of the tour. The
 resulting tour is called \emph{2-optimal.}
 
@@ -187,7 +187,7 @@ values given in \code{x} are multiplied by \eqn{10^{precision}} before being
 passed on to Concorde. Note that therefore the results produced by Concorde
 (especially lower and upper bounds) need to be divided by
 \eqn{10^{precision}} (i.e., the decimal point has to be shifted
-\code{precision} placed to the left). The interface to Concorde uses
+\code{precision} places to the left). The interface to Concorde uses
 \code{\link[=write_TSPLIB]{write_TSPLIB()}}.
 \item "verbose" logical; \code{FALSE} suppresses the output printed to the terminal.
 }
@@ -222,8 +222,8 @@ can be used to encourage the solver to place two objects next to each other.
 }
 
 \section{Solving ATSP and ETSP}{
-Some solvers (including Concorde) cannot directly solve \link{ATSP}
-directly. \code{ATSP} can be reformulated as larger \code{TSP} and solved
+Some solvers (including Concorde) cannot solve \link{ATSP} directly.
+An \code{ATSP} can be reformulated as a larger \code{TSP} and solved
 this way. For convenience, \code{solve_TSP()} has an extra argument
 \code{as_TSP} which can be set to \code{TRUE} to automatically solve the
 \code{ATSP} reformulated as a \code{TSP} (see \code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}}).
@@ -231,7 +231,7 @@ this way. For convenience, \code{solve_TSP()} has an extra argument
 Only methods "concorde" and "linkern" currently solve \link{ETSP}s directly.
 For all other methods, ETSPs are converted into TSPs by creating a
 distance matrix and then solved. Note: distance matrices can become
-very large leading to long memory issues and long computation times.
+very large, leading to high memory usage and long computation times.
 }
 
 \examples{

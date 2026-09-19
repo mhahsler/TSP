@@ -19,7 +19,7 @@ linkern_help()
 executables are installed.}
 }
 \value{
-\code{concorde_path()} returns the path to the executable. Others functions: Nothing.
+\code{concorde_path()} returns the path to the executable. The other functions return nothing.
 }
 \description{
 The Concorde TSP Solver package contains several solvers.  Currently,
@@ -27,7 +27,7 @@ interfaces to the Concorde solver (Applegate et al. 2001), one of the most
 advanced and fastest TSP solvers using branch-and-cut, and the Chained
 Lin-Kernighan (Applegate et al. 2003) implementation are provided in
 \pkg{TSP}. Concorde can solve \link{TSP}s and \link{ETSP}s directly. \link{ATSP}s are
-reformulated as larger TSP's and then solved.
+reformulated as larger TSPs and then solved.
 }
 \section{Installation of Concorde}{
 The Concorde TSP Solver is freely available for academic research.
@@ -54,7 +54,7 @@ after the decimal point) to convert the provided distances into the needed
 integer value range. The \code{precision} value can also be specified in
 \code{control} in \code{\link[=solve_TSP]{solve_TSP()}} with method Concorde. Warning
 messages will alert the user if the conversion to integer values results
-into rounding errors that are worse then what is specified in the
+in rounding errors that are worse than what is specified in the
 \code{precision} control parameter.
 
 To get a list of all available command line options which can be used via
@@ -76,7 +76,7 @@ kill the 'concorde' process via your operating system.
 concorde_path()
 
 
-## set path to the Concorde executible if it is not in the search PATH
+## set path to the Concorde executable if it is not in the search PATH
 ## Example:
 ## concorde_path("~/concorde/")
 
@@ -85,7 +85,7 @@ concorde_help()
 data("USCA312")
 
 ## run Concorde in verbose mode (-v) with fast cuts only (-V)
-## Note: use the contol parameter verbose = FALSE to supress Concorde's output
+## Note: use the control parameter verbose = FALSE to suppress Concorde's output
 solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
 }
 

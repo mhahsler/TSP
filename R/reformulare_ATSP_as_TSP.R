@@ -17,18 +17,18 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#' Reformulate a ATSP as a symmetric TSP
+#' Reformulate an ATSP as a symmetric TSP
 #'
-#' A ATSP can be formulated as a symmetric TSP by doubling the number of cities
+#' An ATSP can be formulated as a symmetric TSP by doubling the number of cities
 #' (Jonker and Volgenant 1983). The solution of the TSP also represents the
 #' solution of the original ATSP.
 #'
-#' To reformulate a [ATSP] as a [TSP], for each city a dummy city (e.g, for 'New
+#' To reformulate an [ATSP] as a [TSP], a dummy city (e.g., for 'New
 #' York' a dummy city 'New York*') is added. Between each city and its
 #' corresponding dummy city a very small (or negative) distance with value
 #' `cheap` is used.
-#' To ensure that the solver places each cities always occurs in the
-#' solution together with its dummy city, this cost has to be much smaller than
+#' To ensure that each city always occurs in the solution together with its
+#' dummy city, this cost has to be much smaller than
 #' the distances in the TSP.
 #' The original distances are used
 #' between the cities and the dummy cities, where each city is responsible for
@@ -40,14 +40,14 @@
 #'
 #' `filter_ATSP_as_TSP_dummies()` can be used to extract the solution for the original
 #' ATSP from the tour found for an ATSP reformulated as a TSP. Note that the symmetric TSP
-#' tour does not reveal the direction for the ATSP. The filter function computed the
+#' tour does not reveal the direction for the ATSP. The filter function computes the
 #' tour length for both directions and returns the shorter tour.
 #'
-#' [solve_TSP()] has a parameter `as_TSP` which preforms the reformulation and
-#' filtering the dummy cities automatically.
+#' [solve_TSP()] has a parameter `as_TSP` that performs the reformulation and
+#' filters the dummy cities automatically.
 #'
-#' **Note on performance:** Doubling the problem size is a performance issue especially
-#' has a negative impact on solution quality for heuristics. It should only be used
+#' **Note on performance:** Doubling the problem size reduces performance and can have
+#' a particularly negative impact on solution quality for heuristics. It should be used only
 #' together with Concorde when the optimal solution is required. Most heuristics can solve
 #' ATSPs directly with good solution quality.
 #' @family TSP
@@ -56,7 +56,7 @@
 #' @param infeasible value for infeasible connections.
 #' @param cheap value for distance between a city and its corresponding dummy
 #' city.
-#' @param tour a [TOUR] created for a ATSP reformulated as a TSP.
+#' @param tour a [TOUR] created for an ATSP reformulated as a TSP.
 #' @param atsp the original [ATSP].
 #' @return
 #' `reformulate_ATSP_as_TSP()` returns a [TSP] object.

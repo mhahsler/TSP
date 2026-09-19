@@ -1,6 +1,6 @@
 #######################################################################
 # TSP - Traveling Salesperson Problem
-# Copyrigth (C) 2011 Michael Hahsler and Kurt Hornik
+# Copyright (C) 2011 Michael Hahsler and Kurt Hornik
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 #' given in `x` are multiplied by \eqn{10^{precision}} before coercion to
 #' `integer`. Note that therefore all results produced by programs using
 #' the TSPLIB file as input need to be divided by \eqn{10^{precision}} (i.e.,
-#' the decimal point has to be shifted `precision` placed to the left).
+#' the decimal point has to be shifted `precision` places to the left).
 #'
 #' Currently only the following `EDGE_WEIGHT_TYPE`s are implemented:
 #' `EXPLICIT`, `EUC_2D`, `EUC_3D`, `ATT` and `GEO`.
