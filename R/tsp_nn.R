@@ -32,9 +32,7 @@ tsp_nn <- function(x, control = NULL) {
       start = sample(n, 1),
       verbose = FALSE
     ), method = "nn")
-    start <- control$start
-    if(start < 0 || start > n)
-      stop(paste("illegal value for", sQuote("start")))
+    start <- .validate_city_index(control$start, n)
 
     placed <- logical(n)
     order <- integer(n)

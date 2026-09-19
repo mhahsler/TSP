@@ -15,13 +15,21 @@ SEXP tour_length_dist(SEXP R_dist, SEXP R_order) {
     bool posinf = false;
     bool neginf = false;
 
-    int *order = INTEGER(R_order);
     int n = INTEGER(getAttrib(R_dist, install("Size")))[0];
+
+    if (TYPEOF(R_order) != INTSXP)
+        error("tour indices must be integers");
+
+    int *order = INTEGER(R_order);
 
     double *dist = REAL(R_dist);
 
     if (n != LENGTH(R_order))
         error("length of distance matrix and tour do not match");
+
+    for (int i = 0; i < n; i++)
+        if (order[i] < 1 || order[i] > n)
+            error("tour contains an invalid city index");
 
     for (int i = 0; i < (n-1); i++) {
         segment = dist[LT_POS(n, order[i]-1, order[i+1]-1)];
@@ -69,10 +77,18 @@ SEXP tour_length_matrix(SEXP R_matrix, SEXP R_order) {
     int n = INTEGER(GET_DIM(R_matrix))[0];
 
     double *matrix = REAL(R_matrix);
+
+    if (TYPEOF(R_order) != INTSXP)
+        error("tour indices must be integers");
+
     int *order = INTEGER(R_order);
 
     if (n != LENGTH(R_order))
         error("length of distance matrix and tour do not match");
+
+    for (int i = 0; i < n; i++)
+        if (order[i] < 1 || order[i] > n)
+            error("tour contains an invalid city index");
 
     for (int i = 0; i < (n-1); i++) {
         segment = matrix[M_POS(n, order[i]-1, order[i+1]-1)];

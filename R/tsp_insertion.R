@@ -48,9 +48,7 @@ tsp_insertion <- function(x, type = "nearest", control = NULL){
       start = sample(n, 1),
       verbose = FALSE
     ), method = paste0(types[type_num], "_insertion"))
-  start <- as.integer(control$start)
-  if(start < 0 || start > n)
-    stop(paste("illegal value for", sQuote("start")))
+  start <- .validate_city_index(control$start, n)
 
   placed <- logical(n)
   placed[start] <- TRUE

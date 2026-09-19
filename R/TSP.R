@@ -87,7 +87,7 @@ as.TSP.dist <- function(x) {
   if (is.null(attr(x, "Labels")))
     attr(x, "Labels") <- c(1:n_of_cities(x))
 
-  if (any(is.nan(x)))
+  if (anyNA(x))
     stop(paste(sQuote("NAs"), "not supported"))
 
   ## make sure data is numeric
@@ -110,7 +110,7 @@ as.TSP.matrix <- function(x) {
   if (is.null(attr(x, "Labels")))
     attr(x, "Labels") <- c(1:n_of_cities(x))
 
-  if (any(is.nan(x)))
+  if (anyNA(x))
     stop(paste(sQuote("NAs"), "not supported"))
 
   ## make sure data is numeric

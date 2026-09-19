@@ -81,11 +81,30 @@ TOUR <- function(x, method = NA, tsp = NULL) {
 as.TOUR <- function(object)
   UseMethod("as.TOUR")
 
+.validate_tour <- function(order, n, name = "order") {
+  if (!is.numeric(order))
+    stop(name, " must be a numeric permutation.", call. = FALSE)
+
+  if (length(order) != n)
+    stop(name, " must contain exactly ", n, " city indices.", call. = FALSE)
+
+  if (anyNA(order) || any(!is.finite(order)) ||
+      any(order != floor(order)) || any(order < 1L) || any(order > n))
+    stop(name, " must be a permutation of the integers from 1 to ", n, ".",
+      call. = FALSE)
+
+  order <- as.integer(order)
+  if (anyDuplicated(order))
+    stop(name, " must not contain duplicate city indices.", call. = FALSE)
+
+  order
+}
+
 #' @rdname TOUR
 #' @export
 as.TOUR.numeric <-  function(object) {
   l <- labels(object)	    ### preserve labels
-  object <- as.integer(object)
+  object <- .validate_tour(object, length(object), name = "tour")
   names(object) <- l
   as.TOUR(object)
 }
@@ -93,13 +112,9 @@ as.TOUR.numeric <-  function(object) {
 #' @rdname TOUR
 #' @export
 as.TOUR.integer <- function(object) {
-  ## check tour
-  if (any(object < 1) ||
-      any(object > length(object)) || any(is.na(object)))
-    stop("tour contains illegal elements.")
-
-  if (any(duplicated(object)))
-    stop("tour indices are not unique.")
+  l <- names(object)
+  object <- .validate_tour(object, length(object), name = "tour")
+  names(object) <- l
 
   class(object) <- c("TOUR", class(object))
   object

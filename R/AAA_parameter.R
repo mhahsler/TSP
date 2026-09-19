@@ -24,6 +24,15 @@
     paste(names(l), "=",l, collapse=", "))
 }
 
+.validate_city_index <- function(x, n, name = "start") {
+  if (!is.numeric(x) || length(x) != 1L || anyNA(x) ||
+      !is.finite(x) || x != floor(x) || x < 1L || x > n)
+    stop(name, " must be a single integer between 1 and ", n, ".",
+      call. = FALSE)
+
+  as.integer(x)
+}
+
 
 .get_parameters <- function(parameter, defaults, method = NA) {
   defaults <- c(as.list(defaults), "two_opt" = FALSE, rep = FALSE)

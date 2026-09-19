@@ -57,7 +57,11 @@ tour_length <- function(x, ...)
 tour_length.TSP <- function(x, order, ...) {
   n <- n_of_cities(x)
   if (missing(order))
-    order <- 1:n
+    order <- seq_len(n)
+
+  order <- .validate_tour(order, n)
+  if (n <= 1L)
+    return(0)
 
   .Call(R_tour_length_dist, x, order)
 }
@@ -67,7 +71,11 @@ tour_length.TSP <- function(x, order, ...) {
 tour_length.ATSP <- function(x, order, ...) {
   n <- n_of_cities(x)
   if (missing(order))
-    order <- 1:n
+    order <- seq_len(n)
+
+  order <- .validate_tour(order, n)
+  if (n <= 1L)
+    return(0)
 
   .Call(R_tour_length_matrix, x, order)
 }
@@ -79,14 +87,15 @@ tour_length.ATSP <- function(x, order, ...) {
 #' @export
 tour_length.ETSP <- function(x, order, ...) {
   n <- n_of_cities(x)
-  if (n != nrow(x))
-    stop("x and order do not have the same number of cities!")
-
   if (missing(order))
-    order <- 1:n
+    order <- seq_len(n)
+
+  order <- .validate_tour(order, n)
+  if (n <= 1L)
+    return(0)
 
   as.numeric(sum(sapply(
-    1:(n - 1),
+    seq_len(n - 1L),
     FUN = function(i)
       dist(x[order[c(i, i + 1)], , drop = FALSE])
   )) +

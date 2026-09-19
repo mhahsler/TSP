@@ -90,7 +90,7 @@ as.ATSP.matrix <- function(x){
     if(!.isSquare(x)) stop("ATSP requires a square matrix")
 
     ## check for NAs
-    if(any(is.nan(x))) stop(paste(sQuote("NAs"), "not supported"))
+    if(anyNA(x)) stop(paste(sQuote("NAs"), "not supported"))
 
     ## make sure we have labels
     if(is.null(dimnames(x)))
