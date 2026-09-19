@@ -1,3 +1,6 @@
+# TSP 1.2.7.1 (Unpublished)
+* Fixed spelling and documentation.
+
 # TSP 1.2.7 (03/22/2026)
 * Improved verbose output for method "sa."
 * Improved man page for solve_TSP (suggested by Henrik Bengtsson).
