@@ -51,3 +51,40 @@ test_that("one-city problems have zero tour length", {
   expect_equal(tour_length(ETSP(coords)), 0)
   expect_error(tour_length(ETSP(coords), integer()))
 })
+
+test_that("unsupported city-count objects fail clearly", {
+  expect_error(n_of_cities(1:3), "not defined")
+})
+
+test_that("constructors update attributes on existing objects", {
+  d <- dist(matrix(seq_len(8), ncol = 2))
+  tsp <- TSP(d, labels = letters[1:4], method = "original")
+  expect_equal(labels(TSP(tsp, labels = LETTERS[1:4])), LETTERS[1:4])
+  expect_equal(attr(TSP(tsp, method = "updated"), "method"), "updated")
+  expect_error(TSP(tsp, labels = letters[1:3]), "one value for each city")
+
+  atsp <- ATSP(as.matrix(d), labels = letters[1:4], method = "original")
+  expect_equal(labels(ATSP(atsp, labels = LETTERS[1:4])), LETTERS[1:4])
+  expect_equal(attr(ATSP(atsp, method = "updated"), "method"), "updated")
+
+  etsp <- ETSP(matrix(seq_len(8), ncol = 2), labels = letters[1:4])
+  expect_equal(labels(ETSP(etsp, labels = LETTERS[1:4])), LETTERS[1:4])
+  expect_error(ETSP(etsp, labels = letters[1:3]), "one value for each city")
+})
+
+test_that("control parameters are scalar values in valid ranges", {
+  tsp <- TSP(dist(matrix(seq_len(8), ncol = 2)))
+
+  invalid <- list(
+    list(method = "nn", control = list(verbose = 1)),
+    list(method = "nn", control = list(two_opt = NA)),
+    list(method = "nn", control = list(rep = 0)),
+    list(method = "nn", control = list(rep = 1.5)),
+    list(method = "two_opt", control = list(two_opt_repetitions = 0)),
+    list(method = "sa", control = list(maxit = -1)),
+    list(method = "sa", control = list(temp = c(1, 2)))
+  )
+
+  for (args in invalid)
+    expect_error(solve_TSP(tsp, method = args$method, control = args$control))
+})

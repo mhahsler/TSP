@@ -35,12 +35,12 @@ expect_true(all(tl == 4 | tl == Inf))
 
 ## test rep
 res <- solve_TSP(tsp, rep=10)
-tl <- attr("res", "tour_length")
+tl <- attr(res, "tour_length")
 expect_true(all(tl == 4 | tl == Inf))
 
 ## no two_opt
 res <- solve_TSP(tsp, two_opt=FALSE)
-tl <- attr("res", "tour_length")
+tl <- attr(res, "tour_length")
 expect_true(all(tl == 4 | tl == Inf))
 
 ## test special case: two cities

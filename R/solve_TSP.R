@@ -429,6 +429,13 @@ solve_TSP.ETSP <- function(x,
     control$two_opt <- TRUE
   } else
     method <- match.arg(tolower(method), methods)
+
+  ## Validate controls even for methods that do not call .get_parameters.
+  control <- utils::modifyList(
+    list(verbose = FALSE, two_opt = FALSE, rep = 1L),
+    control
+  )
+  control <- .validate_control(control)
     
   ## no rep or two_opt for these!
   if (method == "concorde" || method == "linkern") {

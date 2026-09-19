@@ -66,8 +66,14 @@
 #' text(etsp, paste("City", rownames(etsp)), pos = 1)
 #' @export
 ETSP <- function(x, labels = NULL) {
-  if(inherits(x, "ETSP")) return(x)
+  if (inherits(x, "ETSP")) {
+    labels <- .validate_labels(labels, n_of_cities(x))
+    if (!is.null(labels))
+      rownames(x) <- labels
+    return(x)
+  }
   x <- as.ETSP(x)
+  labels <- .validate_labels(labels, n_of_cities(x))
   if(!is.null(labels)) rownames(x) <- labels
   x
 }

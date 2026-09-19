@@ -68,11 +68,21 @@
 #' image(atsp, tour)
 #' @export
 ATSP <- function(x, labels = NULL, method = NULL) {
-    if(inherits(x, "ATSP")) return(x)
+    if (inherits(x, "ATSP")) {
+        labels <- .validate_labels(labels, n_of_cities(x))
+        if (!is.null(labels))
+            dimnames(x) <- list(labels, labels)
+        method <- .validate_method(method)
+        if (!is.null(method))
+            attr(x, "method") <- method
+        return(x)
+    }
 
     atsp <- as.ATSP(x)
 
+    labels <- .validate_labels(labels, n_of_cities(atsp))
     if(!is.null(labels)) dimnames(atsp) <- list(labels, labels)
+    method <- .validate_method(method)
     if(!is.null(method)) attr(atsp, "method") <- method
 
     atsp
