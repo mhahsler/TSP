@@ -123,7 +123,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 41929
+    ## tour length: 40446
 
 Show the first few cities in the tour.
 
@@ -131,10 +131,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ## Harrisburg, PA  Lancaster, PA  Baltimore, MD Washington, DC   Richmond, VA 
-    ##            116            141             18            294            220 
-    ## Portsmouth, VA    Norfolk, VA Wilmington, NC    Raleigh, NC     Durham, NC 
-    ##            208            184            303            215             80
+    ##   Youngstown, OH   Pittsburgh, PA Steubenville, OH     Wheeling, WV 
+    ##              310              201              267              297 
+    ##   Zanesville, OH   Charleston, WV      Ashland, KY     Columbus, OH 
+    ##              312               53               11               66 
+    ##  Springfield, OH         Lima, OH 
+    ##              265              149
 
 Visualize the complete tour.
 
@@ -161,75 +163,42 @@ Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+- <span id="ref-Applegate2000"></span>Applegate, David, Robert E. Bixby,
+  Vasek Chvátal, and William Cook. 2000. “TSP Cuts Which Do Not Conform
+  to the Template Paradigm.” In *Computational Combinatorial
+  Optimization, Optimal or Provably Near-Optimal Solutions*, edited
+  by M. Junger and D. Naddef, vol. 2241. Lecture Notes in Computer
+  Science. Springer-Verlag. <https://doi.org/10.1007/3-540-45586-8_7>.
 
-<div id="ref-Applegate2000" class="csl-entry">
+- <span id="ref-Applegate2006"></span>Applegate, David, Robert Bixby,
+  Vasek Chvátal, and William Cook. 2006. *Concorde TSP Solver*.
+  <https://www.math.uwaterloo.ca/tsp/concorde.html>.
 
-Applegate, David, Robert E. Bixby, Vasek Chvátal, and William Cook.
-2000. “TSP Cuts Which Do Not Conform to the Template Paradigm.” In
-*Computational Combinatorial Optimization, Optimal or Provably
-Near-Optimal Solutions*, edited by M. Junger and D. Naddef, vol. 2241.
-Lecture Notes in Computer Science. Springer-Verlag.
-<https://doi.org/10.1007/3-540-45586-8_7>.
+- <span id="ref-Applegate2003"></span>Applegate, David, William Cook,
+  and Andre Rohe. 2003. “Chained Lin-Kernighan for Large Traveling
+  Salesman Problems.” *INFORMS Journal on Computing* 15 (1): 82–92.
+  <https://doi.org/10.1287/ijoc.15.1.82.15157>.
 
-</div>
+- <span id="ref-Croes1958"></span>Croes, G. A. 1958. “A Method for
+  Solving Traveling-Salesman Problems.” *Operations Research* 6 (6):
+  791–812. <https://doi.org/10.1287/opre.6.6.791>.
 
-<div id="ref-Applegate2006" class="csl-entry">
+- <span id="ref-Hahsler+Hornik2007"></span>Hahsler, Michael, and Kurt
+  Hornik. 2007. “TSP – Infrastructure for the Traveling Salesperson
+  Problem.” *Journal of Statistical Software* 23 (2): 1–21.
+  <https://doi.org/10.18637/jss.v023.i02>.
 
-Applegate, David, Robert Bixby, Vasek Chvátal, and William Cook. 2006.
-*Concorde TSP Solver*.
-<https://www.math.uwaterloo.ca/tsp/concorde.html>.
+- <span id="ref-Kirkpatrick1983"></span>Kirkpatrick, S., C. D. Gelatt,
+  and M. P. Vecchi. 1983. “Optimization by Simulated Annealing.”
+  *Science* 220 (4598): 671–80.
+  <https://doi.org/10.1126/science.220.4598.671>.
 
-</div>
+- <span id="ref-Reinelt1991"></span>Reinelt, Gerhard. 1991. “TSPLIB—a
+  Traveling Salesman Problem Library.” *ORSA Journal on Computing* 3
+  (4): 376–84. <https://doi.org/10.1287/ijoc.3.4.376>.
 
-<div id="ref-Applegate2003" class="csl-entry">
-
-Applegate, David, William Cook, and Andre Rohe. 2003. “Chained
-Lin-Kernighan for Large Traveling Salesman Problems.” *INFORMS Journal
-on Computing* 15 (1): 82–92.
-<https://doi.org/10.1287/ijoc.15.1.82.15157>.
-
-</div>
-
-<div id="ref-Croes1958" class="csl-entry">
-
-Croes, G. A. 1958. “A Method for Solving Traveling-Salesman Problems.”
-*Operations Research* 6 (6): 791–812.
-<https://doi.org/10.1287/opre.6.6.791>.
-
-</div>
-
-<div id="ref-Hahsler+Hornik2007" class="csl-entry">
-
-Hahsler, Michael, and Kurt Hornik. 2007. “TSP – Infrastructure for the
-Traveling Salesperson Problem.” *Journal of Statistical Software* 23
-(2): 1–21. <https://doi.org/10.18637/jss.v023.i02>.
-
-</div>
-
-<div id="ref-Kirkpatrick1983" class="csl-entry">
-
-Kirkpatrick, S., C. D. Gelatt, and M. P. Vecchi. 1983. “Optimization by
-Simulated Annealing.” *Science* 220 (4598): 671–80.
-<https://doi.org/10.1126/science.220.4598.671>.
-
-</div>
-
-<div id="ref-Reinelt1991" class="csl-entry">
-
-Reinelt, Gerhard. 1991. “TSPLIB—a Traveling Salesman Problem Library.”
-*ORSA Journal on Computing* 3 (4): 376–84.
-<https://doi.org/10.1287/ijoc.3.4.376>.
-
-</div>
-
-<div id="ref-Rosenkrantz1977" class="csl-entry">
-
-Rosenkrantz, Daniel J., Richard E. Stearns, and II Philip M. Lewis.
-1977. “An Analysis of Several Heuristics for the Traveling Salesman
-Problem.” *SIAM Journal on Computing* 6 (3): 563–81.
-<https://doi.org/10.1007/978-1-4020-9688-4_3>.
-
-</div>
-
-</div>
+- <span id="ref-Rosenkrantz1977"></span>Rosenkrantz, Daniel J.,
+  Richard E. Stearns, and Philip M. Lewis II. 1977. “An Analysis of
+  Several Heuristics for the Traveling Salesman Problem.” *SIAM Journal
+  on Computing* 6 (3): 563–81.
+  <https://doi.org/10.1007/978-1-4020-9688-4_3>.
