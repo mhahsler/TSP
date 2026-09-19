@@ -167,21 +167,20 @@ tsp_concorde <- function(x, control = NULL) {
     )
   )
 
-
-
-  ## get temp files and change working directory
-  wd <- tempdir()
+  ## Use a separate directory because Concorde may create auxiliary files.
+  wd <- tempfile("TSP-concorde-", tmpdir = tempdir())
+  if (!dir.create(wd))
+    stop("Could not create a temporary directory for Concorde.", call. = FALSE)
   dir <- getwd()
+  on.exit({
+    setwd(dir)
+    if (!control$keep_files)
+      unlink(wd, recursive = TRUE)
+  }, add = TRUE)
   setwd(wd)
-  on.exit(setwd(dir))
 
-  ### fix for Windows by Stephen Eick
-  ##temp_file <- tempfile(tmpdir = wd)
-  temp_file <- basename(tempfile(tmpdir = wd))
-
-  ## file name needs to be unique
-  tmp_file_in  <- paste(temp_file, ".dat", sep = "")
-  tmp_file_out <- paste(temp_file, ".sol", sep = "")
+  tmp_file_in  <- "problem.dat"
+  tmp_file_out <- "result.sol"
 
   ## check x
   if (inherits(x, "TSP")) {
@@ -201,12 +200,8 @@ tsp_concorde <- function(x, control = NULL) {
   } else
     stop("Concorde only handles TSP and ETSP.")
 
-  ## change working directory
-
   ## do the call and read back result
-  ## we do not check return values of Concorde since they are not
-  ## very consistent
-  system2(
+  status <- system2(
     control$exe,
     args =  paste("-x", control$clo, "-o", tmp_file_out, tmp_file_in),
     stdout = if (control$verbose)
@@ -216,8 +211,13 @@ tsp_concorde <- function(x, control = NULL) {
     stderr = if (control$verbose)
       ""
     else
-      FALSE,
+      FALSE
   )
+
+  ## Some Concorde builds return -1 after successfully writing the solution;
+  ## system2 reports that value as 255 on Unix-like systems.
+  if (!status %in% c(0L, -1L, 255L))
+    stop("Concorde exited with status ", status, ".", call. = FALSE)
 
   if (!file.access(tmp_file_out) == 0)
     stop(
@@ -229,11 +229,8 @@ tsp_concorde <- function(x, control = NULL) {
   ## remove number of nodes and add one (result starts with 0)
   order <- order[-1] + 1L
 
-  ## tidy up
-  if (!control$keep_files)
-    unlink(c(tmp_file_in, tmp_file_out))
-  else
-    cat("File are in:", wd, "\n\n")
+  if (control$keep_files)
+    cat("Files are in:", wd, "\n\n")
 
   order
 }
@@ -272,26 +269,25 @@ tsp_linkern <- function(x, control = NULL) {
   } else
     stop("Linkern only works for TSP and ETSP.")
 
-  ## get temp files and change working directory
-  wd <- tempdir()
+  ## Use a separate directory because linkern may create auxiliary files.
+  wd <- tempfile("TSP-linkern-", tmpdir = tempdir())
+  if (!dir.create(wd))
+    stop("Could not create a temporary directory for Linkern.", call. = FALSE)
   dir <- getwd()
+  on.exit({
+    setwd(dir)
+    if (!control$keep_files)
+      unlink(wd, recursive = TRUE)
+  }, add = TRUE)
   setwd(wd)
-  on.exit(setwd(dir))
 
-  ### fix for Windows by Stephen Eick
-  ##temp_file <- tempfile(tmpdir = wd)
-  temp_file <- basename(tempfile(tmpdir = wd))
-
-  ## file name needs to be unique
-  tmp_file_in  <- paste(temp_file, ".dat", sep = "")
-  tmp_file_out <- paste(temp_file, ".sol", sep = "")
+  tmp_file_in  <- "problem.dat"
+  tmp_file_out <- "result.sol"
 
   write_TSPLIB(x, file = tmp_file_in, precision = 0)
 
   ## do the call and read back result
-  ## we do not check return values of Concorde since they are not
-  ## very consistent
-  system2(
+  status <- system2(
     control$exe,
     args =  paste("-o",
       tmp_file_out, control$clo, tmp_file_in),
@@ -305,6 +301,9 @@ tsp_linkern <- function(x, control = NULL) {
       FALSE
   )
 
+  if (!identical(status, 0L))
+    stop("Linkern exited with status ", status, ".", call. = FALSE)
+
   if (!file.access(tmp_file_out) == 0)
     stop(
       "Linkern has not produced a result file.\nIs linkern properly installed?\nDid linkern finish without an error or being interrupted?"
@@ -315,11 +314,8 @@ tsp_linkern <- function(x, control = NULL) {
   ## remove number of nodes and add one (result starts with 0)
   order <- order + as.integer(1)
 
-  ## tidy up
-  if (!control$keep_files)
-    unlink(c(tmp_file_in, tmp_file_out))
-  else
-    cat("File are in:", wd, "\n\n")
+  if (control$keep_files)
+    cat("Files are in:", wd, "\n\n")
 
   order
 }

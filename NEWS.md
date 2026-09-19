@@ -1,6 +1,8 @@
 # TSP 1.2.7.1 (Unpublished)
 * Added a `seed` control option for reproducible randomized repetitions across
   sequential and parallel foreach backends.
+* The Concorde and linkern interfaces now check solver exit statuses and clean
+  temporary and auxiliary files after both successful and failed runs.
 * Fixed spelling and documentation.
 * Fixed input-validation bugs in TSP(), ATSP(), tour_length.ETSP(), 
   and validate tour indices before passing them to C.
