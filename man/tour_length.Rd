@@ -56,10 +56,10 @@ tour_length(tour)
 tour_length(tour, USCA50)
 }
 \seealso{
-Other TOUR: 
-\code{\link{TOUR}()},
-\code{\link{cut_tour}()},
-\code{\link{solve_TSP}()}
+Other TOUR:
+\code{\link[=TOUR]{TOUR()}},
+\code{\link[=cut_tour]{cut_tour()}},
+\code{\link[=solve_TSP]{solve_TSP()}}
 }
 \author{
 Michael Hahsler

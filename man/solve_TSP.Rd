@@ -315,19 +315,19 @@ of several heuristics for the traveling salesman problem.  \emph{SIAM
 Journal on Computing}, 6(3):563--581. \doi{10.1007/978-1-4020-9688-4_3}
 }
 \seealso{
-Other TSP: 
-\code{\link{ATSP}()},
+Other TSP:
+\code{\link[=ATSP]{ATSP()}},
 \code{\link{Concorde}},
-\code{\link{ETSP}()},
-\code{\link{TSP}()},
+\code{\link[=ETSP]{ETSP()}},
+\code{\link[=TSP]{TSP()}},
 \code{\link{TSPLIB}},
-\code{\link{insert_dummy}()},
-\code{\link{reformulate_ATSP_as_TSP}()}
+\code{\link[=insert_dummy]{insert_dummy()}},
+\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}}
 
-Other TOUR: 
-\code{\link{TOUR}()},
-\code{\link{cut_tour}()},
-\code{\link{tour_length}()}
+Other TOUR:
+\code{\link[=TOUR]{TOUR()}},
+\code{\link[=cut_tour]{cut_tour()}},
+\code{\link[=tour_length]{tour_length()}}
 }
 \author{
 Michael Hahsler

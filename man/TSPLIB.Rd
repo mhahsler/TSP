@@ -97,14 +97,14 @@ unlink("example.tsp")
 Reinelt, Gerhard. 1991. “TSPLIB—a Traveling Salesman Problem Library.” ORSA Journal on Computing 3 (4): 376–84. \doi{10.1287/ijoc.3.4.376}
 }
 \seealso{
-Other TSP: 
-\code{\link{ATSP}()},
+Other TSP:
+\code{\link[=ATSP]{ATSP()}},
 \code{\link{Concorde}},
-\code{\link{ETSP}()},
-\code{\link{TSP}()},
-\code{\link{insert_dummy}()},
-\code{\link{reformulate_ATSP_as_TSP}()},
-\code{\link{solve_TSP}()}
+\code{\link[=ETSP]{ETSP()}},
+\code{\link[=TSP]{TSP()}},
+\code{\link[=insert_dummy]{insert_dummy()}},
+\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}},
+\code{\link[=solve_TSP]{solve_TSP()}}
 }
 \author{
 Michael Hahsler

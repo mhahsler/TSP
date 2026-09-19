@@ -46,10 +46,10 @@ path <- cut_tour(tour, "cut")
 path
 }
 \seealso{
-Other TOUR: 
-\code{\link{TOUR}()},
-\code{\link{solve_TSP}()},
-\code{\link{tour_length}()}
+Other TOUR:
+\code{\link[=TOUR]{TOUR()}},
+\code{\link[=solve_TSP]{solve_TSP()}},
+\code{\link[=tour_length]{tour_length()}}
 }
 \author{
 Michael Hahsler

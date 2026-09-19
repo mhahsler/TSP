@@ -83,14 +83,14 @@ tour_length(tour)
 image(atsp, tour)
 }
 \seealso{
-Other TSP: 
+Other TSP:
 \code{\link{Concorde}},
-\code{\link{ETSP}()},
-\code{\link{TSP}()},
+\code{\link[=ETSP]{ETSP()}},
+\code{\link[=TSP]{TSP()}},
 \code{\link{TSPLIB}},
-\code{\link{insert_dummy}()},
-\code{\link{reformulate_ATSP_as_TSP}()},
-\code{\link{solve_TSP}()}
+\code{\link[=insert_dummy]{insert_dummy()}},
+\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}},
+\code{\link[=solve_TSP]{solve_TSP()}}
 }
 \author{
 Michael Hahsler

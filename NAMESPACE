@@ -62,17 +62,25 @@ export(reformulate_ATSP_as_TSP)
 export(solve_TSP)
 export(tour_length)
 export(write_TSPLIB)
-importFrom(foreach,"%dopar%")
-importFrom(foreach,foreach)
+importFrom(foreach,
+  "%dopar%",
+  foreach
+)
 importFrom(grDevices,gray.colors)
-importFrom(graphics,image.default)
-importFrom(graphics,plot)
-importFrom(graphics,polygon)
-importFrom(graphics,text)
-importFrom(stats,as.dist)
-importFrom(stats,dist)
-importFrom(utils,head)
-importFrom(utils,read.table)
-importFrom(utils,tail)
-importFrom(utils,write.table)
+importFrom(graphics,
+  image.default,
+  plot,
+  polygon,
+  text
+)
+importFrom(stats,
+  as.dist,
+  dist
+)
+importFrom(utils,
+  head,
+  read.table,
+  tail,
+  write.table
+)
 useDynLib(TSP, .registration=TRUE)

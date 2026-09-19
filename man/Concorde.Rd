@@ -103,14 +103,14 @@ Lin-Kernighan for Large Traveling Salesman Problems, \emph{INFORMS Journal
 on Computing}, \bold{15}, 82--92.
 }
 \seealso{
-Other TSP: 
-\code{\link{ATSP}()},
-\code{\link{ETSP}()},
-\code{\link{TSP}()},
+Other TSP:
+\code{\link[=ATSP]{ATSP()}},
+\code{\link[=ETSP]{ETSP()}},
+\code{\link[=TSP]{TSP()}},
 \code{\link{TSPLIB}},
-\code{\link{insert_dummy}()},
-\code{\link{reformulate_ATSP_as_TSP}()},
-\code{\link{solve_TSP}()}
+\code{\link[=insert_dummy]{insert_dummy()}},
+\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}},
+\code{\link[=solve_TSP]{solve_TSP()}}
 }
 \author{
 Michael Hahsler

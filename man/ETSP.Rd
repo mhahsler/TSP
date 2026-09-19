@@ -90,14 +90,14 @@ plot(etsp, tour, tour_col = "red", labels = FALSE)
 text(etsp, paste("City", rownames(etsp)), pos = 1)
 }
 \seealso{
-Other TSP: 
-\code{\link{ATSP}()},
+Other TSP:
+\code{\link[=ATSP]{ATSP()}},
 \code{\link{Concorde}},
-\code{\link{TSP}()},
+\code{\link[=TSP]{TSP()}},
 \code{\link{TSPLIB}},
-\code{\link{insert_dummy}()},
-\code{\link{reformulate_ATSP_as_TSP}()},
-\code{\link{solve_TSP}()}
+\code{\link[=insert_dummy]{insert_dummy()}},
+\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}},
+\code{\link[=solve_TSP]{solve_TSP()}}
 }
 \author{
 Michael Hahsler
