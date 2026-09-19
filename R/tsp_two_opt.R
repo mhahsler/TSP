@@ -45,7 +45,6 @@ tsp_two_opt <- function(x, control = NULL){
   if(control$two_opt_repetitions > 1) {
     tour <- replicate(control$two_opt_repetitions, .Call(R_two_opt, xx, initial()), simplify = FALSE)
     lengths <- sapply(tour, FUN = function(t) tour_length(x, t))
-    cat(lengths)
     tour <- tour[[which.min(lengths)]]
   }else tour <- .Call(R_two_opt, xx, initial())
 
