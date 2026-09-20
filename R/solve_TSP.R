@@ -456,13 +456,6 @@ solve_TSP.ETSP <- function(x,
   } else
     method <- match.arg(tolower(method), methods)
 
-  ## Validate controls even for methods that do not call .get_parameters.
-  control <- utils::modifyList(
-    list(verbose = FALSE, two_opt = FALSE, rep = 1L, seed = NULL),
-    control
-  )
-  control <- .validate_control(control)
-    
   ## no rep or two_opt for these!
   if (method == "concorde" || method == "linkern") {
     if (control$rep %||% 1L > 1L || control$two_opt %||% FALSE)
@@ -482,8 +475,14 @@ solve_TSP.ETSP <- function(x,
   .solve_TSP_worker <- function(x_, method, control) {
     order <- switch(
       method,
-      identity = seq(n_of_cities(x_)),
-      random = sample(n_of_cities(x_)),
+      identity = {
+        control <- .get_parameters(control, list(), method = "identity")
+        seq_len(n_of_cities(x_))
+      },
+      random = {
+        control <- .get_parameters(control, list(), method = "random")
+        sample(n_of_cities(x_))
+      },
       nearest_insertion = tsp_insertion(x_, type = "nearest", control = control),
       farthest_insertion = tsp_insertion(x_, type = "farthest", control = control),
       cheapest_insertion = tsp_insertion(x_, type = "cheapest", control = control),

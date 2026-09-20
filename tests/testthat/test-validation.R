@@ -90,3 +90,20 @@ test_that("control parameters are scalar values in valid ranges", {
   for (args in invalid)
     expect_error(solve_TSP(tsp, method = args$method, control = args$control))
 })
+
+test_that("simple tour constructors use standard parameter handling", {
+  tsp <- TSP(dist(matrix(seq_len(8), ncol = 2)))
+
+  for (method in c("identity", "random")) {
+    expect_warning(
+      solve_TSP(tsp, method = method, unknown = TRUE),
+      "Unknown parameter: unknown",
+      fixed = TRUE
+    )
+    expect_error(
+      solve_TSP(tsp, method = method, verbose = 1),
+      "verbose must be a single logical",
+      fixed = TRUE
+    )
+  }
+})

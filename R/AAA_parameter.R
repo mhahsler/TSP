@@ -101,13 +101,14 @@
 
 
 .get_parameters <- function(parameter, defaults, method = NA) {
-  defaults <- c(as.list(defaults),
-    list("two_opt" = FALSE, rep = 1L, seed = NULL))
+  # add standard parameters
+  defaults <- utils::modifyList(
+    list(verbose = FALSE, two_opt = FALSE, rep = 1L, seed = NULL),
+    as.list(defaults),
+    keep.null = TRUE
+  )
+
   parameter <- as.list(parameter)
-
-  ## add verbose
-  if(is.null(defaults$verbose)) defaults$verbose <- FALSE
-
   if(length(parameter) != 0) {
     o <- pmatch(names(parameter), names(defaults))
 
