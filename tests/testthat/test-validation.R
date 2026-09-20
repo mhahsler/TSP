@@ -1,8 +1,6 @@
 library(TSP)
 library(testthat)
 
-context("input validation")
-
 test_that("TSP and ATSP constructors reject missing distances", {
   x <- matrix(c(0, NA, NA, 0), nrow = 2)
 

@@ -1,113 +1,92 @@
 library(TSP)
 library(testthat)
 
-context("TSPLIB")
+test_that("TSPLIB round trips TSP, ATSP, and ETSP objects", {
+  set.seed(1234)
+  x <- data.frame(x = runif(5), y = runif(5))
+  d <- round(dist(x), 3)
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
 
-set.seed(1234)
-x <- data.frame(x=runif(5), y=runif(5))
+  objects <- list(
+    TSP = TSP(d),
+    ATSP = ATSP(d),
+    ETSP = ETSP(round(x[, 1:2], 3))
+  )
 
-## create TSP, ATSP and ETSP (2D)
-d <- round(dist(x), 3)
+  for (object in objects) {
+    write_TSPLIB(object, file = path, precision = 6)
+    expect_equal(read_TSPLIB(path, precision = 6), object,
+      ignore_attr = TRUE)
+  }
+})
 
-## TSP
-tsp <- TSP(d)
-tsp
+test_that("TSPLIB replaces infinite distances", {
+  set.seed(1234)
+  d <- round(dist(data.frame(x = runif(5), y = runif(5))), 3)
+  d[2] <- Inf
+  tsp <- TSP(d)
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
 
-write_TSPLIB(tsp, file="example.tsp", precision = 6)
-#file.show("example.tsp")
-r <- read_TSPLIB("example.tsp", precision = 6)
-expect_equivalent(tsp, r)
+  write_TSPLIB(tsp, file = path, precision = 6)
+  result <- read_TSPLIB(path, precision = 6)
 
-## ATSP
-atsp <- ATSP(d)
-atsp
+  expect_equal(result[-2], tsp[-2], ignore_attr = TRUE)
+  expect_gt(result[2], range(tsp, finite = TRUE)[2])
+})
 
-write_TSPLIB(atsp, file="example.tsp", precision = 6)
-#file.show("example.tsp")
-r <- read_TSPLIB("example.tsp", precision = 6)
-expect_equivalent(atsp, r)
+test_that("TSPLIB reads ATT coordinates", {
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
+  writeLines(c(
+    "NAME: ATT_EXAMPLE",
+    "TYPE: TSP",
+    "DIMENSION: 4",
+    "EDGE_WEIGHT_TYPE: ATT",
+    "NODE_COORD_SECTION",
+    "1 0 0",
+    "2 3 4",
+    "3 6 8",
+    "4 9 12",
+    "EOF"
+  ), con = path)
 
-## ETSP (2D)
-etsp <- ETSP(round(x[,1:2], 3))
-etsp
+  expected <- matrix(c(
+    0, 2, 4, 5,
+    2, 0, 2, 4,
+    4, 2, 0, 2,
+    5, 4, 2, 0
+  ), nrow = 4, byrow = TRUE)
+  expected <- TSP(expected, labels = as.character(1:4), method = "ATT")
 
-write_TSPLIB(etsp, file="example.tsp", precision = 6)
-#file.show("example.tsp")
-r <- read_TSPLIB("example.tsp", precision = 6)
-expect_equivalent(etsp, r)
+  expect_equal(read_TSPLIB(path), expected, ignore_attr = TRUE)
+})
 
-## Infinity
-d[2] <- Inf
-tsp <- TSP(d)
-write_TSPLIB(tsp, file="example.tsp", precision = 6)
-r <- read_TSPLIB("example.tsp", precision = 6)
-expect_equivalent(tsp[-2], r[-2])
-expect_gt(r[2], range(tsp, finite = TRUE)[2])
+test_that("TSPLIB reads GEO coordinates with optional indentation", {
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
 
-## ATT
-writeLines(c(
-  "NAME: ATT_EXAMPLE",
-  "TYPE: TSP",
-  "DIMENSION: 4",
-  "EDGE_WEIGHT_TYPE: ATT",
-  "NODE_COORD_SECTION",
-  "1 0 0",
-  "2 3 4",
-  "3 6 8",
-  "4 9 12",
-  "EOF"
-), con = "att-example.tsp")
+  expected <- matrix(c(
+    0, 234, 155,
+    234, 0, 186,
+    155, 186, 0
+  ), nrow = 3, byrow = TRUE)
+  expected <- TSP(expected, labels = as.character(1:3), method = "GEO")
 
-r <- read_TSPLIB("att-example.tsp")
-expected <- matrix(c(
-  0, 2, 4, 5,
-  2, 0, 2, 4,
-  4, 2, 0, 2,
-  5, 4, 2, 0
-), nrow = 4, byrow = TRUE)
-expected <- TSP(expected, labels = as.character(1:4), method = "ATT")
-expect_equivalent(r, expected)
+  for (indent in c("", " ")) {
+    writeLines(c(
+      "NAME: GEO_EXAMPLE",
+      "TYPE: TSP",
+      "DIMENSION: 3",
+      "EDGE_WEIGHT_TYPE: GEO",
+      "NODE_COORD_SECTION",
+      paste0(indent, "1 48.12 16.22"),
+      paste0(indent, "2 46.38 14.18"),
+      paste0(indent, "3 48.18 14.17"),
+      paste0(indent, "EOF")
+    ), con = path)
 
-## GEO
-writeLines(c(
-  "NAME: GEO_EXAMPLE",
-  "TYPE: TSP",
-  "DIMENSION: 3",
-  "EDGE_WEIGHT_TYPE: GEO",
-  "NODE_COORD_SECTION",
-  "1 48.12 16.22",
-  "2 46.38 14.18",
-  "3 48.18 14.17",
-  "EOF"
-), con = "geo-example.tsp")
-
-r <- read_TSPLIB("geo-example.tsp")
-expected <- matrix(c(
-  0, 234, 155,
-  234, 0, 186,
-  155, 186, 0
-), nrow = 3, byrow = TRUE)
-expected <- TSP(expected, labels = as.character(1:3), method = "GEO")
-expect_equivalent(r, expected)
-
-## GEO with indented coordinates
-writeLines(c(
-  "NAME: GEO_INDENTED",
-  "TYPE: TSP",
-  "DIMENSION: 3",
-  "EDGE_WEIGHT_TYPE: GEO",
-  "NODE_COORD_SECTION",
-  " 1 48.12 16.22",
-  " 2 46.38 14.18",
-  " 3 48.18 14.17",
-  " EOF"
-), con = "geo-example.tsp")
-
-r <- read_TSPLIB("geo-example.tsp")
-expected <- TSP(expected, labels = as.character(1:3), method = "GEO")
-expect_equivalent(r, expected)
-
-## clean up
-unlink("example.tsp")
-unlink("att-example.tsp")
-unlink("geo-example.tsp")
+    expect_equal(read_TSPLIB(path), expected, ignore_attr = TRUE)
+  }
+})
