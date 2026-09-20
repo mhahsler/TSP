@@ -481,7 +481,7 @@ solve_TSP.ETSP <- function(x,
       },
       random = {
         control <- .get_parameters(control, list(), method = "random")
-        sample(n_of_cities(x_))
+        sample.int(n_of_cities(x_))
       },
       nearest_insertion = tsp_insertion(x_, type = "nearest", control = control),
       farthest_insertion = tsp_insertion(x_, type = "farthest", control = control),

@@ -104,7 +104,7 @@ as.ATSP.matrix <- function(x){
 
     ## make sure we have labels
     if(is.null(dimnames(x)))
-        dimnames(x) <- list(1:dim(x)[1], 1: dim(x)[1])
+        dimnames(x) <- list(seq_len(nrow(x)), seq_len(ncol(x)))
     if(is.null(colnames(x)))  colnames(x) <- rownames(x)
     if(is.null(rownames(x)))  rownames(x) <- colnames(x)
 

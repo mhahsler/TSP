@@ -68,6 +68,9 @@ tsp_SA <- function(x, control = NULL){
     trace = 0
   ), method = "SA")
 
+  if (n_of_cities(x) <= 1L)
+    return(TOUR(seq_len(n_of_cities(x)), "sa", x))
+
   if (control$verbose) 
     control$trace <- 1
   

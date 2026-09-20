@@ -36,6 +36,23 @@ test_that("TSPLIB replaces infinite distances", {
   expect_gt(result[2], range(tsp, finite = TRUE)[2])
 })
 
+test_that("TSPLIB replaces positive and negative infinite distances", {
+  distances <- rbind(
+    c(0, -Inf, 2),
+    c(-Inf, 0, Inf),
+    c(2, Inf, 0)
+  )
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
+
+  write_TSPLIB(TSP(distances), path, precision = 0)
+  result <- read_TSPLIB(path)
+
+  expect_true(all(is.finite(result)))
+  expect_lt(min(result), 0)
+  expect_gt(max(result), 2)
+})
+
 test_that("TSPLIB reads ATT coordinates", {
   path <- tempfile(fileext = ".tsp")
   on.exit(unlink(path), add = TRUE)
@@ -89,4 +106,37 @@ test_that("TSPLIB reads GEO coordinates with optional indentation", {
 
     expect_equal(read_TSPLIB(path), expected, ignore_attr = TRUE)
   }
+})
+
+test_that("TSPLIB rejects malformed and unsupported files", {
+  expect_tsplib_error <- function(lines, regexp = NULL) {
+    path <- tempfile(fileext = ".tsp")
+    on.exit(unlink(path), add = TRUE)
+    writeLines(lines, path)
+    expect_error(read_TSPLIB(path), regexp = regexp)
+  }
+
+  expect_tsplib_error(character())
+  expect_tsplib_error(c(
+    "TYPE: CVRP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: EXPLICIT",
+    "EDGE_WEIGHT_FORMAT: FULL_MATRIX", "EDGE_WEIGHT_SECTION", "0 1 1 0"
+  ), "only implemented TYPEs")
+  expect_tsplib_error(c(
+    "TYPE: TSP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: EXPLICIT",
+    "EDGE_WEIGHT_FORMAT: FULL_MATRIX"
+  ), "EDGE_WEIGHT_SECTION missing")
+  expect_tsplib_error(c(
+    "TYPE: ATSP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: EXPLICIT",
+    "EDGE_WEIGHT_FORMAT: UPPER_ROW", "EDGE_WEIGHT_SECTION", "1"
+  ), "ATSP needs EDGE_WEIGHT_FORMAT FULL_MATRIX")
+  expect_tsplib_error(c(
+    "TYPE: TSP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: EXPLICIT",
+    "EDGE_WEIGHT_FORMAT: FUNCTION", "EDGE_WEIGHT_SECTION", "0 1 1 0"
+  ), "EDGE_WEIGHT_FORMAT is not implemented")
+  expect_tsplib_error(c(
+    "TYPE: TSP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: MAN_2D"
+  ), "EDGE_WEIGHT_TYPE not implemented")
+  expect_tsplib_error(c(
+    "TYPE: TSP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: EUC_2D"
+  ), "NODE_COORD_SECTION missing")
 })

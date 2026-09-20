@@ -1,5 +1,8 @@
 # TSP 1.2.7.1 (Unpublished)
 * Modernized the test suite to testthat edition 3.
+* Expanded solver, TSPLIB, boundary-case, and reproducibility tests; fixed
+  zero-city handling for ATSP, ETSP, and random tours and one-city handling for
+  simulated annealing.
 * Added a `seed` control option for reproducible randomized repetitions across
   sequential and parallel foreach backends.
 * The Concorde and linkern interfaces now check solver exit statuses and clean

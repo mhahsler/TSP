@@ -5,8 +5,15 @@ solver_methods <- function() {
   c(
     "nearest_insertion", "cheapest_insertion", "farthest_insertion",
     "arbitrary_insertion", "nn", "repetitive_nn", "two_opt", "random",
-    "identity"
+    "identity", "sa"
   )
+}
+
+solve_test_method <- function(x, method) {
+  if (method == "sa")
+    solve_TSP(x, method = method, maxit = 25, tmax = 5, temp = 1, seed = 42)
+  else
+    solve_TSP(x, method = method)
 }
 
 infinite_tsp <- function() {
@@ -28,7 +35,7 @@ test_that("TSP solvers handle matrix conversion, missing, and infinite values", 
   expect_error(solve_TSP(tsp_na), "NAs not allowed", fixed = TRUE)
 
   tours <- lapply(solver_methods(), function(method) {
-    solve_TSP(tsp, method = method)
+    solve_test_method(tsp, method)
   })
   lengths <- vapply(tours, attr, numeric(1), "tour_length")
   expect_true(all(lengths == 4 | lengths == Inf))
@@ -65,7 +72,9 @@ test_that("seeded repetitions are reproducible across foreach backends", {
   foreach::registerDoSEQ()
   sequential <- list(
     random = solve_TSP(random_tsp, method = "random", rep = 20, seed = 42),
-    repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42)
+    repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42),
+    sa = solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
+      tmax = 5, temp = 1, seed = 42)
   )
 
   cluster <- parallel::makePSOCKcluster(2)
@@ -73,7 +82,9 @@ test_that("seeded repetitions are reproducible across foreach backends", {
   parallel_results <- tryCatch(
     list(
       random = solve_TSP(random_tsp, method = "random", rep = 20, seed = 42),
-      repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42)
+      repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42),
+      sa = solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
+        tmax = 5, temp = 1, seed = 42)
     ),
     finally = {
       parallel::stopCluster(cluster)
@@ -90,14 +101,14 @@ test_that("solvers handle one- and two-city problems", {
   distance <- dist(rbind(c(0, 0), c(1, 1)))
   tsp2 <- TSP(distance)
   tours2 <- lapply(methods, function(method) {
-    solve_TSP(tsp2, method = method)
+    solve_test_method(tsp2, method)
   })
   expect_true(all(vapply(tours2, attr, numeric(1), "tour_length") ==
     as.numeric(distance) * 2))
 
   tsp1 <- TSP(dist(1))
   tours1 <- lapply(methods, function(method) {
-    solve_TSP(tsp1, method = method)
+    solve_test_method(tsp1, method)
   })
   expect_true(all(vapply(tours1, attr, numeric(1), "tour_length") == 0))
 })
@@ -121,5 +132,26 @@ test_that("all internal solvers handle ATSP objects", {
   atsp <- ATSP(distances)
 
   for (method in solver_methods())
-    expect_s3_class(solve_TSP(atsp, method = method), "TOUR")
+    expect_s3_class(solve_test_method(atsp, method), "TOUR")
+})
+
+test_that("solvers handle negative and infinite distances", {
+  distances <- rbind(
+    c(0, -Inf, 2, 4),
+    c(-Inf, 0, -1, 3),
+    c(2, -1, 0, Inf),
+    c(4, 3, Inf, 0)
+  )
+  tsp <- TSP(distances)
+  replaced <- TSP:::.replaceInf(tsp)
+
+  expect_true(all(is.finite(replaced)))
+  expect_lt(replaced[1], min(tsp[is.finite(tsp)]))
+  expect_gt(replaced[6], max(tsp[is.finite(tsp)]))
+
+  for (method in solver_methods()) {
+    tour <- solve_test_method(tsp, method)
+    expect_s3_class(tour, "TOUR")
+    expect_setequal(as.integer(tour), seq_len(n_of_cities(tsp)))
+  }
 })

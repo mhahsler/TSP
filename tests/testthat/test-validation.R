@@ -12,7 +12,7 @@ test_that("TSP and ATSP constructors reject missing distances", {
 test_that("insertion and nearest-neighbor starts are valid city indices", {
   tsp <- TSP(dist(matrix(seq_len(8), ncol = 2)))
   methods <- c("nearest_insertion", "nn")
-  invalid <- list(0, 5, 1.5, NA_real_, numeric(), c(1, 2), "1")
+  invalid <- list(0, 5, 1.5, NA_real_, Inf, numeric(), c(1, 2), "1")
 
   for (method in methods)
     for (start in invalid)
@@ -32,7 +32,8 @@ test_that("tour lengths reject malformed permutations", {
   coords <- matrix(c(0, 0, 1, 0, 1, 1, 0, 1), ncol = 2, byrow = TRUE)
   problems <- list(TSP(dist(coords)), ATSP(as.matrix(dist(coords))), ETSP(coords))
   invalid <- list(1:3, c(1, 2, 3, 3), c(0, 1, 2, 3),
-    c(1, 2, 3, 4.5), c(1, 2, 3, NA_real_), "1:4")
+    c(1, 2, 3, 4.5), c(1, 2, 3, NA_real_),
+    c(1, 2, 3, Inf), "1:4")
 
   for (problem in problems) {
     expect_equal(tour_length(problem, c(1, 2, 3, 4)), 4)
@@ -48,6 +49,28 @@ test_that("one-city problems have zero tour length", {
   expect_equal(tour_length(ATSP(matrix(0, nrow = 1))), 0)
   expect_equal(tour_length(ETSP(coords)), 0)
   expect_error(tour_length(ETSP(coords), integer()))
+})
+
+test_that("empty problems have zero cities and zero tour length", {
+  problems <- list(
+    TSP(dist(matrix(numeric(), nrow = 0, ncol = 2))),
+    ATSP(matrix(numeric(), nrow = 0, ncol = 0)),
+    ETSP(matrix(numeric(), nrow = 0, ncol = 2))
+  )
+
+  for (problem in problems) {
+    expect_equal(n_of_cities(problem), 0L)
+    expect_equal(tour_length(problem), 0)
+  }
+
+  for (method in c("identity", "random", "sa")) {
+    tour <- if (method == "sa")
+      solve_TSP(problems[[1]], method = method, maxit = 2, seed = 1)
+    else
+      solve_TSP(problems[[1]], method = method, seed = 1)
+    expect_length(tour, 0L)
+    expect_equal(tour_length(tour), 0)
+  }
 })
 
 test_that("unsupported city-count objects fail clearly", {

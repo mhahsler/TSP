@@ -88,7 +88,7 @@ as.ETSP <- function(x) UseMethod("as.ETSP")
 #' @export
 as.ETSP.matrix <- function(x){
   mode(x) <- "numeric"
-  if(is.null(rownames(x))) rownames(x) <- 1:nrow(x)
+  if(is.null(rownames(x))) rownames(x) <- seq_len(nrow(x))
 
   class(x) <- c("ETSP", class(x))
   x
