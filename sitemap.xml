@@ -1,0 +1,21 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://michael.hahsler.net/TSP/404.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/authors.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/index.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/news/index.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/ATSP.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/Concorde.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/ETSP.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/TOUR.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/TSP-package.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/TSP.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/TSPLIB.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/USCA.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/cut_tour.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/index.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/insert_dummy.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/solve_TSP.html</loc></url>
+<url><loc>http://michael.hahsler.net/TSP/reference/tour_length.html</loc></url>
+</urlset>
+
