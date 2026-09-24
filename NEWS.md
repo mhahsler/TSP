@@ -1,4 +1,4 @@
-# TSP 1.2.7.1 (Unpublished)
+# TSP 1.2.8 (xx/xx/2026)
 * Modernized the test suite to testthat edition 3.
 * Expanded solver, TSPLIB, boundary-case, and reproducibility tests; fixed
   zero-city handling for ATSP, ETSP, and random tours and one-city handling for
