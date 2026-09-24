@@ -109,7 +109,7 @@ object.
 
 library("TSP")
 data("USCA312")
- 
+
 tsp <- TSP(USCA312)
 tsp
 ```
@@ -130,7 +130,7 @@ tour
 ``` R
 ## object of class 'TOUR' 
 ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-## tour length: 40841
+## tour length: 40954
 ```
 
 Show the first few cities in the tour.
@@ -141,12 +141,10 @@ head(tour, n = 10)
 ```
 
 ``` R
-##     Vancouver, BC Prince Rupert, BC        Juneau, AK    Whitehorse, YK 
-##               290               209               131               298 
-##     Anchorage, AK          Nome, AK     Fairbanks, AK        Dawson, YT 
-##                 8               183                90                70 
-##         Alert, NT   Yellowknife, NT 
-##                 5               309
+## Sioux Falls, SD  Sioux City, IA     Lincoln, NE       Omaha, NE  Des Moines, IA 
+##             258             257             150             189              75 
+##    Waterloo, IA   Rochester, MN  Saint Paul, MN Minneapolis, MN Saint Cloud, MN 
+##             295             222             233             166             228
 ```
 
 Visualize the complete tour.
@@ -156,12 +154,12 @@ Visualize the complete tour.
 library(maps)
 data("USCA312_GPS")
 
-plot((USCA312_GPS[, c("long", "lat")]), cex = .3)
+plot((USCA312_GPS[, c("long", "lat")]), cex = 0.3)
 map("world", col = "gray", add = TRUE)
-polygon(USCA312_GPS[, c("long", "lat")][tour,], border = "red")
+polygon(USCA312_GPS[, c("long", "lat")][tour, ], border = "red")
 ```
 
-![](inst/README_files/unnamed-chunk-6-1.png)
+![](reference/figures/README-TSP_map-1.png)
 
 An online example application of TSP can be found on
 [shinyapps](https://shrinidhee.shinyapps.io/SimpleTSP).
