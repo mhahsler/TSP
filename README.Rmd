@@ -15,6 +15,13 @@ source("https://raw.githubusercontent.com/mhahsler/pkg_helpers/main/pkg_helpers.
 pkg_title(pkg, anaconda = 'r-tsp', stackoverflow = 'TSP+R')
 ```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  fig.path = "man/figures/README-"
+)
+```
+
+
 ## Introduction
 
 The TSP package [@Hahsler+Hornik2007] provides the 
@@ -66,7 +73,7 @@ head(tour, n = 10)
 ```
 
 Visualize the complete tour.
-```{r, fig.dim=c(6, 6)}
+```{r, TSP_map, fig.dim=c(6, 6)}
 library(maps)
 data("USCA312_GPS")
 
