@@ -66,7 +66,7 @@
 #' terminate the Concorde executable. If Concorde keeps running, then you can 
 #' kill the 'concorde' process via your operating system.
 #'
-#' @family TSP
+#' @family solver
 #'
 #' @name Concorde
 #' @aliases Concorde concorde concorde_path concorde_help linkern_help

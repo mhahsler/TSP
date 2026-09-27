@@ -1,3 +1,29 @@
 url: http://michael.hahsler.net/TSP/
 template:
   bootstrap: 5
+
+reference:
+- title: Defining Traveling Salesperson Problems
+  desc: Create symmetric, asymmetric, and Euclidean traveling salesperson problems.
+  contents:
+  - TSP
+  - ETSP
+  - ATSP
+  - has_concept("TSP")
+- title: Solvers
+  desc: Solve TSPs by creating a TOUR
+  contents:
+  - solve_TSP
+  - has_concept("solver")
+- title: Tours
+  desc: Store TSP solutions as permutations, calculate their lengths, and cut cycles to form paths.
+  contents:
+  - TOUR
+  - tour_length
+  - cut_tour
+  - has_concept("TOUR")
+- title: Data
+  desc: Data sets and import/export funcitons.
+  contents:
+  - has_concept("data")
+

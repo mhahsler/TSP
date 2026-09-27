@@ -224,8 +224,7 @@
 #' and parallel backends because parallel repetitions set their seeds in the
 #' worker processes.
 #'
-#' @family TSP
-#' @family TOUR
+#' @family solver
 #'
 #' @param x a TSP problem.
 #' @param method method to solve the TSP (default: "arbitrary insertion"

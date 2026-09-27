@@ -15,13 +15,6 @@ source("https://raw.githubusercontent.com/mhahsler/pkg_helpers/main/pkg_helpers.
 pkg_title(pkg, anaconda = 'r-tsp', stackoverflow = 'TSP+R')
 ```
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-  fig.path = "man/figures/README-"
-)
-```
-
-
 ## Introduction
 
 The TSP package [@Hahsler+Hornik2007] provides the 

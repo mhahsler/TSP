@@ -43,7 +43,12 @@ if(require("maps")) {
   polygon(USCA312_GPS[, c("long", "lat")][tour,], border = "red")
 }
 }
+\seealso{
+Other data:
+\code{\link{TSPLIB}}
+}
 \author{
 Michael Hahsler
 }
+\concept{data}
 \keyword{datasets}

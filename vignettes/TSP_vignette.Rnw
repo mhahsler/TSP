@@ -59,11 +59,11 @@ one of the best exact TSP solvers currently available.  }
 %% in the following format:
 \Address{
       Michael Hahsler\\
-	  Engineering Management, Information, and Systems\\
+	  Computer Science\\
 	  Lyle School of Engineering\\
 	  Southern Methodist University\\
-	  P.O. Box 750123 \\
-	  Dallas, TX 75275-0123\\
+	  P.O. Box 750122 \\
+	  Dallas, TX 75275-0122\\
 	  E-mail: \email{mhahsler@lyle.smu.edu}\\
 
       Kurt Hornik\\
@@ -108,6 +108,11 @@ set.seed(1234)
 %  optimal) solution as well as several heuristics to find good
 %  solutions. In addition, it provides an interface to \emph{Concorde},
 %  one of the best exact TSP solvers currently available.  }
+
+\section{Preamble}
+
+This vignette is an updated version of a paper published in the \emph{Journal
+  of Statistical Software} \citep{Hahsler+Hornik2007}.
 
 \section{Introduction}
 
@@ -158,8 +163,6 @@ Section~\ref{sec:examples}, several examples are used to illustrate the
 package's capabilities.  Section~\ref{sec:conclusion} concludes the
 paper.
 
-A previous version of this manuscript was published in the \emph{Journal
-  of Statistical Software} \citep{Hahsler+Hornik2007}.
 
 \section{Theory}
 \label{sec:TSP}
@@ -678,7 +681,7 @@ xlab = "tour length", xlim = c(0, 20000))
 
 \begin{figure}
 \centering
-\includegraphics[width=11cm, trim=0 10 0 0]{TSP-dotchart_USCA50}
+\includegraphics[width=11cm, trim=0 10 0 0]{TSP_vignette-dotchart_USCA50}
 \caption{Comparison of the tour lengths for the USCA50 data set.}
 \label{fig:dotchart}
 \end{figure}
@@ -757,7 +760,7 @@ if(require(maps)) {
 
 \begin{figure}
 \centering
-\includegraphics[width=10cm, trim=0 30 0 0]{TSP-map1}
+\includegraphics[width=10cm, trim=0 30 0 0]{TSP_vignette-map1}
 \caption{A ``short'' Hamiltonian path for the USCA312 dataset.}
 \label{fig:map1}
 \end{figure}
@@ -811,7 +814,7 @@ plot_path(path)
 
 \begin{figure}
 \centering
-\includegraphics[width=10cm, trim=0 30 0 0]{TSP-map2}
+\includegraphics[width=10cm, trim=0 30 0 0]{TSP_vignette-map2}
 \caption{A Hamiltonian path for the USCA312 dataset starting in New York.}
 \label{fig:map2}
 \end{figure}
@@ -909,7 +912,7 @@ length of $38489$.
 
 \begin{figure}
 \centering
-\includegraphics[width=10cm, trim=0 30 0 0]{TSP-map3}
+\includegraphics[width=10cm, trim=0 30 0 0]{TSP_vignette-map3}
 \caption{A Hamiltonian path for the USCA312 dataset starting in New York
   and ending in Los Angles.}
 \label{fig:map3}
@@ -966,7 +969,7 @@ abline(v = which(labels(tour)=="boundary"), col = "red")
 
 \begin{figure}
 \centering
-\includegraphics[width=9cm, height=9cm, trim=0 20 0 0]{TSP-clustering}
+\includegraphics[width=9cm, height=9cm, trim=0 20 0 0]{TSP_vignette-clustering}
 \caption{Result of rearrangement clustering using three dummy cities and the
 nearest insertion algorithm on the iris data set.}
 \label{fig:clustering}
@@ -1011,7 +1014,7 @@ for(p in paths) lines(prc$x[p, ])
 
 \begin{figure}
 \centering
-\includegraphics[width=10cm, trim=0 20 0 0]{TSP-clustering2}
+\includegraphics[width=10cm, trim=0 20 0 0]{TSP_vignette-clustering2}
 \caption{The 3 path segments representing a rearrangement clustering of the
 iris data set.  The data points are projected on the set's first two principal
 components.  The three species are represented by different markers and

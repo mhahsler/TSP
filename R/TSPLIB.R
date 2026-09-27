@@ -35,7 +35,7 @@
 #'
 #' @name TSPLIB
 #' @aliases TSPLIB
-#' @family TSP
+#' @family data
 #'
 #' @param x an object with a TSP problem.
 #' `NA`s are not allowed.

@@ -11,6 +11,7 @@
 #' @name USCA
 #' @aliases USCA312 USCA312_GPS USCA50
 #' @docType data
+#' @family data
 #' @format `USCA312` and `USCA50` are objects of class `TSP`.
 #' `USCA312_GPS` is a data.frame with city name, long and lat.
 #' @author Michael Hahsler

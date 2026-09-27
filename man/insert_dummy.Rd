@@ -101,12 +101,9 @@ Wiley & Sons.
 \seealso{
 Other TSP:
 \code{\link[=ATSP]{ATSP()}},
-\code{\link{Concorde}},
 \code{\link[=ETSP]{ETSP()}},
 \code{\link[=TSP]{TSP()}},
-\code{\link{TSPLIB}},
-\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}},
-\code{\link[=solve_TSP]{solve_TSP()}}
+\code{\link[=reformulate_ATSP_as_TSP]{reformulate_ATSP_as_TSP()}}
 }
 \author{
 Michael Hahsler

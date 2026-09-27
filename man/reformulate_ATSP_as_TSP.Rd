@@ -102,12 +102,9 @@ Letters,} 2, 161--163.
 \seealso{
 Other TSP:
 \code{\link[=ATSP]{ATSP()}},
-\code{\link{Concorde}},
 \code{\link[=ETSP]{ETSP()}},
 \code{\link[=TSP]{TSP()}},
-\code{\link{TSPLIB}},
-\code{\link[=insert_dummy]{insert_dummy()}},
-\code{\link[=solve_TSP]{solve_TSP()}}
+\code{\link[=insert_dummy]{insert_dummy()}}
 }
 \author{
 Michael Hahsler

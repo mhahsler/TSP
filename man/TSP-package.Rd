@@ -20,6 +20,7 @@ Basic infrastructure and some algorithms for the traveling salesperson problem (
 Useful links:
 \itemize{
   \item \url{https://github.com/mhahsler/TSP}
+  \item \url{http://michael.hahsler.net/TSP/}
   \item Report bugs at \url{https://github.com/mhahsler/TSP/issues}
 }
 
