@@ -58,8 +58,7 @@ method returns `NA`.
 
 Other TOUR:
 [`TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md),
-[`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md),
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+[`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md)
 
 ## Author
 

@@ -326,18 +326,8 @@ Journal on Computing*, 6(3):563–581.
 
 ## See also
 
-Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`Concorde`](http://michael.hahsler.net/TSP/reference/Concorde.md),
-[`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
-[`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`TSPLIB`](http://michael.hahsler.net/TSP/reference/TSPLIB.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
-
-Other TOUR:
-[`TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md),
-[`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md),
-[`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
+Other solver:
+[`Concorde`](http://michael.hahsler.net/TSP/reference/Concorde.md)
 
 ## Author
 

@@ -15,7 +15,8 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/TSP.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -31,9 +32,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="defining-traveling-salesperson-problems">Defining Traveling Salesperson Problems<a class="anchor" aria-label="anchor" href="#defining-traveling-salesperson-problems"></a></h2>
 
-
+      <div class="section-desc"><p>Create symmetric, asymmetric, and Euclidean traveling salesperson problems.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -42,17 +43,10 @@
 
       <dl><dt>
 
-          <code><a href="ATSP.html">ATSP()</a></code> <code><a href="ATSP.html">as.ATSP()</a></code> <code><a href="ATSP.html">print(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">n_of_cities(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">labels(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">image(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">as.matrix(<i>&lt;ATSP&gt;</i>)</a></code>
+          <code><a href="TSP.html">TSP()</a></code> <code><a href="TSP.html">as.TSP()</a></code> <code><a href="TSP.html">as.dist(<i>&lt;TSP&gt;</i>)</a></code> <code><a href="TSP.html">print(<i>&lt;TSP&gt;</i>)</a></code> <code><a href="TSP.html">n_of_cities()</a></code> <code><a href="TSP.html">labels(<i>&lt;TSP&gt;</i>)</a></code> <code><a href="TSP.html">image(<i>&lt;TSP&gt;</i>)</a></code>
 
         </dt>
-        <dd>Class ATSP – Asymmetric traveling salesperson problem</dd>
-
-        <dt>
-
-          <code><a href="Concorde.html">concorde_path()</a></code> <code><a href="Concorde.html">concorde_help()</a></code> <code><a href="Concorde.html">linkern_help()</a></code>
-
-        </dt>
-        <dd>Using the Concorde TSP Solver</dd>
+        <dd>Class TSP – Symmetric traveling salesperson problem</dd>
 
         <dt>
 
@@ -63,38 +57,10 @@
 
         <dt>
 
-          <code><a href="TOUR.html">TOUR()</a></code> <code><a href="TOUR.html">as.TOUR()</a></code> <code><a href="TOUR.html">print(<i>&lt;TOUR&gt;</i>)</a></code>
+          <code><a href="ATSP.html">ATSP()</a></code> <code><a href="ATSP.html">as.ATSP()</a></code> <code><a href="ATSP.html">print(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">n_of_cities(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">labels(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">image(<i>&lt;ATSP&gt;</i>)</a></code> <code><a href="ATSP.html">as.matrix(<i>&lt;ATSP&gt;</i>)</a></code>
 
         </dt>
-        <dd>Class TOUR – Solution to a traveling salesperson problem</dd>
-
-        <dt>
-
-          <code><a href="TSP.html">TSP()</a></code> <code><a href="TSP.html">as.TSP()</a></code> <code><a href="TSP.html">as.dist(<i>&lt;TSP&gt;</i>)</a></code> <code><a href="TSP.html">print(<i>&lt;TSP&gt;</i>)</a></code> <code><a href="TSP.html">n_of_cities()</a></code> <code><a href="TSP.html">labels(<i>&lt;TSP&gt;</i>)</a></code> <code><a href="TSP.html">image(<i>&lt;TSP&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Class TSP – Symmetric traveling salesperson problem</dd>
-
-        <dt>
-
-          <code><a href="TSPLIB.html">read_TSPLIB()</a></code> <code><a href="TSPLIB.html">write_TSPLIB()</a></code>
-
-        </dt>
-        <dd>Read and write TSPLIB files</dd>
-
-        <dt>
-
-          <code><a href="USCA.html">USCA</a></code> <code><a href="USCA.html">USCA312</a></code> <code><a href="USCA.html">USCA312_GPS</a></code> <code><a href="USCA.html">USCA50</a></code>
-
-        </dt>
-        <dd>USCA312/USCA50 – 312/50 cities in the US and Canada</dd>
-
-        <dt>
-
-          <code><a href="cut_tour.html">cut_tour()</a></code>
-
-        </dt>
-        <dd>Cut a tour to form a path</dd>
+        <dd>Class ATSP – Asymmetric traveling salesperson problem</dd>
 
         <dt>
 
@@ -109,8 +75,17 @@
 
         </dt>
         <dd>Reformulate an ATSP as a symmetric TSP</dd>
+      </dl></div><div class="section level2">
+      <h2 id="solvers">Solvers<a class="anchor" aria-label="anchor" href="#solvers"></a></h2>
 
-        <dt>
+      <div class="section-desc"><p>Solve TSPs by creating a TOUR</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
 
           <code><a href="solve_TSP.html">solve_TSP()</a></code>
 
@@ -119,12 +94,66 @@
 
         <dt>
 
+          <code><a href="Concorde.html">concorde_path()</a></code> <code><a href="Concorde.html">concorde_help()</a></code> <code><a href="Concorde.html">linkern_help()</a></code>
+
+        </dt>
+        <dd>Using the Concorde TSP Solver</dd>
+      </dl></div><div class="section level2">
+      <h2 id="tours">Tours<a class="anchor" aria-label="anchor" href="#tours"></a></h2>
+
+      <div class="section-desc"><p>Store TSP solutions as permutations, calculate their lengths, and cut cycles to form paths.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="TOUR.html">TOUR()</a></code> <code><a href="TOUR.html">as.TOUR()</a></code> <code><a href="TOUR.html">print(<i>&lt;TOUR&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Class TOUR – Solution to a traveling salesperson problem</dd>
+
+        <dt>
+
           <code><a href="tour_length.html">tour_length()</a></code>
 
         </dt>
         <dd>Calculate the length of a tour</dd>
+
+        <dt>
+
+          <code><a href="cut_tour.html">cut_tour()</a></code>
+
+        </dt>
+        <dd>Cut a tour to form a path</dd>
+      </dl></div><div class="section level2">
+      <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+
+      <div class="section-desc"><p>Data sets and import/export funcitons.</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="TSPLIB.html">read_TSPLIB()</a></code> <code><a href="TSPLIB.html">write_TSPLIB()</a></code>
+
+        </dt>
+        <dd>Read and write TSPLIB files</dd>
+
+        <dt>
+
+          <code><a href="USCA.html">USCA</a></code> <code><a href="USCA.html">USCA312</a></code> <code><a href="USCA.html">USCA312_GPS</a></code> <code><a href="USCA.html">USCA50</a></code>
+
+        </dt>
+        <dd>USCA312/USCA50 – 312/50 cities in the US and Canada</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

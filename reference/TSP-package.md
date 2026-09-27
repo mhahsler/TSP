@@ -18,6 +18,8 @@ Useful links:
 
 - <https://github.com/mhahsler/TSP>
 
+- <http://michael.hahsler.net/TSP/>
+
 - Report bugs at <https://github.com/mhahsler/TSP/issues>
 
 ## Author

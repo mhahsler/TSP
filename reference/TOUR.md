@@ -64,7 +64,6 @@ does not contain the distance information.
 
 Other TOUR:
 [`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md),
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md),
 [`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
 
 ## Author

@@ -73,13 +73,7 @@ ORSA Journal on Computing 3 (4): 376–84.
 
 ## See also
 
-Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`Concorde`](http://michael.hahsler.net/TSP/reference/Concorde.md),
-[`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
-[`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md),
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+Other data: [`USCA`](http://michael.hahsler.net/TSP/reference/USCA.md)
 
 ## Author
 

@@ -86,12 +86,9 @@ symmetric traveling salesman problems, *Operations Research Letters,* 2,
 ## See also
 
 Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`Concorde`](http://michael.hahsler.net/TSP/reference/Concorde.md),
 [`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
 [`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`TSPLIB`](http://michael.hahsler.net/TSP/reference/TSPLIB.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md)
 
 ## Author
 

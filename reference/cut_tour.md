@@ -36,7 +36,6 @@ are used then a list with paths is returned.
 
 Other TOUR:
 [`TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md),
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md),
 [`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
 
 ## Author

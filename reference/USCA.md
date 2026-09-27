@@ -19,6 +19,11 @@ University, Department of Scientific Computing
 The `USCA312_GPS` dataset contains the location (long/lat) of the 312
 cities.
 
+## See also
+
+Other data:
+[`TSPLIB`](http://michael.hahsler.net/TSP/reference/TSPLIB.md)
+
 ## Author
 
 Michael Hahsler

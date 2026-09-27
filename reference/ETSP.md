@@ -90,12 +90,9 @@ Objects of class `ETSP` are internally represented as `matrix` objects
 ## See also
 
 Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`Concorde`](http://michael.hahsler.net/TSP/reference/Concorde.md),
 [`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`TSPLIB`](http://michael.hahsler.net/TSP/reference/TSPLIB.md),
 [`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md),
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
 
 ## Author
 
