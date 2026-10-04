@@ -1,6 +1,7 @@
 url: http://michael.hahsler.net/TSP/
 template:
   bootstrap: 5
+  math-rendering: mathjax
 
 reference:
 - title: Defining Traveling Salesperson Problems
