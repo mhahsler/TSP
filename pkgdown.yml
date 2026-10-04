@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   TSP: TSP.html
-last_built: 2026-09-27T02:08Z
+last_built: 2026-10-04T17:02Z
 urls:
   reference: http://michael.hahsler.net/TSP/reference
   article: http://michael.hahsler.net/TSP/articles
