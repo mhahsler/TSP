@@ -55,6 +55,9 @@ The best result is returned. The replications can be performed in parallel
 \item "seed": a non-negative integer used to make randomized solvers and
 repetitions reproducible. Each repetition uses a deterministic seed derived
 from this value, independent of the registered parallel backend.
+For "concorde" and "linkern" the seed must be at most
+\code{.Machine$integer.max}; if it is missing, one is drawn from R's random
+number generator.
 \item "two_opt": a logical indicating if two-opt refinement should be performed on the
 constructed tour. This is just for convenience so a constructive heuristic can be
 followed by two-opt refinement in a single call.
@@ -196,6 +199,10 @@ passed on to Concorde. Note that therefore the results produced by Concorde
 \eqn{10^{precision}} (i.e., the decimal point has to be shifted
 \code{precision} places to the left). The interface to Concorde uses
 \code{\link[=write_TSPLIB]{write_TSPLIB()}}.
+\item "seed" a whole number between 0 and \code{.Machine$integer.max} passed to
+Concorde's \code{-s} option to make its randomized components reproducible.
+If missing, a seed is drawn from R's random number generator
+(see \code{seed} below).
 \item "verbose" logical; \code{FALSE} suppresses the output printed to the terminal.
 }
 \item \strong{"linkern"} Concorde's Chained Lin-Kernighan heuristic (Applegate et al. 2003). [TSP, ETSP]
@@ -245,13 +252,25 @@ appropriate parallel backend needs to be registered
 Set the \code{seed} argument to make randomized solvers and repetitions
 reproducible across sequential and parallel \pkg{foreach} backends. Each
 repetition uses a deterministic seed derived from \code{seed}. The seed affects
-all randomized methods implemented in this package, but it does not control
-randomness inside the external Concorde and linkern executables.
+all randomized methods implemented in this package. For methods \code{"concorde"}
+and \code{"linkern"}, the seed is also passed on to the executable via its
+\code{-s} command line option. If no \code{seed} is specified, a seed for the executable
+is drawn from R's random number generator (so \code{set.seed()} also makes these
+methods reproducible). The seed must be a whole number between 0 and
+\code{.Machine$integer.max}. Do not combine \code{seed} with \code{-s} in \code{clo}.
 
-Calling \code{solve_TSP()} with \code{seed} may change R's global random-number stream.
-The state of the global stream after the call can differ between sequential
-and parallel backends because parallel repetitions set their seeds in the
-worker processes.
+\strong{Effect on the global random-number state:}
+If \code{seed} is specified, \code{solve_TSP()} calls \code{\link[=set.seed]{set.seed()}}, which
+\emph{replaces} R's global random-number state. The state after the call is
+therefore determined by \code{seed} and not by the state before the call. With
+a parallel \pkg{foreach} backend, the repetitions set their seeds in the
+worker processes, so the global state after the call can differ between
+sequential and parallel backends.
+If \code{seed} is not specified, no seed is set. Randomized methods then
+use (and advance) the current global random-number stream as usual, and
+\code{"concorde"} and \code{"linkern"} draw one random number from it
+to seed the executable. Use \code{\link[=set.seed]{set.seed()}} before the call to make the
+result reproducible.
 }
 
 \examples{

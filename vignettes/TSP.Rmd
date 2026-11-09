@@ -4,6 +4,7 @@ author: "Michael Hahsler and Kurt Hornik"
 output:
   rmarkdown::html_vignette:
     toc: true
+bibliography: TSP.bib
 vignette: >
   %\VignetteIndexEntry{Getting started with TSP}
   %\VignetteEngine{knitr::rmarkdown}
@@ -20,6 +21,7 @@ knitr::opts_chunk$set(
 library(TSP)
 ```
 
+This vignette introduces how to solve TSP problems using the R package **TSP** [@Hahsler+Hornik2007]. 
 The traveling salesperson problem asks for the shortest round trip that visits
 each city exactly once. The **TSP** package provides classes for representing
 traveling salesperson problems, several construction and improvement
@@ -29,7 +31,7 @@ This vignette covers the typical workflow:
 
 1. Create a problem from coordinates or a distance matrix.
 2. Find a tour with `solve_TSP()`.
-3. Inspect, compare, and visualize solutions.
+3. Inspect, and visualize a solution.
 
 ## Installation
 
@@ -45,10 +47,14 @@ Then load the package:
 library(TSP)
 ```
 
-## Create a problem from coordinates
+## Basic Usage
+### Create a TSP problem from coordinates
 
-For locations described by coordinates, create a Euclidean traveling
-salesperson problem with `ETSP()`. Row names are used as city labels.
+The standard representation of a symmetric TSP is a distance matrix.
+For locations described by coordinates you can calculate distances before 
+creating the TSP object. Here we create a Euclidean traveling
+salesperson problem fro ma dataframe with coordinates. 
+Row names are used as city labels.
 
 ```{r create-etsp}
 cities <- data.frame(
@@ -57,17 +63,17 @@ cities <- data.frame(
   row.names = LETTERS[1:8]
 )
 
-problem <- ETSP(cities)
+problem <- TSP(dist(cities))
 problem
 n_of_cities(problem)
 labels(problem)
 ```
 
-An `ETSP` stores the coordinates directly. Most built-in heuristics convert it
-to a distance-based `TSP` internally. For very large coordinate sets this
-distance matrix can require substantial memory.
+Note, that there are other representations for Euclidean TSPs `ETSP()` and 
+asymmetric TSPs `ATSP()` available. Most algorithms will convert them into
+a distance-based representation first.
 
-## Solve the problem
+### Solve the problem
 
 `solve_TSP()` returns a `TOUR`, an integer permutation giving the order in
 which the cities are visited. The default combines arbitrary insertion with
@@ -87,115 +93,13 @@ first. A TSP solution is therefore a cycle, not an open path.
 Plot the coordinates and the resulting tour with `plot()`:
 
 ```{r plot-tour}
-plot(problem, tour, main = "A tour through eight cities", tour_col = "steelblue")
+plot(ETSP(cities), tour, main = "A tour through eight cities", tour_col = "steelblue")
 ```
 
-## Create a problem from distances
-
-If pairwise distances or costs are already available, pass a `dist` object or
-a symmetric matrix to `TSP()`.
-
-```{r create-tsp}
-distance_problem <- TSP(dist(cities))
-distance_problem
-
-distance_tour <- solve_TSP(distance_problem, method = "nn", start = 1)
-distance_tour
-tour_length(distance_tour)
-```
-
-`TSP()` does not require distances to be Euclidean; they can represent any
-symmetric dissimilarity or cost. Missing connections can be represented by
-`Inf`, while `NA` values are not allowed.
-
-## Choose and compare heuristics
-
-Construction heuristics build a tour from scratch. Common choices include
-nearest neighbor (`"nn"`) and nearest, cheapest, farthest, or arbitrary
-insertion. Improvement heuristics such as `"two_opt"` start from an existing
-tour and try to shorten it.
-
-```{r compare-methods}
-methods <- c(
-  "nearest neighbor" = "nn",
-  "nearest insertion" = "nearest_insertion",
-  "cheapest insertion" = "cheapest_insertion",
-  "repetitive nearest neighbor" = "repetitive_nn"
-)
-
-tours <- lapply(methods, function(method) {
-  solve_TSP(problem, method = method, seed = 123)
-})
-
-sort(vapply(tours, tour_length, numeric(1)))
-```
-
-Add `two_opt = TRUE` to refine a constructed tour, or explicitly improve an
-existing tour:
-
-```{r improve-tour}
-initial_tour <- solve_TSP(problem, method = "nn", start = 1)
-improved_tour <- solve_TSP(
-  problem,
-  method = "two_opt",
-  tour = initial_tour
-)
-
-c(
-  initial = tour_length(initial_tour),
-  improved = tour_length(improved_tour)
-)
-```
-
-Randomized methods support `seed` for reproducibility and `rep` for repeated
-starts. For example, the following returns the shortest of 20 random tours,
-each followed by 2-opt improvement:
-
-```{r repeated-search}
-repeated_tour <- solve_TSP(
-  problem,
-  method = "random",
-  rep = 20,
-  two_opt = TRUE,
-  seed = 123
-)
-tour_length(repeated_tour)
-```
-
-These methods are heuristics: a short tour is not necessarily an optimal tour.
-The `"concorde"` method can find an exact solution, and `"linkern"` provides
-the Chained Lin-Kernighan heuristic, but both require a separately installed
-Concorde executable. See `?Concorde` for setup instructions.
-
-## Asymmetric problems
-
-When the cost from city *i* to city *j* differs from the reverse direction,
-create an asymmetric problem with `ATSP()` from a square cost matrix.
-
-```{r create-atsp}
-cost <- matrix(
-  c(
-    0, 4, 1, 3,
-    2, 0, 5, 1,
-    3, 2, 0, 4,
-    6, 3, 2, 0
-  ),
-  nrow = 4,
-  byrow = TRUE,
-  dimnames = list(LETTERS[1:4], LETTERS[1:4])
-)
-
-asymmetric_problem <- ATSP(cost)
-asymmetric_tour <- solve_TSP(asymmetric_problem, method = "nn", start = 1)
-asymmetric_tour
-tour_length(asymmetric_tour)
-```
-
-Most built-in heuristics work directly with both `TSP` and `ATSP` objects.
-Solvers that only accept symmetric problems can use the package's automatic
-ATSP-to-TSP reformulation; see `?reformulate_ATSP_as_TSP`.
 
 ## Where to go next
+
+Read about the [available TSP solvers.](https://michael.hahsler.net/TSP/articles/solution_methods.html)
 
 The most useful help pages are:
 
@@ -204,3 +108,4 @@ The most useful help pages are:
 - `?TOUR` and `?tour_length` for working with solutions;
 - `?read_TSPLIB` and `?write_TSPLIB` for TSPLIB files; and
 - `?insert_dummy` and `?cut_tour` for turning a cycle into one or more paths.
+## References

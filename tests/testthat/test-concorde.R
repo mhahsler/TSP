@@ -2,8 +2,6 @@ library(TSP)
 library(testthat)
 
 
-context("solve_TSP (Concorde and Linkern)")
-
 m <- rbind(
   c(0, 1, 0, 1),
   c(1, 0, 1, Inf),
@@ -22,25 +20,25 @@ skip_if_not(
 
 v <- FALSE
 o <- solve_TSP(tsp, method="concorde", verbose = v)
-expect_equivalent(tour_length(tsp, o), 4)
+expect_equal(tour_length(tsp, o), 4, ignore_attr = TRUE)
 
 # large numbers should be scaled right.
-expect_warning(o_large <- solve_TSP(tsp*2^15, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
-expect_equivalent(o, o_large)
+expect_warning(o_large <- solve_TSP(tsp*2^15, method="concorde", verbose = v), regexp = "Converting the provided distances to integers")
+expect_equal(o, o_large, ignore_attr = TRUE)
 
-expect_warning(o_large <- solve_TSP(tsp*10^10, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
-expect_equivalent(o, o_large)
+expect_warning(o_large <- solve_TSP(tsp*10^10, method="concorde", verbose = v), regexp = "Converting the provided distances to integers")
+expect_equal(o, o_large, ignore_attr = TRUE)
 
 # expect warning for rounding
-expect_warning(o_large <- solve_TSP(tsp*2^15+0.1, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
-expect_equivalent(o, o_large)
+expect_warning(o_large <- solve_TSP(tsp*2^15+0.1, method="concorde", verbose = v), regexp = "Converting the provided distances to integers")
+expect_equal(o, o_large, ignore_attr = TRUE)
 
 # expect a warning for rounding
-expect_warning(o_round <- solve_TSP(tsp/0.3, method="concorde", verbose = v), regex = "Converting the provided distances to integers")
-expect_equivalent(o, o_round)
+expect_warning(o_round <- solve_TSP(tsp/0.3, method="concorde", verbose = v), regexp = "Converting the provided distances to integers")
+expect_equal(o, o_round, ignore_attr = TRUE)
 
 o <- solve_TSP(tsp, method="linkern", verbose = v)
-expect_equivalent(tour_length(tsp, o), 4)
+expect_equal(tour_length(tsp, o), 4, ignore_attr = TRUE)
 
 # test ATSP
 #data <- matrix(runif(5^2), ncol = 5, dimnames = list(1:5, 1:5))
@@ -56,7 +54,7 @@ data <- structure(c(0.13930352916941, 0.897691324818879, 0.509101516567171,
 atsp <- ATSP(data)
 
 ## Concorde (gives conversation warning for reformulation of ATSP to TSP)
-expect_warning(o1 <- solve_TSP(atsp, method = "concorde", verbose = v), regex = "Solver cannot solve the ATSP directly")
+expect_warning(o1 <- solve_TSP(atsp, method = "concorde", verbose = v), regexp = "Solver cannot solve the ATSP directly")
 o2 <- solve_TSP(atsp, method = "concorde", as_TSP = TRUE, verbose = v)
 expect_equal(length(o1), 5L)
 expect_equal(length(o2), 5L)
@@ -67,7 +65,7 @@ expect_equal(round(tour_length(o2), 7), 0.8082826)
 
 ## Linkern
 ## warning for reformulate as TSP automatically
-expect_warning(o1 <- solve_TSP(atsp, method = "linkern", verbose = v), regex = "Solver cannot solve the ATSP directly")
+expect_warning(o1 <- solve_TSP(atsp, method = "linkern", verbose = v), regexp = "Solver cannot solve the ATSP directly")
 o2 <- solve_TSP(atsp, method = "linkern", as_TSP = TRUE, verbose = v)
 expect_equal(length(o1), 5L)
 expect_equal(length(o2), 5L)

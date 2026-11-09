@@ -55,6 +55,15 @@
 #' in rounding errors that are worse than what is specified in the
 #' `precision` control parameter.
 #'
+#' The `seed` argument of [solve_TSP()] is passed on to Concorde and linkern
+#' (option `-s`) to make their randomized components reproducible. The seed has
+#' to be a whole number between 0 and `.Machine$integer.max`. If no seed is
+#' specified, one random number is drawn from R's random number generator and
+#' used as the seed, so `set.seed()` also makes these methods reproducible.
+#' Note that this advances R's global random-number stream by one draw, while
+#' specifying `seed` in [solve_TSP()] replaces the global random-number state
+#' (see the Details section of [solve_TSP()]).
+#'
 #' To get a list of all available command line options which can be used via
 #' the `clo` option for `solve_TSP` use `concorde_help()` and
 #' `linkern_help()`.  Several options (\option{-x}, \option{-o},
@@ -148,6 +157,31 @@ NULL
   x
 }
 
+## prepare ETSP coordinates for Concorde/linkern. Their EUC_2D/EUC_3D distances
+## are rounded to integers, so the coordinates have to be scaled by 10^precision
+## (reduced if the largest possible distance would exceed MAX) and rounded.
+.prepare_coords_concorde <- function(x, MAX, precision) {
+  x <- as.matrix(x)
+  rownames(x) <- NULL
+  x <- sweep(x, 2, apply(x, 2, min))
+  diagonal <- sqrt(sum(apply(x, 2, max)^2))
+
+  if (diagonal > 0) {
+    prec <- floor(log10(MAX / diagonal))
+    if (prec < precision)
+      warning(
+        "Concorde/Linkern can only handle integer coordinates. Converting the coordinates with precision ",
+        prec, ". This may lead to rounding errors.",
+        immediate. = TRUE
+      )
+    x <- x * 10 ^ min(prec, precision)
+  }
+
+  x <- round(x)
+  class(x) <- c("ETSP", class(x))
+  x
+}
+
 ## interface to the Concorde algorithm
 ## (can only handle TSP and no neg. distances!)
 
@@ -195,15 +229,16 @@ tsp_concorde <- function(x, control = NULL) {
     write_TSPLIB(x, file = tmp_file_in, precision = 0)
 
   } else if (inherits(x, "ETSP")) {
-    ## nothing to do!
-    write_TSPLIB(x, file = tmp_file_in, precision = control$precision)
+    x <- .prepare_coords_concorde(x, 2 ^ 28 - 1, control$precision)
+    write_TSPLIB(x, file = tmp_file_in, precision = 15)
   } else
     stop("Concorde only handles TSP and ETSP.")
 
   ## do the call and read back result
   status <- system2(
     control$exe,
-    args =  paste("-x", control$clo, "-o", tmp_file_out, tmp_file_in),
+    args =  paste("-x", control$clo, .seed_clo(control$seed), "-o",
+      tmp_file_out, tmp_file_in),
     stdout = if (control$verbose)
       ""
     else
@@ -265,7 +300,7 @@ tsp_linkern <- function(x, control = NULL) {
     x <- .prepare_dist_concorde(x, MAX, precision = control$precision, verbose = control$verbose)
 
   } else if (inherits(x, "ETSP")) {
-    ## nothing to do
+    x <- .prepare_coords_concorde(x, 2 ^ 28 - 1, control$precision)
   } else
     stop("Linkern only works for TSP and ETSP.")
 
@@ -284,13 +319,14 @@ tsp_linkern <- function(x, control = NULL) {
   tmp_file_in  <- "problem.dat"
   tmp_file_out <- "result.sol"
 
-  write_TSPLIB(x, file = tmp_file_in, precision = 0)
+  write_TSPLIB(x, file = tmp_file_in,
+    precision = if (inherits(x, "ETSP")) 15 else 0)
 
   ## do the call and read back result
   status <- system2(
     control$exe,
     args =  paste("-o",
-      tmp_file_out, control$clo, tmp_file_in),
+      tmp_file_out, control$clo, .seed_clo(control$seed), tmp_file_in),
     stdout = if (control$verbose)
       ""
     else
@@ -384,6 +420,20 @@ linkern_help <- function() {
 }
 
 
+
+## command line option to set the random seed of Concorde/linkern.
+## Concorde reads the seed as a C int, so it must be a whole number in
+## [0, .Machine$integer.max]. If no seed is given, a seed is drawn from R's
+## random number generator so that set.seed() also controls the executables.
+.seed_clo <- function(seed = NULL) {
+  if (is.null(seed))
+    seed <- sample.int(.Machine$integer.max, 1L)
+  else if (!is.numeric(seed) || length(seed) != 1L || !is.finite(seed) ||
+      seed != floor(seed) || seed < 0 || seed > .Machine$integer.max)
+    stop("seed for Concorde/linkern must be a single non-negative integer ",
+      "not larger than ", .Machine$integer.max, ".", call. = FALSE)
+  paste("-s", format(seed, scientific = FALSE))
+}
 
 ## helper to find the 'concorde' executable
 .find_exe <- function(exe = NULL, prog) {

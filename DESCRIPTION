@@ -1,7 +1,7 @@
 Package: TSP
 Type: Package
 Title: Infrastructure for the Traveling Salesperson Problem
-Version: 1.2.8
+Version: 1.2.8.1
 Date: 2026-xx-xx
 Authors@R: 
   c(person("Michael", "Hahsler", 
@@ -30,4 +30,4 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 License: GPL-3
 Copyright: All code is Copyright (C) Michael Hahsler and Kurt Hornik.
-Config/roxygen2/version: 8.1.0
+Config/roxygen2/version: 8.1.1

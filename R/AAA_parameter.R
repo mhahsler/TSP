@@ -145,12 +145,4 @@
   defaults
 }
 
-## Use a separate deterministic seed for each foreach iteration. This avoids
-## relying on the RNG behavior of the registered foreach backend.
-.set_repetition_seed <- function(seed, repetition) {
-  if (!is.null(seed)) {
-    iteration_seed <- (as.double(seed) + repetition - 1) %%
-      (.Machine$integer.max + 1)
-    set.seed(iteration_seed)
-  }
-}
+

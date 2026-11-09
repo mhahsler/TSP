@@ -57,6 +57,15 @@ messages will alert the user if the conversion to integer values results
 in rounding errors that are worse than what is specified in the
 \code{precision} control parameter.
 
+The \code{seed} argument of \code{\link[=solve_TSP]{solve_TSP()}} is passed on to Concorde and linkern
+(option \code{-s}) to make their randomized components reproducible. The seed has
+to be a whole number between 0 and \code{.Machine$integer.max}. If no seed is
+specified, one random number is drawn from R's random number generator and
+used as the seed, so \code{set.seed()} also makes these methods reproducible.
+Note that this advances R's global random-number stream by one draw, while
+specifying \code{seed} in \code{\link[=solve_TSP]{solve_TSP()}} replaces the global random-number state
+(see the Details section of \code{\link[=solve_TSP]{solve_TSP()}}).
+
 To get a list of all available command line options which can be used via
 the \code{clo} option for \code{solve_TSP} use \code{concorde_help()} and
 \code{linkern_help()}.  Several options (\option{-x}, \option{-o},
