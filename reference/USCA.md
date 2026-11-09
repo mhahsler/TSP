@@ -22,7 +22,7 @@ cities.
 ## See also
 
 Other data:
-[`TSPLIB`](http://michael.hahsler.net/TSP/reference/TSPLIB.md)
+[`TSPLIB`](https://michael.hahsler.net/TSP/reference/TSPLIB.md)
 
 ## Author
 

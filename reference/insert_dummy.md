@@ -73,10 +73,11 @@ optimization, Wiley & Sons.
 
 ## See also
 
-Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
-[`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+Other TSP:
+[`ATSP()`](https://michael.hahsler.net/TSP/reference/ATSP.md),
+[`ETSP()`](https://michael.hahsler.net/TSP/reference/ETSP.md),
+[`TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md),
+[`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
 
 ## Author
 

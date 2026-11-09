@@ -62,7 +62,7 @@ image(x, order, col = gray.colors(64), ...)
 - order:
 
   order of cities for the image as an integer vector or an object of
-  class [TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md).
+  class [TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md).
 
 - col:
 
@@ -89,10 +89,11 @@ tour, not the best one.
 
 ## See also
 
-Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+Other TSP:
+[`ATSP()`](https://michael.hahsler.net/TSP/reference/ATSP.md),
+[`ETSP()`](https://michael.hahsler.net/TSP/reference/ETSP.md),
+[`insert_dummy()`](https://michael.hahsler.net/TSP/reference/insert_dummy.md),
+[`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
 
 ## Author
 

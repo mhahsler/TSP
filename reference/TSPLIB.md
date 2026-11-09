@@ -73,7 +73,7 @@ ORSA Journal on Computing 3 (4): 376–84.
 
 ## See also
 
-Other data: [`USCA`](http://michael.hahsler.net/TSP/reference/USCA.md)
+Other data: [`USCA`](https://michael.hahsler.net/TSP/reference/USCA.md)
 
 ## Author
 

@@ -16,7 +16,7 @@ cut_tour(x, cut, exclude_cut = TRUE)
 - x:
 
   an object of class
-  [TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md).
+  [TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md).
 
 - cut:
 
@@ -35,8 +35,8 @@ are used then a list with paths is returned.
 ## See also
 
 Other TOUR:
-[`TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md),
-[`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
+[`TOUR()`](https://michael.hahsler.net/TSP/reference/TOUR.md),
+[`tour_length()`](https://michael.hahsler.net/TSP/reference/tour_length.md)
 
 ## Author
 

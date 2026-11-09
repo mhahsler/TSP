@@ -1,8 +1,8 @@
 # Calculate the length of a tour
 
 Calculate the length of a
-[TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md) for a
-[TSP](http://michael.hahsler.net/TSP/reference/TSP.md).
+[TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md) for a
+[TSP](https://michael.hahsler.net/TSP/reference/TSP.md).
 
 ## Usage
 
@@ -30,7 +30,7 @@ tour_length(x, tsp = NULL, ...)
 - x:
 
   a TSP problem or a
-  [TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md).
+  [TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md).
 
 - ...:
 
@@ -57,8 +57,8 @@ method returns `NA`.
 ## See also
 
 Other TOUR:
-[`TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md),
-[`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md)
+[`TOUR()`](https://michael.hahsler.net/TSP/reference/TOUR.md),
+[`cut_tour()`](https://michael.hahsler.net/TSP/reference/cut_tour.md)
 
 ## Author
 

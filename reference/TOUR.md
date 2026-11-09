@@ -55,16 +55,16 @@ the names of the objects as labels. Additionally, `TOUR` has the
 following attributes: `"method"`, `"tour_length"`.
 
 For most functions, e.g.,
-[`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
-or [`image.TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md), the
-`TSP/ATSP` object used to find the tour is still needed, since the tour
-does not contain the distance information.
+[`tour_length()`](https://michael.hahsler.net/TSP/reference/tour_length.md)
+or [`image.TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md),
+the `TSP/ATSP` object used to find the tour is still needed, since the
+tour does not contain the distance information.
 
 ## See also
 
 Other TOUR:
-[`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md),
-[`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
+[`cut_tour()`](https://michael.hahsler.net/TSP/reference/cut_tour.md),
+[`tour_length()`](https://michael.hahsler.net/TSP/reference/tour_length.md)
 
 ## Author
 

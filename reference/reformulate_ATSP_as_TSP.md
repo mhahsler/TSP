@@ -16,7 +16,7 @@ filter_ATSP_as_TSP_dummies(tour, atsp)
 
 - x:
 
-  an [ATSP](http://michael.hahsler.net/TSP/reference/ATSP.md).
+  an [ATSP](https://michael.hahsler.net/TSP/reference/ATSP.md).
 
 - infeasible:
 
@@ -28,25 +28,26 @@ filter_ATSP_as_TSP_dummies(tour, atsp)
 
 - tour:
 
-  a [TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md) created for
-  an ATSP reformulated as a TSP.
+  a [TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md) created
+  for an ATSP reformulated as a TSP.
 
 - atsp:
 
-  the original [ATSP](http://michael.hahsler.net/TSP/reference/ATSP.md).
+  the original
+  [ATSP](https://michael.hahsler.net/TSP/reference/ATSP.md).
 
 ## Value
 
 `reformulate_ATSP_as_TSP()` returns a
-[TSP](http://michael.hahsler.net/TSP/reference/TSP.md) object.
+[TSP](https://michael.hahsler.net/TSP/reference/TSP.md) object.
 `filter_ATSP_as_TSP_dummies()` returns a
-[TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md) object.
+[TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md) object.
 
 ## Details
 
 To reformulate an
-[ATSP](http://michael.hahsler.net/TSP/reference/ATSP.md) as a
-[TSP](http://michael.hahsler.net/TSP/reference/TSP.md), a dummy city
+[ATSP](https://michael.hahsler.net/TSP/reference/ATSP.md) as a
+[TSP](https://michael.hahsler.net/TSP/reference/TSP.md), a dummy city
 (e.g., for 'New York' a dummy city 'New York\*') is added. Between each
 city and its corresponding dummy city a very small (or negative)
 distance with value `cheap` is used. To ensure that each city always
@@ -58,7 +59,7 @@ responsible for the distance coming from the city. The distances between
 all cities and the distances between all dummy cities are set to
 `infeasible`, a very large value which prevents the solver from using
 these links. We use infinite values here and
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+[`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
 treats them appropriately.
 
 `filter_ATSP_as_TSP_dummies()` can be used to extract the solution for
@@ -67,7 +68,7 @@ Note that the symmetric TSP tour does not reveal the direction for the
 ATSP. The filter function computes the tour length for both directions
 and returns the shorter tour.
 
-[`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+[`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
 has a parameter `as_TSP` that performs the reformulation and filters the
 dummy cities automatically.
 
@@ -85,10 +86,11 @@ symmetric traveling salesman problems, *Operations Research Letters,* 2,
 
 ## See also
 
-Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
-[`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md)
+Other TSP:
+[`ATSP()`](https://michael.hahsler.net/TSP/reference/ATSP.md),
+[`ETSP()`](https://michael.hahsler.net/TSP/reference/ETSP.md),
+[`TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md),
+[`insert_dummy()`](https://michael.hahsler.net/TSP/reference/insert_dummy.md)
 
 ## Author
 

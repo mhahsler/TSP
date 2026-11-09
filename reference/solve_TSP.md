@@ -49,7 +49,7 @@ solve_TSP(x, method = NULL, control = NULL, ..., seed = NULL)
 ## Value
 
 An object of class
-[TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md).
+[TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md).
 
 ## TSP Methods
 
@@ -71,7 +71,9 @@ addition to the parameters specified below:
 - "seed": a non-negative integer used to make randomized solvers and
   repetitions reproducible. Each repetition uses a deterministic seed
   derived from this value, independent of the registered parallel
-  backend.
+  backend. For "concorde" and "linkern" the seed must be at most
+  `.Machine$integer.max`; if it is missing, one is drawn from R's random
+  number generator.
 
 - "two_opt": a logical indicating if two-opt refinement should be
   performed on the constructed tour. This is just for convenience so a
@@ -205,18 +207,18 @@ The following tour improvement heuristics are available:
 
   Concorde is an advanced exact TSP solver for *symmetric* TSPs based on
   branch-and-cut. ATSPs can be solved using
-  [`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+  [`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
   done automatically with `as_TSP = TRUE`. The program is not included
   in this package and has to be obtained and installed separately.
 
   Additional control options:
 
   - "exe" a character string containing the path to the executable (see
-    [Concorde](http://michael.hahsler.net/TSP/reference/Concorde.md)).
+    [Concorde](https://michael.hahsler.net/TSP/reference/Concorde.md)).
 
   - "clo" a character string containing command line options for
     Concorde, e.g., `control = list(clo = "-B -v")`. See
-    [`concorde_help()`](http://michael.hahsler.net/TSP/reference/Concorde.md)
+    [`concorde_help()`](https://michael.hahsler.net/TSP/reference/Concorde.md)
     on how to obtain a complete list of available command line options.
 
   - "precision" an integer which controls the number of decimal places
@@ -227,7 +229,12 @@ The following tour improvement heuristics are available:
     divided by \\10^{precision}\\ (i.e., the decimal point has to be
     shifted `precision` places to the left). The interface to Concorde
     uses
-    [`write_TSPLIB()`](http://michael.hahsler.net/TSP/reference/TSPLIB.md).
+    [`write_TSPLIB()`](https://michael.hahsler.net/TSP/reference/TSPLIB.md).
+
+  - "seed" a whole number between 0 and `.Machine$integer.max` passed to
+    Concorde's `-s` option to make its randomized components
+    reproducible. If missing, a seed is drawn from R's random number
+    generator (see `seed` below).
 
   - "verbose" logical; `FALSE` suppresses the output printed to the
     terminal.
@@ -239,17 +246,17 @@ The following tour improvement heuristics are available:
   \\k\\ edge exchanges to improve an initial tour. The program is not
   included in this package and has to be obtained and installed
   separately (see
-  [Concorde](http://michael.hahsler.net/TSP/reference/Concorde.md)).
+  [Concorde](https://michael.hahsler.net/TSP/reference/Concorde.md)).
 
   Additional control options: see Concorde above.
 
 ## Treatment of `NA`s and Infinite Values in `x`
 
-[TSP](http://michael.hahsler.net/TSP/reference/TSP.md) and
-[ATSP](http://michael.hahsler.net/TSP/reference/ATSP.md) need to contain
-valid distances. `NA`s are not allowed. `Inf` is allowed and can be used
-to model the missing edges in incomplete graphs (i.e., the distance
-between the two objects is infinite) or infeasible connections.
+[TSP](https://michael.hahsler.net/TSP/reference/TSP.md) and
+[ATSP](https://michael.hahsler.net/TSP/reference/ATSP.md) need to
+contain valid distances. `NA`s are not allowed. `Inf` is allowed and can
+be used to model the missing edges in incomplete graphs (i.e., the
+distance between the two objects is infinite) or infeasible connections.
 Internally, `Inf` is replaced by a large value given by \\max(x) + 2
 range(x)\\. Note that the solution might still place the two objects
 next to each other (e.g., if `x` contains several unconnected subgraphs)
@@ -260,15 +267,15 @@ two objects next to each other.
 ## Solving ATSP and ETSP
 
 Some solvers (including Concorde) cannot solve
-[ATSP](http://michael.hahsler.net/TSP/reference/ATSP.md) directly. An
+[ATSP](https://michael.hahsler.net/TSP/reference/ATSP.md) directly. An
 `ATSP` can be reformulated as a larger `TSP` and solved this way. For
 convenience, `solve_TSP()` has an extra argument `as_TSP` which can be
 set to `TRUE` to automatically solve the `ATSP` reformulated as a `TSP`
 (see
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)).
+[`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)).
 
 Only methods "concorde" and "linkern" currently solve
-[ETSP](http://michael.hahsler.net/TSP/reference/ETSP.md)s directly. For
+[ETSP](https://michael.hahsler.net/TSP/reference/ETSP.md)s directly. For
 all other methods, ETSPs are converted into TSPs by creating a distance
 matrix and then solved. Note: distance matrices can become very large,
 leading to high memory usage and long computation times.
@@ -286,14 +293,26 @@ appropriate parallel backend needs to be registered (e.g.,
 Set the `seed` argument to make randomized solvers and repetitions
 reproducible across sequential and parallel foreach backends. Each
 repetition uses a deterministic seed derived from `seed`. The seed
-affects all randomized methods implemented in this package, but it does
-not control randomness inside the external Concorde and linkern
-executables.
+affects all randomized methods implemented in this package. For methods
+`"concorde"` and `"linkern"`, the seed is also passed on to the
+executable via its `-s` command line option. If no `seed` is specified,
+a seed for the executable is drawn from R's random number generator (so
+[`set.seed()`](https://rdrr.io/r/base/Random.html) also makes these
+methods reproducible). The seed must be a whole number between 0 and
+`.Machine$integer.max`. Do not combine `seed` with `-s` in `clo`.
 
-Calling `solve_TSP()` with `seed` may change R's global random-number
-stream. The state of the global stream after the call can differ between
-sequential and parallel backends because parallel repetitions set their
-seeds in the worker processes.
+**Effect on the global random-number state:** If `seed` is specified,
+`solve_TSP()` calls [`set.seed()`](https://rdrr.io/r/base/Random.html),
+which *replaces* R's global random-number state. The state after the
+call is therefore determined by `seed` and not by the state before the
+call. With a parallel foreach backend, the repetitions set their seeds
+in the worker processes, so the global state after the call can differ
+between sequential and parallel backends. If `seed` is not specified, no
+seed is set. Randomized methods then use (and advance) the current
+global random-number stream as usual, and `"concorde"` and `"linkern"`
+draw one random number from it to seed the executable. Use
+[`set.seed()`](https://rdrr.io/r/base/Random.html) before the call to
+make the result reproducible.
 
 ## References
 
@@ -327,7 +346,7 @@ Journal on Computing*, 6(3):563–581.
 ## See also
 
 Other solver:
-[`Concorde`](http://michael.hahsler.net/TSP/reference/Concorde.md)
+[`Concorde`](https://michael.hahsler.net/TSP/reference/Concorde.md)
 
 ## Author
 

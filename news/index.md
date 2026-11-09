@@ -1,6 +1,17 @@
 # Changelog
 
-## TSP 1.2.8 (xx/xx/2026)
+## TSP 1.2.8.1 (unpublished)
+
+- Fixed Concorde and linkern for ETSP: coordinates are now scaled to
+  integers (using `precision`) before they are written.
+- The `seed` argument is now passed on to the Concorde and linkern
+  executables (checked to be a valid non-negative integer). Without a
+  seed, one is drawn from the R random number generator, so
+  [`set.seed()`](https://rdrr.io/r/base/Random.html) makes them
+  reproducible.
+- Added R Markdown vignettes.
+
+## TSP 1.2.8 (09/30/2026)
 
 - Modernized the test suite to testthat edition 3.
 - Expanded solver, TSPLIB, boundary-case, and reproducibility tests;

@@ -57,7 +57,7 @@ plot(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 2, labels = TRUE, ...)
 - order:
 
   order of cities for the image as an integer vector or an object of
-  class [TOUR](http://michael.hahsler.net/TSP/reference/TOUR.md).
+  class [TOUR](https://michael.hahsler.net/TSP/reference/TOUR.md).
 
 - col:
 
@@ -75,7 +75,7 @@ plot(x, y = NULL, tour = NULL, tour_lty = 2, tour_col = 2, labels = TRUE, ...)
 
 - `ETSP()` returns `x` as an object of class `ETSP`.
 
-- [`n_of_cities()`](http://michael.hahsler.net/TSP/reference/TSP.md)
+- [`n_of_cities()`](https://michael.hahsler.net/TSP/reference/TSP.md)
   returns the number of cities in `x`.
 
 - [`labels()`](https://rdrr.io/r/base/labels.html) returns a vector with
@@ -89,10 +89,11 @@ Objects of class `ETSP` are internally represented as `matrix` objects
 
 ## See also
 
-Other TSP: [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md),
-[`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+Other TSP:
+[`ATSP()`](https://michael.hahsler.net/TSP/reference/ATSP.md),
+[`TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md),
+[`insert_dummy()`](https://michael.hahsler.net/TSP/reference/insert_dummy.md),
+[`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
 
 ## Author
 

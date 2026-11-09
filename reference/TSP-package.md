@@ -10,7 +10,7 @@ separately. Hahsler and Hornik (2007)
 
 ## Key functions
 
-- [`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+- [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
 
 ## See also
 

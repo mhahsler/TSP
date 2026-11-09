@@ -63,7 +63,7 @@ as.matrix(x, ...)
 
 - `ATSP()` returns `x` as an object of class `ATSP`.
 
-- [`n_of_cities()`](http://michael.hahsler.net/TSP/reference/TSP.md)
+- [`n_of_cities()`](https://michael.hahsler.net/TSP/reference/TSP.md)
   returns the number of cities in `x`.
 
 - [`labels()`](https://rdrr.io/r/base/labels.html) returns a vector with
@@ -76,14 +76,15 @@ Objects of class `ATSP` are internally represented by a matrix (use
 matrix).
 
 ATSPs can be transformed into (larger) symmetric TSPs using
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md).
+[`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md).
 
 ## See also
 
-Other TSP: [`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md),
-[`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md),
-[`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md),
-[`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+Other TSP:
+[`ETSP()`](https://michael.hahsler.net/TSP/reference/ETSP.md),
+[`TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md),
+[`insert_dummy()`](https://michael.hahsler.net/TSP/reference/insert_dummy.md),
+[`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
 
 ## Author
 

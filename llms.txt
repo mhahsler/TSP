@@ -217,47 +217,47 @@ Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
 Create symmetric, asymmetric, and Euclidean traveling salesperson
 problems.
 
-- [`TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md)
-  [`as.TSP()`](http://michael.hahsler.net/TSP/reference/TSP.md)
-  [`as.dist(`*`<TSP>`*`)`](http://michael.hahsler.net/TSP/reference/TSP.md)
-  [`print(`*`<TSP>`*`)`](http://michael.hahsler.net/TSP/reference/TSP.md)
-  [`n_of_cities()`](http://michael.hahsler.net/TSP/reference/TSP.md)
-  [`labels(`*`<TSP>`*`)`](http://michael.hahsler.net/TSP/reference/TSP.md)
-  [`image(`*`<TSP>`*`)`](http://michael.hahsler.net/TSP/reference/TSP.md)
+- [`TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md)
+  [`as.TSP()`](https://michael.hahsler.net/TSP/reference/TSP.md)
+  [`as.dist(`*`<TSP>`*`)`](https://michael.hahsler.net/TSP/reference/TSP.md)
+  [`print(`*`<TSP>`*`)`](https://michael.hahsler.net/TSP/reference/TSP.md)
+  [`n_of_cities()`](https://michael.hahsler.net/TSP/reference/TSP.md)
+  [`labels(`*`<TSP>`*`)`](https://michael.hahsler.net/TSP/reference/TSP.md)
+  [`image(`*`<TSP>`*`)`](https://michael.hahsler.net/TSP/reference/TSP.md)
   : Class TSP – Symmetric traveling salesperson problem
-- [`ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`as.ETSP()`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`as.TSP(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`as.matrix(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`print(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`n_of_cities(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`labels(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`image(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
-  [`plot(`*`<ETSP>`*`)`](http://michael.hahsler.net/TSP/reference/ETSP.md)
+- [`ETSP()`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`as.ETSP()`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`as.TSP(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`as.matrix(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`print(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`n_of_cities(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`labels(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`image(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
+  [`plot(`*`<ETSP>`*`)`](https://michael.hahsler.net/TSP/reference/ETSP.md)
   : Class ETSP – Euclidean traveling salesperson problem
-- [`ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md)
-  [`as.ATSP()`](http://michael.hahsler.net/TSP/reference/ATSP.md)
-  [`print(`*`<ATSP>`*`)`](http://michael.hahsler.net/TSP/reference/ATSP.md)
-  [`n_of_cities(`*`<ATSP>`*`)`](http://michael.hahsler.net/TSP/reference/ATSP.md)
-  [`labels(`*`<ATSP>`*`)`](http://michael.hahsler.net/TSP/reference/ATSP.md)
-  [`image(`*`<ATSP>`*`)`](http://michael.hahsler.net/TSP/reference/ATSP.md)
-  [`as.matrix(`*`<ATSP>`*`)`](http://michael.hahsler.net/TSP/reference/ATSP.md)
+- [`ATSP()`](https://michael.hahsler.net/TSP/reference/ATSP.md)
+  [`as.ATSP()`](https://michael.hahsler.net/TSP/reference/ATSP.md)
+  [`print(`*`<ATSP>`*`)`](https://michael.hahsler.net/TSP/reference/ATSP.md)
+  [`n_of_cities(`*`<ATSP>`*`)`](https://michael.hahsler.net/TSP/reference/ATSP.md)
+  [`labels(`*`<ATSP>`*`)`](https://michael.hahsler.net/TSP/reference/ATSP.md)
+  [`image(`*`<ATSP>`*`)`](https://michael.hahsler.net/TSP/reference/ATSP.md)
+  [`as.matrix(`*`<ATSP>`*`)`](https://michael.hahsler.net/TSP/reference/ATSP.md)
   : Class ATSP – Asymmetric traveling salesperson problem
-- [`insert_dummy()`](http://michael.hahsler.net/TSP/reference/insert_dummy.md)
+- [`insert_dummy()`](https://michael.hahsler.net/TSP/reference/insert_dummy.md)
   : Insert dummy cities into a distance matrix
-- [`reformulate_ATSP_as_TSP()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
-  [`filter_ATSP_as_TSP_dummies()`](http://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+- [`reformulate_ATSP_as_TSP()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
+  [`filter_ATSP_as_TSP_dummies()`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)
   : Reformulate an ATSP as a symmetric TSP
 
 ## Solvers
 
 Solve TSPs by creating a TOUR
 
-- [`solve_TSP()`](http://michael.hahsler.net/TSP/reference/solve_TSP.md)
+- [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
   : TSP solver interface
-- [`concorde_path()`](http://michael.hahsler.net/TSP/reference/Concorde.md)
-  [`concorde_help()`](http://michael.hahsler.net/TSP/reference/Concorde.md)
-  [`linkern_help()`](http://michael.hahsler.net/TSP/reference/Concorde.md)
+- [`concorde_path()`](https://michael.hahsler.net/TSP/reference/Concorde.md)
+  [`concorde_help()`](https://michael.hahsler.net/TSP/reference/Concorde.md)
+  [`linkern_help()`](https://michael.hahsler.net/TSP/reference/Concorde.md)
   : Using the Concorde TSP Solver
 
 ## Tours
@@ -265,31 +265,37 @@ Solve TSPs by creating a TOUR
 Store TSP solutions as permutations, calculate their lengths, and cut
 cycles to form paths.
 
-- [`TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md)
-  [`as.TOUR()`](http://michael.hahsler.net/TSP/reference/TOUR.md)
-  [`print(`*`<TOUR>`*`)`](http://michael.hahsler.net/TSP/reference/TOUR.md)
+- [`TOUR()`](https://michael.hahsler.net/TSP/reference/TOUR.md)
+  [`as.TOUR()`](https://michael.hahsler.net/TSP/reference/TOUR.md)
+  [`print(`*`<TOUR>`*`)`](https://michael.hahsler.net/TSP/reference/TOUR.md)
   : Class TOUR – Solution to a traveling salesperson problem
-- [`tour_length()`](http://michael.hahsler.net/TSP/reference/tour_length.md)
+- [`tour_length()`](https://michael.hahsler.net/TSP/reference/tour_length.md)
   : Calculate the length of a tour
-- [`cut_tour()`](http://michael.hahsler.net/TSP/reference/cut_tour.md) :
-  Cut a tour to form a path
+- [`cut_tour()`](https://michael.hahsler.net/TSP/reference/cut_tour.md)
+  : Cut a tour to form a path
 
 ## Data
 
 Data sets and import/export funcitons.
 
-- [`read_TSPLIB()`](http://michael.hahsler.net/TSP/reference/TSPLIB.md)
-  [`write_TSPLIB()`](http://michael.hahsler.net/TSP/reference/TSPLIB.md)
+- [`read_TSPLIB()`](https://michael.hahsler.net/TSP/reference/TSPLIB.md)
+  [`write_TSPLIB()`](https://michael.hahsler.net/TSP/reference/TSPLIB.md)
   : Read and write TSPLIB files
-- [`USCA`](http://michael.hahsler.net/TSP/reference/USCA.md)
-  [`USCA312`](http://michael.hahsler.net/TSP/reference/USCA.md)
-  [`USCA312_GPS`](http://michael.hahsler.net/TSP/reference/USCA.md)
-  [`USCA50`](http://michael.hahsler.net/TSP/reference/USCA.md) :
+- [`USCA`](https://michael.hahsler.net/TSP/reference/USCA.md)
+  [`USCA312`](https://michael.hahsler.net/TSP/reference/USCA.md)
+  [`USCA312_GPS`](https://michael.hahsler.net/TSP/reference/USCA.md)
+  [`USCA50`](https://michael.hahsler.net/TSP/reference/USCA.md) :
   USCA312/USCA50 – 312/50 cities in the US and Canada
 
 # Articles
 
 ### All vignettes
 
+- [Using the Concorde TSP
+  solver](https://michael.hahsler.net/TSP/articles/concorde.md):
+- [Rearrangement
+  clustering](https://michael.hahsler.net/TSP/articles/rearrangement_clustering.md):
+- [TSP solution
+  methods](https://michael.hahsler.net/TSP/articles/solution_methods.md):
 - [Getting started with
-  TSP](http://michael.hahsler.net/TSP/articles/TSP.md):
+  TSP](https://michael.hahsler.net/TSP/articles/TSP.md):
