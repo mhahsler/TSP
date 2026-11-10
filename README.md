@@ -9,7 +9,7 @@ downloads](https://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/pa
 [![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
 [![r-universe
 status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
-[![StackOverflow](https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg)](https://stackoverflow.com/questions/tagged/TSP+R)
+[![StackOverflow](https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg)](https://stackoverflow.com/questions/tagged/traveling-salesman+R)
 
 **Maintainer:** [Michael Hahsler](https://michael.hahsler.net)
 
