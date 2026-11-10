@@ -140,3 +140,62 @@ test_that("TSPLIB rejects malformed and unsupported files", {
     "TYPE: TSP", "DIMENSION: 2", "EDGE_WEIGHT_TYPE: EUC_2D"
   ), "NODE_COORD_SECTION missing")
 })
+
+test_that("write_TSPLIB warns about ETSP cities with identical coordinates", {
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
+
+  etsp <- ETSP(data.frame(x = c(0, 1, 2, 1), y = c(0, 1, 2, 1)))
+  expect_warning(write_TSPLIB(etsp, path), "same coordinates")
+  expect_warning(write_TSPLIB(etsp, path), "cities 2 and 4")
+
+  ## all coordinates are different
+  etsp_ok <- ETSP(data.frame(x = c(0, 1, 2, 3), y = c(0, 1, 2, 4)))
+  expect_no_warning(write_TSPLIB(etsp_ok, path))
+
+  ## coordinates that are only identical after rounding to `precision`
+  close <- ETSP(data.frame(x = c(0, 1, 1.0000001), y = c(0, 1, 1)))
+  expect_no_warning(write_TSPLIB(close, path, precision = 10))
+  expect_warning(write_TSPLIB(close, path, precision = 3), "same coordinates")
+})
+
+test_that("write_TSPLIB warns when non-zero distances become zero", {
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
+
+  ## TSP
+  tsp <- TSP(dist(rbind(c(0, 0), c(1e-7, 0), c(1, 1))))
+  expect_warning(write_TSPLIB(tsp, path, precision = 3), "become 0")
+  expect_no_warning(write_TSPLIB(tsp, path, precision = 8))
+
+  ## true zero distances and integer data are fine
+  tsp_zero <- TSP(as.dist(rbind(c(0, 0, 1), c(0, 0, 1), c(1, 1, 0))))
+  expect_no_warning(write_TSPLIB(tsp_zero, path, precision = 3))
+  expect_no_warning(write_TSPLIB(TSP(dist(matrix(1:6, ncol = 2))), path))
+
+  ## ATSP (the zero diagonal is ignored)
+  m <- matrix(c(0, 1e-7, 2, 3, 0, 4, 5, 6, 0), 3, byrow = TRUE)
+  atsp <- ATSP(m)
+  expect_warning(write_TSPLIB(atsp, path, precision = 3), "become 0")
+  expect_no_warning(write_TSPLIB(atsp, path, precision = 8))
+  expect_no_warning(write_TSPLIB(ATSP(matrix(c(0, 1, 2, 3, 0, 4, 5, 6, 0), 3)),
+    path, precision = 3))
+})
+
+test_that("write_TSPLIB rounds distances to integers instead of truncating", {
+  path <- tempfile(fileext = ".tsp")
+  on.exit(unlink(path), add = TRUE)
+  weights <- function() {
+    lines <- readLines(path)
+    as.integer(lines[(which(lines == "EDGE_WEIGHT_SECTION") + 1):(which(lines == "EOF") - 1)])
+  }
+
+  ## 0.29 * 100 = 28.999999999999996 would be truncated to 28
+  tsp <- TSP(as.dist(rbind(c(0, 0.29, 0.6), c(0.29, 0, 0.7), c(0.6, 0.7, 0))))
+  write_TSPLIB(tsp, path, precision = 2)
+  expect_equal(weights(), c(29L, 60L, 70L))
+
+  atsp <- ATSP(matrix(c(0, 0.29, 0.6, 0.7, 0, 0.51, 0.4, 0.8, 0), 3, byrow = TRUE))
+  write_TSPLIB(atsp, path, precision = 2)
+  expect_equal(weights(), as.integer(round(as.vector(atsp) * 100)))
+})

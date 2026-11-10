@@ -49,10 +49,19 @@ copy of the \href{https://github.com/mhahsler/TSP/tree/master/TSPLIB95}{TSPLIB95
 \details{
 In the TSPLIB format distances are represented by integer values. Therefore,
 if \code{x} contains \code{double} values (which is normal in R) the values
-given in \code{x} are multiplied by \eqn{10^{precision}} before coercion to
-\code{integer}. Note that therefore all results produced by programs using
+given in \code{x} are multiplied by \eqn{10^{precision}} and rounded to the
+nearest \code{integer}. Note that therefore all results produced by programs using
 the TSPLIB file as input need to be divided by \eqn{10^{precision}} (i.e.,
 the decimal point has to be shifted \code{precision} places to the left).
+
+For \link{TSP} and \link{ATSP} objects, a warning is given if distances that are not
+zero become zero after the conversion to integers (i.e., \code{precision} is too
+low).
+
+For \link{ETSP} objects, the coordinates are written with \code{precision} digits
+(in scientific notation) and are not scaled. A warning is given if two or
+more cities have identical coordinates in the written file because their
+distance is zero.
 
 Currently only the following \code{EDGE_WEIGHT_TYPE}s are implemented:
 \code{EXPLICIT}, \code{EUC_2D}, \code{EUC_3D}, \code{ATT} and \code{GEO}.

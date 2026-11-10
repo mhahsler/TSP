@@ -29,6 +29,14 @@ Lin-Kernighan (Applegate et al. 2003) implementation are provided in
 \pkg{TSP}. Concorde can solve \link{TSP}s and \link{ETSP}s directly. \link{ATSP}s are
 reformulated as larger TSPs and then solved.
 }
+\details{
+Note: Concorde and linkern natively solve \link{ETSP}s (Euclidean TSPs given as
+coordinates). The coordinates are passed on to the solvers as they are
+(after scaling to integers, see below), so no distance matrix needs to be
+calculated and the memory use grows only linearly with the number of
+cities. The other methods in \code{\link[=solve_TSP]{solve_TSP()}} first convert an \link{ETSP} into a
+distance matrix.
+}
 \section{Installation of Concorde}{
 The Concorde TSP Solver is freely available for academic research.
 It is not included in the \pkg{TSP} R package and has
@@ -57,14 +65,23 @@ messages will alert the user if the conversion to integer values results
 in rounding errors that are worse than what is specified in the
 \code{precision} control parameter.
 
-The \code{seed} argument of \code{\link[=solve_TSP]{solve_TSP()}} is passed on to Concorde and linkern
-(option \code{-s}) to make their randomized components reproducible. The seed has
-to be a whole number between 0 and \code{.Machine$integer.max}. If no seed is
-specified, one random number is drawn from R's random number generator and
-used as the seed, so \code{set.seed()} also makes these methods reproducible.
-Note that this advances R's global random-number stream by one draw, while
-specifying \code{seed} in \code{\link[=solve_TSP]{solve_TSP()}} replaces the global random-number state
-(see the Details section of \code{\link[=solve_TSP]{solve_TSP()}}).
+For Euclidean problems (\link{ETSP}), the coordinates are shifted to start at
+zero and multiplied by \code{10^precision}, because Concorde rounds the
+calculated distances to integers. To avoid integer overflows in Concorde,
+the scaling is reduced (with a warning) so that no scaled coordinate exceeds
+\eqn{10^7}. \code{\link[=write_TSPLIB]{write_TSPLIB()}} gives a warning if cities end up with identical
+coordinates (e.g., because rounding made distinct cities identical, i.e.,
+their distances became smaller than 1); increase \code{precision} or rescale the
+data in this case.
+
+Concorde and linkern have their own random number generators, which
+\code{\link[=set.seed]{set.seed()}} cannot reach. Their seed can be set with the optional control
+parameter \code{seed}, e.g., \code{control = list(seed = 1234)}. It is passed on to
+the programs (option \code{-s}) and has to be a whole number between 0 and
+\code{.Machine$integer.max}. If no \code{seed} is specified, one random number is
+drawn from R's random number generator and used as the seed, so
+calling \code{\link[=set.seed]{set.seed()}} before \code{\link[=solve_TSP]{solve_TSP()}} also makes these methods
+reproducible (this advances R's global random-number stream by one draw).
 
 To get a list of all available command line options which can be used via
 the \code{clo} option for \code{solve_TSP} use \code{concorde_help()} and
@@ -95,7 +112,15 @@ data("USCA312")
 
 ## run Concorde in verbose mode (-v) with fast cuts only (-V)
 ## Note: use the control parameter verbose = FALSE to suppress Concorde's output
+set.seed(1234)
 solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
+
+## Concorde and linkern can directly solve Euclidean TSPs (ETSP). The
+## coordinates are used directly, so no large distance matrix is calculated.
+etsp <- ETSP(data.frame(x = runif(20), y = runif(20)))
+tour <- solve_TSP(etsp, method = "concorde", control = list(verbose = FALSE))
+tour
+plot(etsp, tour)
 }
 
 }

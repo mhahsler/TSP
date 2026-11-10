@@ -27,6 +27,13 @@
 #' \pkg{TSP}. Concorde can solve [TSP]s and [ETSP]s directly. [ATSP]s are
 #' reformulated as larger TSPs and then solved.
 #'
+#' Note: Concorde and linkern natively solve [ETSP]s (Euclidean TSPs given as
+#' coordinates). The coordinates are passed on to the solvers as they are
+#' (after scaling to integers, see below), so no distance matrix needs to be
+#' calculated and the memory use grows only linearly with the number of
+#' cities. The other methods in [solve_TSP()] first convert an [ETSP] into a
+#' distance matrix.
+#'
 #'
 #' # Installation of Concorde
 #'
@@ -55,14 +62,23 @@
 #' in rounding errors that are worse than what is specified in the
 #' `precision` control parameter.
 #'
-#' The `seed` argument of [solve_TSP()] is passed on to Concorde and linkern
-#' (option `-s`) to make their randomized components reproducible. The seed has
-#' to be a whole number between 0 and `.Machine$integer.max`. If no seed is
-#' specified, one random number is drawn from R's random number generator and
-#' used as the seed, so `set.seed()` also makes these methods reproducible.
-#' Note that this advances R's global random-number stream by one draw, while
-#' specifying `seed` in [solve_TSP()] replaces the global random-number state
-#' (see the Details section of [solve_TSP()]).
+#' For Euclidean problems ([ETSP]), the coordinates are shifted to start at
+#' zero and multiplied by `10^precision`, because Concorde rounds the
+#' calculated distances to integers. To avoid integer overflows in Concorde,
+#' the scaling is reduced (with a warning) so that no scaled coordinate exceeds
+#' \eqn{10^7}. [write_TSPLIB()] gives a warning if cities end up with identical
+#' coordinates (e.g., because rounding made distinct cities identical, i.e.,
+#' their distances became smaller than 1); increase `precision` or rescale the
+#' data in this case.
+#'
+#' Concorde and linkern have their own random number generators, which
+#' [set.seed()] cannot reach. Their seed can be set with the optional control
+#' parameter `seed`, e.g., `control = list(seed = 1234)`. It is passed on to
+#' the programs (option `-s`) and has to be a whole number between 0 and
+#' `.Machine$integer.max`. If no `seed` is specified, one random number is
+#' drawn from R's random number generator and used as the seed, so
+#' calling [set.seed()] before [solve_TSP()] also makes these methods
+#' reproducible (this advances R's global random-number stream by one draw).
 #'
 #' To get a list of all available command line options which can be used via
 #' the `clo` option for `solve_TSP` use `concorde_help()` and
@@ -112,7 +128,15 @@
 #'
 #' ## run Concorde in verbose mode (-v) with fast cuts only (-V)
 #' ## Note: use the control parameter verbose = FALSE to suppress Concorde's output
+#' set.seed(1234)
 #' solve_TSP(USCA312, method = "concorde", control = list(clo = "-v -V"))
+#'
+#' ## Concorde and linkern can directly solve Euclidean TSPs (ETSP). The
+#' ## coordinates are used directly, so no large distance matrix is calculated.
+#' etsp <- ETSP(data.frame(x = runif(20), y = runif(20)))
+#' tour <- solve_TSP(etsp, method = "concorde", control = list(verbose = FALSE))
+#' tour
+#' plot(etsp, tour)
 #' }
 #'
 NULL
@@ -151,6 +175,8 @@ NULL
     } 
   }
 
+  ## round to the nearest integer (instead of truncating)
+  x <- round(x)
   storage.mode(x) <-
     "integer" ## so write_TSPLIB does not change the precision
 
@@ -158,28 +184,35 @@ NULL
 }
 
 ## prepare ETSP coordinates for Concorde/linkern. Their EUC_2D/EUC_3D distances
-## are rounded to integers, so the coordinates have to be scaled by 10^precision
-## (reduced if the largest possible distance would exceed MAX) and rounded.
-.prepare_coords_concorde <- function(x, MAX, precision) {
+## are rounded to integers, so
+## * the coordinates are shifted to start at 0 and scaled by 10^precision so the
+##   rounding error stays small. The scaling is reduced if the largest
+##   coordinate would exceed MAX (default 10^7) because larger values risk
+##   integer overflows in Concorde's distance calculation.
+## Cities that become identical after rounding (distances smaller than 1) are
+## reported by write_TSPLIB().
+.prepare_coords_concorde <- function(x, MAX = 1e7, precision) {
   x <- as.matrix(x)
   rownames(x) <- NULL
   x <- sweep(x, 2, apply(x, 2, min))
-  diagonal <- sqrt(sum(apply(x, 2, max)^2))
+  max_x <- max(x)
 
-  if (diagonal > 0) {
-    prec <- floor(log10(MAX / diagonal))
+  scaled <- x
+  if (max_x > 0) {
+    prec <- floor(log10(MAX / max_x))
     if (prec < precision)
       warning(
-        "Concorde/Linkern can only handle integer coordinates. Converting the coordinates with precision ",
-        prec, ". This may lead to rounding errors.",
+        "Concorde/Linkern can only handle integer coordinates up to ", MAX,
+        ". Converting the coordinates with precision ", prec,
+        ". This may lead to rounding errors.",
         immediate. = TRUE
       )
-    x <- x * 10 ^ min(prec, precision)
+    scaled <- x * 10 ^ min(prec, precision)
   }
 
-  x <- round(x)
-  class(x) <- c("ETSP", class(x))
-  x
+  scaled <- round(scaled)
+  class(scaled) <- c("ETSP", class(scaled))
+  scaled
 }
 
 ## interface to the Concorde algorithm
@@ -196,6 +229,7 @@ tsp_concorde <- function(x, control = NULL) {
       clo = "",
       exe = .find_exe(control$exe, "concorde"),
       precision = 6,
+      seed = NULL,
       verbose = TRUE,
       keep_files = FALSE
     )
@@ -229,7 +263,7 @@ tsp_concorde <- function(x, control = NULL) {
     write_TSPLIB(x, file = tmp_file_in, precision = 0)
 
   } else if (inherits(x, "ETSP")) {
-    x <- .prepare_coords_concorde(x, 2 ^ 28 - 1, control$precision)
+    x <- .prepare_coords_concorde(x, 1e7, control$precision)
     write_TSPLIB(x, file = tmp_file_in, precision = 15)
   } else
     stop("Concorde only handles TSP and ETSP.")
@@ -284,6 +318,7 @@ tsp_linkern <- function(x, control = NULL) {
       exe = .find_exe(control$exe, "linkern"),
       clo = "",
       precision = 6,
+      seed = NULL,
       verbose = TRUE,
       keep_files = FALSE
     )
@@ -300,7 +335,7 @@ tsp_linkern <- function(x, control = NULL) {
     x <- .prepare_dist_concorde(x, MAX, precision = control$precision, verbose = control$verbose)
 
   } else if (inherits(x, "ETSP")) {
-    x <- .prepare_coords_concorde(x, 2 ^ 28 - 1, control$precision)
+    x <- .prepare_coords_concorde(x, 1e7, control$precision)
   } else
     stop("Linkern only works for TSP and ETSP.")
 

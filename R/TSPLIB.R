@@ -25,10 +25,19 @@
 #' 
 #' In the TSPLIB format distances are represented by integer values. Therefore,
 #' if `x` contains `double` values (which is normal in R) the values
-#' given in `x` are multiplied by \eqn{10^{precision}} before coercion to
-#' `integer`. Note that therefore all results produced by programs using
+#' given in `x` are multiplied by \eqn{10^{precision}} and rounded to the
+#' nearest `integer`. Note that therefore all results produced by programs using
 #' the TSPLIB file as input need to be divided by \eqn{10^{precision}} (i.e.,
 #' the decimal point has to be shifted `precision` places to the left).
+#'
+#' For [TSP] and [ATSP] objects, a warning is given if distances that are not
+#' zero become zero after the conversion to integers (i.e., `precision` is too
+#' low).
+#'
+#' For [ETSP] objects, the coordinates are written with `precision` digits
+#' (in scientific notation) and are not scaled. A warning is given if two or
+#' more cities have identical coordinates in the written file because their
+#' distance is zero.
 #'
 #' Currently only the following `EDGE_WEIGHT_TYPE`s are implemented:
 #' `EXPLICIT`, `EUC_2D`, `EUC_3D`, `ATT` and `GEO`.
@@ -251,6 +260,19 @@ write_TSPLIB <- function(x, file, precision = 6, inf = NULL, neg_inf = NULL)
   UseMethod("write_TSPLIB")
 
 
+## TSPLIB needs integer distances. Warn if distances between cities that are
+## not zero become zero because of the conversion to integers (precision too
+## low), since the solver then sees cities as identical.
+.warn_zero_after_rounding <- function(scaled, int, precision, ignore = NULL) {
+  lost <- scaled != 0 & int == 0
+  if(!is.null(ignore)) lost <- lost & !ignore
+  if(any(lost))
+    warning(sum(lost), " distance(s) between cities are not zero but become ",
+      "0 when converted to integers with `precision` = ", precision,
+      ". Cities may become identical for the solver; increase `precision` ",
+      "or rescale the distances.", call. = FALSE)
+}
+
 ## write a simple TSPLIB format file from an object of class TSP
 ## (contains a dist object or a symmetric matrix)
 
@@ -281,8 +303,10 @@ write_TSPLIB.TSP <- function(x, file, precision = 6,
   ## only integers can be used as weights
   if(storage.mode(x) != "integer" && precision != 0) x <- x * 10^precision
 
-  x <- suppressWarnings(as.integer(x))
+  scaled <- as.vector(x)
+  x <- suppressWarnings(as.integer(round(x)))
   if(any(is.na(x))) stop("Integer overflow, please reduce precision.")
+  .warn_zero_after_rounding(scaled, x, precision)
 
   cat("EDGE_WEIGHT_SECTION", x, file = zz, sep = "\n")
   cat("EOF", file = zz, sep = "\n")
@@ -300,6 +324,7 @@ write_TSPLIB.ATSP <- function(x, file, precision = 6, inf = NULL, neg_inf = NULL
   x <- .replaceInf(x, inf, neg_inf)
 
   format <- "EDGE_WEIGHT_FORMAT: FULL_MATRIX"
+  n_cities <- n_of_cities(x)
 
   zz <- file(file, "w")
 
@@ -315,8 +340,12 @@ write_TSPLIB.ATSP <- function(x, file, precision = 6, inf = NULL, neg_inf = NULL
   ## only integers can be used as weights
   if(storage.mode(x) != "integer") x <- x * 10^precision
 
-  x <- suppressWarnings(as.integer(x))
+  scaled <- as.vector(x)
+  x <- suppressWarnings(as.integer(round(x)))
   if(any(is.na(x))) stop("integer overflow, please reduce precision.")
+  ## the diagonal is not a distance between different cities
+  .warn_zero_after_rounding(scaled, x, precision,
+    ignore = as.vector(diag(n_cities) == 1))
 
   cat("EDGE_WEIGHT_SECTION", x, file = zz, sep = "\n")
   cat("EOF", file = zz, sep = "\n")
@@ -351,6 +380,15 @@ write_TSPLIB.ETSP <- function(x, file, precision = 6,
   rownames(x) <- NULL
   x <- do.call(data.frame, lapply(1:ncol(x), FUN =
       function(i) sprintf(paste("%0.", precision, "e", sep=""), x[,i])))
+
+  ## cities with identical (written) coordinates have a distance of 0
+  key <- do.call(paste, x)
+  dup <- which(duplicated(key))
+  if(length(dup) > 0)
+    warning(length(dup), " city/cities have the same coordinates as an ",
+      "earlier city (e.g., cities ", match(key[dup[1]], key), " and ", dup[1],
+      "). Coordinates are written with `precision` = ", precision, ".",
+      call. = FALSE)
 
   cat("NODE_COORD_SECTION", file = zz, sep = "\n")
   write.table(x, quote=FALSE, col.names = FALSE, file = zz)

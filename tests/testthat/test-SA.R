@@ -20,12 +20,12 @@ test_that("simulated annealing is reproducible and accepts an initial tour", {
   tsp <- TSP(dist(matrix(seq_len(16), ncol = 2)))
   initial <- TOUR(seq_len(n_of_cities(tsp)))
 
+  set.seed(123)
   first <- solve_TSP(tsp, method = "sa", tour = initial,
-    local_move = TSP:::tsp_SA_swap, temp = 1, tmax = 5, maxit = 50,
-    seed = 123)
+    local_move = TSP:::tsp_SA_swap, temp = 1, tmax = 5, maxit = 50)
+  set.seed(123)
   second <- solve_TSP(tsp, method = "sa", tour = initial,
-    local_move = TSP:::tsp_SA_swap, temp = 1, tmax = 5, maxit = 50,
-    seed = 123)
+    local_move = TSP:::tsp_SA_swap, temp = 1, tmax = 5, maxit = 50)
 
   expect_identical(second, first)
   expect_s3_class(first, "TOUR")
@@ -35,13 +35,14 @@ test_that("simulated annealing is reproducible and accepts an initial tour", {
 
 test_that("simulated annealing reports progress and handles one city", {
   tsp <- TSP(dist(matrix(seq_len(16), ncol = 2)))
+  set.seed(1)
   expect_output(
-    solve_TSP(tsp, method = "sa", verbose = TRUE, maxit = 2, seed = 1),
+    solve_TSP(tsp, method = "sa", verbose = TRUE, maxit = 2),
     regexp = "Initial temperature set to"
   )
 
   one_city <- TSP(dist(1))
-  tour <- solve_TSP(one_city, method = "sa", seed = 1)
+  tour <- solve_TSP(one_city, method = "sa")
   expect_identical(as.integer(tour), 1L)
   expect_equal(tour_length(tour), 0)
 })

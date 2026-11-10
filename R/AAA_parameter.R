@@ -70,9 +70,6 @@
   .validate_scalar(control$verbose, "verbose", "logical")
   .validate_scalar(control$two_opt, "two_opt", "logical")
   .validate_scalar(control$rep, "rep", integer = TRUE, lower = 1)
-  if (!is.null(control$seed))
-    .validate_scalar(control$seed, "seed", integer = TRUE, lower = 0,
-      upper = .Machine$integer.max)
 
   if (!is.null(control$two_opt_repetitions))
     .validate_scalar(control$two_opt_repetitions, "two_opt_repetitions",
@@ -103,7 +100,7 @@
 .get_parameters <- function(parameter, defaults, method = NA) {
   # add standard parameters
   defaults <- utils::modifyList(
-    list(verbose = FALSE, two_opt = FALSE, rep = 1L, seed = NULL),
+    list(verbose = FALSE, two_opt = FALSE, rep = 1L),
     as.list(defaults),
     keep.null = TRUE
   )

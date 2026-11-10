@@ -72,7 +72,8 @@ optimal, it is not guaranteed that the dummy cities represent the best cluster
 boundaries.
 
 ```{r solve}
-tour <- solve_TSP(tsp_dummy, rep = 10, seed = 100)
+set.seed(100)
+tour <- solve_TSP(tsp_dummy, rep = 10)
 tour
 ```
 
@@ -114,11 +115,12 @@ for (i in seq_along(clusters)) cl[clusters[[i]]] <- i
 table(cluster = cl, species = iris$Species)
 ```
 
-With the seed used here, the three dummy cities split the data into groups of
-40, 10 and 100 flowers. One boundary separates *Setosa* perfectly from the other
-two species, but the second boundary only splits *Setosa* into two parts, while
-*Versicolor* and *Virginica* end up in the same cluster. The exact result
-depends on the heuristic and the seed, but the underlying reason is that
+With the random numbers used here, the three dummy cities split the data into
+groups of 93, 50 and 7 flowers. One boundary separates *Setosa* perfectly from
+the other two species, but the second boundary only splits off 7 *Versicolor*
+flowers, while the rest of *Versicolor* and all *Virginica* flowers end up in
+the same cluster. The exact result depends on the heuristic and the random
+numbers (i.e., on `set.seed()`), but the underlying reason is that
 *Versicolor* and *Virginica* are close to each other in the feature space. This
 problem is similar to the *chaining effect* in single-linkage hierarchical
 clustering since the tour only uses the distances between neighboring points.
@@ -148,7 +150,8 @@ through the distances is found by cutting the tour at the dummy city.
 
 ```{r seriation}
 tsp1 <- insert_dummy(tsp, label = "cut")
-tour1 <- solve_TSP(tsp1, seed = 1234)
+set.seed(1234)
+tour1 <- solve_TSP(tsp1)
 path <- cut_tour(tour1, "cut")
 head(path)
 ```

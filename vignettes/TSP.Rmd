@@ -80,7 +80,8 @@ which the cities are visited. The default combines arbitrary insertion with
 2-opt improvement.
 
 ```{r solve}
-tour <- solve_TSP(problem, seed = 123)
+set.seed(123)
+tour <- solve_TSP(problem)
 tour
 as.integer(tour)
 labels(tour)

@@ -65,9 +65,9 @@ test_that("empty problems have zero cities and zero tour length", {
 
   for (method in c("identity", "random", "sa")) {
     tour <- if (method == "sa")
-      solve_TSP(problems[[1]], method = method, maxit = 2, seed = 1)
+      solve_TSP(problems[[1]], method = method, maxit = 2)
     else
-      solve_TSP(problems[[1]], method = method, seed = 1)
+      solve_TSP(problems[[1]], method = method)
     expect_length(tour, 0L)
     expect_equal(tour_length(tour), 0)
   }
@@ -101,8 +101,6 @@ test_that("control parameters are scalar values in valid ranges", {
     list(method = "nn", control = list(two_opt = NA)),
     list(method = "nn", control = list(rep = 0)),
     list(method = "nn", control = list(rep = 1.5)),
-    list(method = "random", control = list(seed = -1)),
-    list(method = "random", control = list(seed = 1.5)),
     list(method = "two_opt", control = list(two_opt_repetitions = 0)),
     list(method = "sa", control = list(maxit = -1)),
     list(method = "sa", control = list(temp = c(1, 2)))

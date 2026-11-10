@@ -11,7 +11,7 @@ solver_methods <- function() {
 
 solve_test_method <- function(x, method) {
   if (method == "sa")
-    solve_TSP(x, method = method, maxit = 25, tmax = 5, temp = 1, seed = 42)
+    solve_TSP(x, method = method, maxit = 25, tmax = 5, temp = 1)
   else
     solve_TSP(x, method = method)
 }
@@ -51,17 +51,29 @@ test_that("repetitions and two-opt controls produce valid tours", {
   expect_true(attr(unrefined, "tour_length") %in% c(4, Inf))
 })
 
-test_that("seeded repetitions are reproducible sequentially", {
+test_that("results are reproducible with set.seed()", {
   set.seed(123)
   random_tsp <- TSP(dist(matrix(runif(40), ncol = 2)))
   foreach::registerDoSEQ()
 
-  first <- solve_TSP(random_tsp, method = "random", rep = 20, seed = 42)
-  second <- solve_TSP(random_tsp, method = "random", rep = 20, seed = 42)
+  for (method in c("random", "nn", "arbitrary_insertion")) {
+    set.seed(42)
+    first <- solve_TSP(random_tsp, method = method, rep = 20)
+    set.seed(42)
+    second <- solve_TSP(random_tsp, method = method, rep = 20)
+    expect_identical(second, first)
+  }
+
+  set.seed(42)
+  first <- solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
+    tmax = 5, temp = 1)
+  set.seed(42)
+  second <- solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
+    tmax = 5, temp = 1)
   expect_identical(second, first)
 })
 
-test_that("seeded repetitions are reproducible across foreach backends", {
+test_that("repetitions are reproducible across foreach backends with set.seed()", {
   skip_if_not_installed("doParallel")
   set.seed(123)
   random_tsp <- TSP(dist(matrix(runif(40), ncol = 2)))
@@ -69,30 +81,49 @@ test_that("seeded repetitions are reproducible across foreach backends", {
   diag(tied) <- 0
   tied_tsp <- TSP(as.dist(tied))
 
+  run <- function() {
+    set.seed(42)
+    list(
+      random = solve_TSP(random_tsp, method = "random", rep = 20),
+      repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn"),
+      sa = solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
+        tmax = 5, temp = 1)
+    )
+  }
+
   foreach::registerDoSEQ()
-  sequential <- list(
-    random = solve_TSP(random_tsp, method = "random", rep = 20, seed = 42),
-    repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42),
-    sa = solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
-      tmax = 5, temp = 1, seed = 42)
-  )
+  sequential <- run()
 
   cluster <- parallel::makePSOCKcluster(2)
   doParallel::registerDoParallel(cluster)
-  parallel_results <- tryCatch(
-    list(
-      random = solve_TSP(random_tsp, method = "random", rep = 20, seed = 42),
-      repetitive_nn = solve_TSP(tied_tsp, method = "repetitive_nn", seed = 42),
-      sa = solve_TSP(random_tsp, method = "sa", rep = 4, maxit = 20,
-        tmax = 5, temp = 1, seed = 42)
-    ),
-    finally = {
-      parallel::stopCluster(cluster)
-      foreach::registerDoSEQ()
-    }
-  )
+  parallel_results <- tryCatch(run(), finally = {
+    parallel::stopCluster(cluster)
+    foreach::registerDoSEQ()
+  })
 
   expect_identical(parallel_results, sequential)
+})
+
+test_that("repetitions advance but do not replace the global RNG state", {
+  foreach::registerDoSEQ()
+  tsp <- TSP(dist(matrix(runif(40), ncol = 2)))
+
+  set.seed(1)
+  solve_TSP(tsp, method = "random", rep = 5)
+  state <- .Random.seed
+
+  ## the global stream is only advanced by drawing one seed per repetition
+  set.seed(1)
+  invisible(sample.int(.Machine$integer.max, 5))
+  expect_identical(.Random.seed, state)
+})
+
+test_that("seed is only a control option for Concorde and linkern", {
+  tsp <- TSP(dist(matrix(seq_len(16), ncol = 2)))
+  expect_false("seed" %in% names(formals(TSP:::solve_TSP.TSP)))
+  expect_warning(solve_TSP(tsp, method = "nn", seed = 1), "Unknown parameter")
+  expect_warning(solve_TSP(tsp, method = "nn", control = list(seed = 1)),
+    "Unknown parameter")
 })
 
 test_that("solvers handle one- and two-city problems", {
