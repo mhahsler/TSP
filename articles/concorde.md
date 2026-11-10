@@ -110,7 +110,8 @@ tour, here the default heuristic (arbitrary insertion followed by
 
 ``` r
 
-tour_heuristic <- solve_TSP(USCA50, seed = 1234)
+set.seed(1234)
+tour_heuristic <- solve_TSP(USCA50)
 c(heuristic = tour_length(tour_heuristic), concorde = tour_length(tour))
 ```
 
@@ -164,16 +165,13 @@ to Concorde and linkern using `control` or directly as arguments to
 - `verbose`: if `FALSE`, the output of the program is suppressed.
 - `keep_files`: keep the temporary directory with the input and result
   files (for debugging).
-- `seed`: passed on to the programs (option `-s`) to make randomized
-  parts, mainly of linkern, reproducible. It must be a whole number
-  between 0 and `.Machine$integer.max` (2147483647). If no seed is
-  given, one is drawn from R’s random number generator, so calling
-  [`set.seed()`](https://rdrr.io/r/base/Random.html) before
-  [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
-  also makes Concorde and linkern reproducible (this advances R’s global
-  random number stream by one draw). Specifying `seed` calls
-  [`set.seed()`](https://rdrr.io/r/base/Random.html) and thus replaces
-  the global random-number state. Do not also give `-s` in `clo`.
+- `seed`: This parameter is typically not necessary and a reproducible
+  result can be obtained using R’s since a seed is created using
+  [`set.seed()`](https://rdrr.io/r/base/Random.html) function. If an
+  exact seed needs to be used for the executable, then specify the seed
+  as a  
+  whole number between 0 and `.Machine$integer.max` (2147483647). Do not
+  use `-s` in `clo` to set the seed.
 - `rep` and `two_opt` are not available for these methods.
 
 ``` r

@@ -168,7 +168,8 @@ drawn if the suggested package <strong>maps</strong> is installed.</p>
 with a heuristic tour, here the default heuristic (arbitrary insertion
 followed by 2-opt).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tour_heuristic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, seed <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">tour_heuristic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>heuristic <span class="op">=</span> <span class="fu"><a href="../reference/tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">tour_heuristic</span><span class="op">)</span>, concorde <span class="op">=</span> <span class="fu"><a href="../reference/tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">tour</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>For <code>USCA50</code>, the optimal tour length is 14497. Since
 Concorde finds the optimal tour, no heuristic can be shorter.</p>
@@ -223,16 +224,13 @@ program is suppressed.</li>
 <code>keep_files</code>: keep the temporary directory with the input
 and result files (for debugging).</li>
 <li>
-<code>seed</code>: passed on to the programs (option
-<code>-s</code>) to make randomized parts, mainly of linkern,
-reproducible. It must be a whole number between 0 and
-<code>.Machine$integer.max</code> (2147483647). If no seed is given, one
-is drawn from R’s random number generator, so calling
-<code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> before <code><a href="../reference/solve_TSP.html">solve_TSP()</a></code> also makes
-Concorde and linkern reproducible (this advances R’s global random
-number stream by one draw). Specifying <code>seed</code> calls
-<code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> and thus replaces the global random-number
-state. Do not also give <code>-s</code> in <code>clo</code>.</li>
+<code>seed</code>: This parameter is typically not necessary and a
+reproducible result can be obtained using R’s since a seed is created
+using <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> function. If an exact seed needs to be
+used for the executable, then specify the seed as a<br>
+whole number between 0 and <code>.Machine$integer.max</code>
+(2147483647). Do not use <code>-s</code> in <code>clo</code> to set the
+seed.</li>
 <li>
 <code>rep</code> and <code>two_opt</code> are not available for
 these methods.</li>

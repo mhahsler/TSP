@@ -74,7 +74,8 @@ improvement.
 
 ``` r
 
-tour <- solve_TSP(problem, seed = 123)
+set.seed(123)
+tour <- solve_TSP(problem)
 tour
 #> object of class 'TOUR' 
 #> result of method 'arbitrary_insertion+two_opt' for 8 cities

@@ -57,10 +57,22 @@ returns an object of class `TSP` or `ATSP`.
 
 In the TSPLIB format distances are represented by integer values.
 Therefore, if `x` contains `double` values (which is normal in R) the
-values given in `x` are multiplied by \\10^{precision}\\ before coercion
-to `integer`. Note that therefore all results produced by programs using
-the TSPLIB file as input need to be divided by \\10^{precision}\\ (i.e.,
-the decimal point has to be shifted `precision` places to the left).
+values given in `x` are multiplied by \\10^{precision}\\ and rounded to
+the nearest `integer`. Note that therefore all results produced by
+programs using the TSPLIB file as input need to be divided by
+\\10^{precision}\\ (i.e., the decimal point has to be shifted
+`precision` places to the left).
+
+For [TSP](https://michael.hahsler.net/TSP/reference/TSP.md) and
+[ATSP](https://michael.hahsler.net/TSP/reference/ATSP.md) objects, a
+warning is given if distances that are not zero become zero after the
+conversion to integers (i.e., `precision` is too low).
+
+For [ETSP](https://michael.hahsler.net/TSP/reference/ETSP.md) objects,
+the coordinates are written with `precision` digits (in scientific
+notation) and are not scaled. A warning is given if two or more cities
+have identical coordinates in the written file because their distance is
+zero.
 
 Currently only the following `EDGE_WEIGHT_TYPE`s are implemented:
 `EXPLICIT`, `EUC_2D`, `EUC_3D`, `ATT` and `GEO`.

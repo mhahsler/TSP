@@ -111,10 +111,17 @@ used.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>In the TSPLIB format distances are represented by integer values. Therefore,
 if <code>x</code> contains <code>double</code> values (which is normal in R) the values
-given in <code>x</code> are multiplied by \(10^{precision}\) before coercion to
-<code>integer</code>. Note that therefore all results produced by programs using
+given in <code>x</code> are multiplied by \(10^{precision}\) and rounded to the
+nearest <code>integer</code>. Note that therefore all results produced by programs using
 the TSPLIB file as input need to be divided by \(10^{precision}\) (i.e.,
 the decimal point has to be shifted <code>precision</code> places to the left).</p>
+<p>For <a href="TSP.html">TSP</a> and <a href="ATSP.html">ATSP</a> objects, a warning is given if distances that are not
+zero become zero after the conversion to integers (i.e., <code>precision</code> is too
+low).</p>
+<p>For <a href="ETSP.html">ETSP</a> objects, the coordinates are written with <code>precision</code> digits
+(in scientific notation) and are not scaled. A warning is given if two or
+more cities have identical coordinates in the written file because their
+distance is zero.</p>
 <p>Currently only the following <code>EDGE_WEIGHT_TYPE</code>s are implemented:
 <code>EXPLICIT</code>, <code>EUC_2D</code>, <code>EUC_3D</code>, <code>ATT</code> and <code>GEO</code>.</p>
     </div>

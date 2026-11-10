@@ -130,12 +130,13 @@ better results.</p>
 is not optimal, it is not guaranteed that the dummy cities represent the
 best cluster boundaries.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tour</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">tsp_dummy</span>, rep <span class="op">=</span> <span class="fl">10</span>, seed <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">tour</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">tsp_dummy</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: executing %dopar% sequentially: no parallel backend registered</span></span>
 <span><span class="va">tour</span></span>
 <span><span class="co">#&gt; object of class 'TOUR' </span></span>
 <span><span class="co">#&gt; result of method 'arbitrary_insertion+two_opt_rep_10' for 153 cities</span></span>
-<span><span class="co">#&gt; tour length: 47.75516</span></span></code></pre></div>
+<span><span class="co">#&gt; tour length: 47.58385</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualizing-the-result">Visualizing the result<a class="anchor" aria-label="anchor" href="#visualizing-the-result"></a>
@@ -163,7 +164,7 @@ excluded).</p>
 <code class="sourceCode R"><span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cut_tour.html">cut_tour</a></span><span class="op">(</span><span class="va">tour</span>, cut <span class="op">=</span> <span class="st">"boundary"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span></span>
 <span><span class="co">#&gt; boundary boundary boundary </span></span>
-<span><span class="co">#&gt;       87       13       50</span></span></code></pre></div>
+<span><span class="co">#&gt;       50       88       12</span></span></code></pre></div>
 <p>Because the tour is a cycle, the part of the tour after the last
 dummy city is connected to the beginning of the tour, and
 <code><a href="../reference/cut_tour.html">cut_tour()</a></code> takes care of this. The cluster assignment can
@@ -176,17 +177,18 @@ be converted into a label vector and compared to the known species.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">cl</span>, species <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        species</span></span>
 <span><span class="co">#&gt; cluster setosa versicolor virginica</span></span>
-<span><span class="co">#&gt;       1      0         38        49</span></span>
-<span><span class="co">#&gt;       2      0         12         1</span></span>
-<span><span class="co">#&gt;       3     50          0         0</span></span></code></pre></div>
-<p>With the seed used here, the three dummy cities split the data into
-groups of 40, 10 and 100 flowers. One boundary separates <em>Setosa</em>
-perfectly from the other two species, but the second boundary only
-splits <em>Setosa</em> into two parts, while <em>Versicolor</em> and
-<em>Virginica</em> end up in the same cluster. The exact result depends
-on the heuristic and the seed, but the underlying reason is that
-<em>Versicolor</em> and <em>Virginica</em> are close to each other in
-the feature space. This problem is similar to the <em>chaining
+<span><span class="co">#&gt;       1     50          0         0</span></span>
+<span><span class="co">#&gt;       2      0         38        50</span></span>
+<span><span class="co">#&gt;       3      0         12         0</span></span></code></pre></div>
+<p>With the random numbers used here, the three dummy cities split the
+data into groups of 93, 50 and 7 flowers. One boundary separates
+<em>Setosa</em> perfectly from the other two species, but the second
+boundary only splits off 7 <em>Versicolor</em> flowers, while the rest
+of <em>Versicolor</em> and all <em>Virginica</em> flowers end up in the
+same cluster. The exact result depends on the heuristic and the random
+numbers (i.e., on <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code>), but the underlying reason is
+that <em>Versicolor</em> and <em>Virginica</em> are close to each other
+in the feature space. This problem is similar to the <em>chaining
 effect</em> in single-linkage hierarchical clustering since the tour
 only uses the distances between neighboring points.</p>
 </div>
@@ -215,7 +217,8 @@ The shortest path through the distances is found by cutting the tour at
 the dummy city.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tsp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/insert_dummy.html">insert_dummy</a></span><span class="op">(</span><span class="va">tsp</span>, label <span class="op">=</span> <span class="st">"cut"</span><span class="op">)</span></span>
-<span><span class="va">tour1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">tsp1</span>, seed <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">tour1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">tsp1</span><span class="op">)</span></span>
 <span><span class="va">path</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cut_tour.html">cut_tour</a></span><span class="op">(</span><span class="va">tour1</span>, <span class="st">"cut"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span>
 <span><span class="co">#&gt; setosa setosa setosa setosa setosa setosa </span></span>

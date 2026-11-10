@@ -46,10 +46,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.8.1" id="tsp-1281-unpublished">TSP 1.2.8.1 (unpublished)<a class="anchor" aria-label="anchor" href="#tsp-1281-unpublished"></a></h2>
-<ul><li>Fixed Concorde and linkern for ETSP: coordinates are now scaled to integers (using <code>precision</code>) before they are written.</li>
-<li>The <code>seed</code> argument is now passed on to the Concorde and linkern executables (checked to be a valid non-negative integer). Without a seed, one is drawn from the R random number generator, so <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> makes them reproducible.</li>
-<li>Added R Markdown vignettes.</li>
+<div class="section level3">
+<h3 id="changes-1-2-8-1">Changes<a class="anchor" aria-label="anchor" href="#changes-1-2-8-1"></a></h3>
+<ul><li>write_TSPLIB() and the Concorde interface now round distances to the nearest integer instead of truncating them and warns if precision is too small.</li>
+<li>Removed the <code>seed</code> argument (and control option) of <code><a href="../reference/solve_TSP.html">solve_TSP()</a></code> that was added in 1.2.8. Randomized methods rely again on R’s global random number generator, so use <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> before calling <code><a href="../reference/solve_TSP.html">solve_TSP()</a></code>. The solvers no longer replace the global random-number state.</li>
+<li>Repetitions (<code>rep</code> and method “repetitive_nn”) now draw one seed per repetition from the random number generator of the main R process and seed each foreach iteration with it, so results are reproducible with <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> independent of the foreach backend and the number of workers.</li>
+<li>Concorde and linkern: <code>seed</code> is now an optional control parameter, e.g., <code>control = list(seed = 1234)</code>, that is passed on to the executables (option <code>-s</code>) and is checked to be a valid non-negative integer. Without a seed, one is drawn from the R random number generator, so <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> makes them reproducible.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-2-8-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-2-8-1"></a></h3>
+<ul><li>Fixed Concorde and linkern for ETSP: coordinates are now scaled to integers (using <code>precision</code>) before they are written.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.2.8" id="tsp-128-09302026">TSP 1.2.8 (09/30/2026)<a class="anchor" aria-label="anchor" href="#tsp-128-09302026"></a></h2>
 <ul><li>Modernized the test suite to testthat edition 3.</li>

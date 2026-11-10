@@ -151,5 +151,5 @@ solve_TSP(atsp, control = list(rep = 10))
 #> Warning: executing %dopar% sequentially: no parallel backend registered
 #> object of class ‘TOUR’ 
 #> result of method ‘arbitrary_insertion+two_opt_rep_10’ for 50 cities
-#> tour length: 12962 
+#> tour length: 13234 
 ```

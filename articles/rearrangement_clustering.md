@@ -60,12 +60,13 @@ best cluster boundaries.
 
 ``` r
 
-tour <- solve_TSP(tsp_dummy, rep = 10, seed = 100)
+set.seed(100)
+tour <- solve_TSP(tsp_dummy, rep = 10)
 #> Warning: executing %dopar% sequentially: no parallel backend registered
 tour
 #> object of class 'TOUR' 
 #> result of method 'arbitrary_insertion+two_opt_rep_10' for 153 cities
-#> tour length: 47.75516
+#> tour length: 47.58385
 ```
 
 ## Visualizing the result
@@ -97,7 +98,7 @@ original data (the dummy cities are excluded).
 clusters <- cut_tour(tour, cut = "boundary")
 lengths(clusters)
 #> boundary boundary boundary 
-#>       87       13       50
+#>       50       88       12
 ```
 
 Because the tour is a cycle, the part of the tour after the last dummy
@@ -115,20 +116,22 @@ for (i in seq_along(clusters)) cl[clusters[[i]]] <- i
 table(cluster = cl, species = iris$Species)
 #>        species
 #> cluster setosa versicolor virginica
-#>       1      0         38        49
-#>       2      0         12         1
-#>       3     50          0         0
+#>       1     50          0         0
+#>       2      0         38        50
+#>       3      0         12         0
 ```
 
-With the seed used here, the three dummy cities split the data into
-groups of 40, 10 and 100 flowers. One boundary separates *Setosa*
+With the random numbers used here, the three dummy cities split the data
+into groups of 93, 50 and 7 flowers. One boundary separates *Setosa*
 perfectly from the other two species, but the second boundary only
-splits *Setosa* into two parts, while *Versicolor* and *Virginica* end
-up in the same cluster. The exact result depends on the heuristic and
-the seed, but the underlying reason is that *Versicolor* and *Virginica*
-are close to each other in the feature space. This problem is similar to
-the *chaining effect* in single-linkage hierarchical clustering since
-the tour only uses the distances between neighboring points.
+splits off 7 *Versicolor* flowers, while the rest of *Versicolor* and
+all *Virginica* flowers end up in the same cluster. The exact result
+depends on the heuristic and the random numbers (i.e., on
+[`set.seed()`](https://rdrr.io/r/base/Random.html)), but the underlying
+reason is that *Versicolor* and *Virginica* are close to each other in
+the feature space. This problem is similar to the *chaining effect* in
+single-linkage hierarchical clustering since the tour only uses the
+distances between neighboring points.
 
 ## Projecting the paths
 
@@ -160,7 +163,8 @@ the dummy city.
 ``` r
 
 tsp1 <- insert_dummy(tsp, label = "cut")
-tour1 <- solve_TSP(tsp1, seed = 1234)
+set.seed(1234)
+tour1 <- solve_TSP(tsp1)
 path <- cut_tour(tour1, "cut")
 head(path)
 #> setosa setosa setosa setosa setosa setosa 

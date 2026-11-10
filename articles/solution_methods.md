@@ -25,36 +25,26 @@ for the complete list of parameters.
 
 ## Overview of the methods
 
-| Method argument | Algorithm | Type | Problems | Extra parameters |
+| Method argument | Algorithm | Type | Problems | Control parameters |
 |:---|:---|:---|:---|:---|
-| `"identity"`, `"random"` | Order in the data / random order | construction | TSP, ATSP | none |
-| `"nn"` | Nearest neighbor | construction | TSP, ATSP | `start` |
-| `"repetitive_nn"` | Nearest neighbor from every start city | construction | TSP, ATSP | `start` |
-| `"nearest_insertion"` | Nearest insertion | construction | TSP, ATSP | `start` |
-| `"farthest_insertion"` | Farthest insertion | construction | TSP, ATSP | `start` |
-| `"cheapest_insertion"` | Cheapest insertion | construction | TSP, ATSP | `start` |
-| `"arbitrary_insertion"` | Arbitrary insertion | construction | TSP, ATSP | `start` |
-| `"two_opt"` | 2-opt exchange | improvement | TSP, ATSP | `tour`, `two_opt_repetitions` |
-| `"sa"` | Simulated annealing | improvement | TSP, ATSP | `tour`, `local_move`, `temp`, `tmax`, `maxit`, `trace` |
+| `"identity"`, `"random"` | Order in the data / random order | construction | TSP, ATSP | `rep`, `two_opt`, `verbose` |
+| `"nn"` | Nearest neighbor | construction | TSP, ATSP | `start`, `rep`, `two_opt`, `verbose` |
+| `"repetitive_nn"` | Nearest neighbor from every start city | construction | TSP, ATSP | `two_opt`, `verbose` |
+| `"nearest_insertion"` | Nearest insertion | construction | TSP, ATSP | `start`, `rep`, `two_opt`, `verbose` |
+| `"farthest_insertion"` | Farthest insertion | construction | TSP, ATSP | `start`, `rep`, `two_opt`, `verbose` |
+| `"cheapest_insertion"` | Cheapest insertion | construction | TSP, ATSP | `start`, `rep`, `two_opt`, `verbose` |
+| `"arbitrary_insertion"` | Arbitrary insertion | construction | TSP, ATSP | `start`, `rep`, `two_opt`, `verbose` |
+| `"two_opt"` | 2-opt exchange | improvement | TSP, ATSP | `tour`, `two_opt_repetitions`, `rep`, `two_opt`, `verbose` |
+| `"sa"` | Simulated annealing | improvement | TSP, ATSP | `tour`, `local_move`, `temp`, `tmax`, `maxit`, `trace`, `rep`, `two_opt`, `verbose` |
 | `"concorde"` | Concorde (exact, branch-and-cut) | external solver | TSP, ETSP | `clo`, `precision`, `keep_files`, `verbose`, `seed` |
 | `"linkern"` | Chained Lin-Kernighan | external solver | TSP, ETSP | `clo`, `precision`, `keep_files`, `verbose`, `seed` |
-
-The extra parameters are passed in `control` or directly as arguments to
-[`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md).
-In addition, all heuristics accept the common parameters `rep`,
-`two_opt`, `seed` and `verbose` described below. Concorde and linkern do
-not support `rep` and `two_opt`. See
-[`?solve_TSP`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
-and [`?Concorde`](https://michael.hahsler.net/TSP/reference/Concorde.md)
-for details on each parameter.
 
 Most heuristics accept the following common control parameters:
 
 - `rep`: the number of random restarts. The best tour found is returned.
-- `two_opt`: if `TRUE`, the constructed tour is refined by 2-opt.
+- `two_opt`: if `TRUE`, the constructed tour is refined by 2-opt
+  improvement.
 - `start`: the first city for nearest neighbor and insertion algorithms.
-- `seed`: a non-negative integer to make randomized methods and
-  repetitions reproducible.
 - `verbose`: show progress and the parameters that are used.
 
 If no method is given,
@@ -65,6 +55,8 @@ with an existing tour (given as `tour`) and try to shorten it. If no
 tour is supplied to an improvement heuristic, a random tour is used.
 
 ## Tour construction heuristics
+
+These algorithms create a tour from scratch.
 
 ### Nearest neighbor
 
@@ -105,6 +97,14 @@ insertion are related to Prim’s minimum spanning tree algorithm (Prim
 
 ## Tour improvement heuristics
 
+These heuristics modify existing tours to improve them. If no starting
+tour is specified then typically a random tour is used as the starting
+point.
+
+2-opt is very effective. Many constructive methods have for convenience
+the control parameter `two_opt` which automatically applies 2-opt
+improvment to the constructed tour.
+
 ### 2-opt
 
 Two-opt (Croes 1958) repeatedly removes two edges from the tour and
@@ -140,17 +140,15 @@ data(USCA50)
 
 nn <- solve_TSP(USCA50, method = "nn", start = 1)
 opt2 <- solve_TSP(USCA50, method = "two_opt", tour = nn)
-sa <- solve_TSP(USCA50, method = "sa", tour = opt2, maxit = 50000, seed = 1234)
+set.seed(1234)
+sa <- solve_TSP(USCA50, method = "sa", tour = opt2, maxit = 50000)
 
 c(nn = tour_length(nn), two_opt = tour_length(opt2), sa = tour_length(sa))
 #>      nn two_opt      sa 
 #>   17032   16341   15008
 ```
 
-A plain permutation vector can be converted with
-[`as.TOUR()`](https://michael.hahsler.net/TSP/reference/TOUR.md) and its
-length can be calculated for a given problem with
-`tour_length(USCA50, order)`.
+We see how improvement methods reduce the tour length.
 
 ## State-of-the-art solvers
 
@@ -166,7 +164,44 @@ installed separately. See
 [`vignette("concorde")`](https://michael.hahsler.net/TSP/articles/concorde.md)
 for details.
 
-## Parallel execution and reproducibility
+## Asymmetric and Euclidean problems
+
+All heuristics above work with asymmetric problems (`ATSP`). Solvers
+that only handle symmetric problems use an automatic reformulation as a
+symmetric TSP with twice as many cities (see
+[`?reformulate_ATSP_as_TSP`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)).
+
+Euclidean problems (`ETSP`) are converted into distance matrices for the
+built-in heuristics, which needs memory proportional to the square of
+the number of cities. Only `"concorde"` and `"linkern"` work with `ETSP`
+objects directly.
+
+## Reproducibility
+
+Many methods are randomized (e.g., `"random"`, `"nn"` with a random
+start, `"arbitrary_insertion"`, `"sa"`, and all methods with `rep > 1`).
+They use R’s global random-number stream. Calling
+[`set.seed()`](https://rdrr.io/r/base/Random.html) before
+[`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
+makes a run reproducible, and every call advances the stream as any
+other R function that draws random numbers does.
+
+``` r
+
+data(USCA50)
+
+set.seed(1234)
+tour1 <- solve_TSP(USCA50, method = "nn", rep = 10)
+#> Warning: executing %dopar% sequentially: no parallel backend registered
+
+set.seed(1234)
+tour2 <- solve_TSP(USCA50, method = "nn", rep = 10)
+
+identical(as.integer(tour1), as.integer(tour2))
+#> [1] TRUE
+```
+
+## Parallel execution
 
 Repetitions (including `"repetitive_nn"`) are run using the **foreach**
 package and can be executed in parallel by registering a backend before
@@ -177,30 +212,14 @@ calling
 
 library(doParallel)
 registerDoParallel()
-solve_TSP(USCA50, method = "nn", two_opt = TRUE, rep = 100, seed = 1234)
+solve_TSP(USCA50, method = "nn", two_opt = TRUE, rep = 100)
 ```
 
-With `seed` set, the result does not depend on the backend or the number
-of workers. For Concorde and linkern, the seed is passed on to the
-executables (option `-s`; it must be a whole number between 0 and
-`.Machine$integer.max`). If no seed is given, one is drawn from R’s
-random number generator, so
-[`set.seed()`](https://rdrr.io/r/base/Random.html) also makes these two
-methods reproducible. Note that specifying `seed` calls
-[`set.seed()`](https://rdrr.io/r/base/Random.html) and replaces the
-global random-number state, while without `seed` the global stream is
-used and advanced as usual.
-
-## Asymmetric and Euclidean problems
-
-All heuristics above work directly with asymmetric problems (`ATSP`).
-Solvers that only handle symmetric problems use an automatic
-reformulation as a symmetric TSP with twice as many cities (see
-[`?reformulate_ATSP_as_TSP`](https://michael.hahsler.net/TSP/reference/reformulate_ATSP_as_TSP.md)).
-Euclidean problems (`ETSP`) are converted into distance matrices for the
-built-in heuristics, which needs memory proportional to the square of
-the number of cities. Only `"concorde"` and `"linkern"` work with `ETSP`
-objects directly.
+For parallel repetitions, one random number per repetition is drawn from
+R’s global stream in the main R process and used to seed the iteration
+(on the main process or a worker). The results are therefore
+reproducible with [`set.seed()`](https://rdrr.io/r/base/Random.html)
+independent of the backend and the number of workers.
 
 ## References
 

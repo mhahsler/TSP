@@ -112,7 +112,7 @@ See <code><a href="../reference/solve_TSP.html">?solve_TSP</a></code> for the co
 <th align="left">Algorithm</th>
 <th align="left">Type</th>
 <th align="left">Problems</th>
-<th align="left">Extra parameters</th>
+<th align="left">Control parameters</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -122,49 +122,69 @@ See <code><a href="../reference/solve_TSP.html">?solve_TSP</a></code> for the co
 <td align="left">Order in the data / random order</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left">none</td>
+<td align="left">
+<code>rep</code>, <code>two_opt</code>,
+<code>verbose</code>
+</td>
 </tr>
 <tr class="even">
 <td align="left"><code>"nn"</code></td>
 <td align="left">Nearest neighbor</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left"><code>start</code></td>
+<td align="left">
+<code>start</code>, <code>rep</code>,
+<code>two_opt</code>, <code>verbose</code>
+</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>"repetitive_nn"</code></td>
 <td align="left">Nearest neighbor from every start city</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left"><code>start</code></td>
+<td align="left">
+<code>two_opt</code>, <code>verbose</code>
+</td>
 </tr>
 <tr class="even">
 <td align="left"><code>"nearest_insertion"</code></td>
 <td align="left">Nearest insertion</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left"><code>start</code></td>
+<td align="left">
+<code>start</code>, <code>rep</code>,
+<code>two_opt</code>, <code>verbose</code>
+</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>"farthest_insertion"</code></td>
 <td align="left">Farthest insertion</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left"><code>start</code></td>
+<td align="left">
+<code>start</code>, <code>rep</code>,
+<code>two_opt</code>, <code>verbose</code>
+</td>
 </tr>
 <tr class="even">
 <td align="left"><code>"cheapest_insertion"</code></td>
 <td align="left">Cheapest insertion</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left"><code>start</code></td>
+<td align="left">
+<code>start</code>, <code>rep</code>,
+<code>two_opt</code>, <code>verbose</code>
+</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>"arbitrary_insertion"</code></td>
 <td align="left">Arbitrary insertion</td>
 <td align="left">construction</td>
 <td align="left">TSP, ATSP</td>
-<td align="left"><code>start</code></td>
+<td align="left">
+<code>start</code>, <code>rep</code>,
+<code>two_opt</code>, <code>verbose</code>
+</td>
 </tr>
 <tr class="even">
 <td align="left"><code>"two_opt"</code></td>
@@ -172,8 +192,8 @@ See <code><a href="../reference/solve_TSP.html">?solve_TSP</a></code> for the co
 <td align="left">improvement</td>
 <td align="left">TSP, ATSP</td>
 <td align="left">
-<code>tour</code>,
-<code>two_opt_repetitions</code>
+<code>tour</code>, <code>two_opt_repetitions</code>,
+<code>rep</code>, <code>two_opt</code>, <code>verbose</code>
 </td>
 </tr>
 <tr class="odd">
@@ -184,7 +204,8 @@ See <code><a href="../reference/solve_TSP.html">?solve_TSP</a></code> for the co
 <td align="left">
 <code>tour</code>, <code>local_move</code>,
 <code>temp</code>, <code>tmax</code>, <code>maxit</code>,
-<code>trace</code>
+<code>trace</code>, <code>rep</code>, <code>two_opt</code>,
+<code>verbose</code>
 </td>
 </tr>
 <tr class="even">
@@ -209,13 +230,6 @@ See <code><a href="../reference/solve_TSP.html">?solve_TSP</a></code> for the co
 </tr>
 </tbody>
 </table>
-<p>The extra parameters are passed in <code>control</code> or directly
-as arguments to <code><a href="../reference/solve_TSP.html">solve_TSP()</a></code>. In addition, all heuristics
-accept the common parameters <code>rep</code>, <code>two_opt</code>,
-<code>seed</code> and <code>verbose</code> described below. Concorde and
-linkern do not support <code>rep</code> and <code>two_opt</code>. See
-<code><a href="../reference/solve_TSP.html">?solve_TSP</a></code> and <code><a href="../reference/Concorde.html">?Concorde</a></code> for details on each
-parameter.</p>
 <p>Most heuristics accept the following common control parameters:</p>
 <ul>
 <li>
@@ -223,13 +237,10 @@ parameter.</p>
 is returned.</li>
 <li>
 <code>two_opt</code>: if <code>TRUE</code>, the constructed tour is
-refined by 2-opt.</li>
+refined by 2-opt improvement.</li>
 <li>
 <code>start</code>: the first city for nearest neighbor and
 insertion algorithms.</li>
-<li>
-<code>seed</code>: a non-negative integer to make randomized methods
-and repetitions reproducible.</li>
 <li>
 <code>verbose</code>: show progress and the parameters that are
 used.</li>
@@ -243,6 +254,7 @@ supplied to an improvement heuristic, a random tour is used.</p>
 <div class="section level2">
 <h2 id="tour-construction-heuristics">Tour construction heuristics<a class="anchor" aria-label="anchor" href="#tour-construction-heuristics"></a>
 </h2>
+<p>These algorithms create a tour from scratch.</p>
 <div class="section level3">
 <h3 id="nearest-neighbor">Nearest neighbor<a class="anchor" aria-label="anchor" href="#nearest-neighbor"></a>
 </h3>
@@ -288,6 +300,12 @@ twice the optimal length.</p>
 <div class="section level2">
 <h2 id="tour-improvement-heuristics">Tour improvement heuristics<a class="anchor" aria-label="anchor" href="#tour-improvement-heuristics"></a>
 </h2>
+<p>These heuristics modify existing tours to improve them. If no
+starting tour is specified then typically a random tour is used as the
+starting point.</p>
+<p>2-opt is very effective. Many constructive methods have for
+convenience the control parameter <code>two_opt</code> which
+automatically applies 2-opt improvment to the constructed tour.</p>
 <div class="section level3">
 <h3 id="opt">2-opt<a class="anchor" aria-label="anchor" href="#opt"></a>
 </h3>
@@ -326,14 +344,13 @@ annealing run for further improvement.</p>
 <span></span>
 <span><span class="va">nn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, start <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">opt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"two_opt"</span>, tour <span class="op">=</span> <span class="va">nn</span><span class="op">)</span></span>
-<span><span class="va">sa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"sa"</span>, tour <span class="op">=</span> <span class="va">opt2</span>, maxit <span class="op">=</span> <span class="fl">50000</span>, seed <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">sa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"sa"</span>, tour <span class="op">=</span> <span class="va">opt2</span>, maxit <span class="op">=</span> <span class="fl">50000</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>nn <span class="op">=</span> <span class="fu"><a href="../reference/tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">nn</span><span class="op">)</span>, two_opt <span class="op">=</span> <span class="fu"><a href="../reference/tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">opt2</span><span class="op">)</span>, sa <span class="op">=</span> <span class="fu"><a href="../reference/tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">sa</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      nn two_opt      sa </span></span>
 <span><span class="co">#&gt;   17032   16341   15008</span></span></code></pre></div>
-<p>A plain permutation vector can be converted with
-<code><a href="../reference/TOUR.html">as.TOUR()</a></code> and its length can be calculated for a given
-problem with <code>tour_length(USCA50, order)</code>.</p>
+<p>We see how improvement methods reduce the tour length.</p>
 </div>
 </div>
 <div class="section level2">
@@ -352,36 +369,55 @@ executables are installed separately. See
 <code><a href="../articles/concorde.html">vignette("concorde")</a></code> for details.</p>
 </div>
 <div class="section level2">
-<h2 id="parallel-execution-and-reproducibility">Parallel execution and reproducibility<a class="anchor" aria-label="anchor" href="#parallel-execution-and-reproducibility"></a>
+<h2 id="asymmetric-and-euclidean-problems">Asymmetric and Euclidean problems<a class="anchor" aria-label="anchor" href="#asymmetric-and-euclidean-problems"></a>
+</h2>
+<p>All heuristics above work with asymmetric problems
+(<code>ATSP</code>). Solvers that only handle symmetric problems use an
+automatic reformulation as a symmetric TSP with twice as many cities
+(see <code><a href="../reference/reformulate_ATSP_as_TSP.html">?reformulate_ATSP_as_TSP</a></code>).</p>
+<p>Euclidean problems (<code>ETSP</code>) are converted into distance
+matrices for the built-in heuristics, which needs memory proportional to
+the square of the number of cities. Only <code>"concorde"</code> and
+<code>"linkern"</code> work with <code>ETSP</code> objects directly.</p>
+</div>
+<div class="section level2">
+<h2 id="reproducibility">Reproducibility<a class="anchor" aria-label="anchor" href="#reproducibility"></a>
+</h2>
+<p>Many methods are randomized (e.g., <code>"random"</code>,
+<code>"nn"</code> with a random start,
+<code>"arbitrary_insertion"</code>, <code>"sa"</code>, and all methods
+with <code>rep &gt; 1</code>). They use R’s global random-number stream.
+Calling <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> before <code><a href="../reference/solve_TSP.html">solve_TSP()</a></code> makes a
+run reproducible, and every call advances the stream as any other R
+function that draws random numbers does.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">USCA50</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">tour1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: executing %dopar% sequentially: no parallel backend registered</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">tour2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">tour1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">tour2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="parallel-execution">Parallel execution<a class="anchor" aria-label="anchor" href="#parallel-execution"></a>
 </h2>
 <p>Repetitions (including <code>"repetitive_nn"</code>) are run using
 the <strong>foreach</strong> package and can be executed in parallel by
 registering a backend before calling <code><a href="../reference/solve_TSP.html">solve_TSP()</a></code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, two_opt <span class="op">=</span> <span class="cn">TRUE</span>, rep <span class="op">=</span> <span class="fl">100</span>, seed <span class="op">=</span> <span class="fl">1234</span><span class="op">)</span></span></code></pre></div>
-<p>With <code>seed</code> set, the result does not depend on the backend
-or the number of workers. For Concorde and linkern, the seed is passed
-on to the executables (option <code>-s</code>; it must be a whole number
-between 0 and <code>.Machine$integer.max</code>). If no seed is given,
-one is drawn from R’s random number generator, so
-<code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> also makes these two methods reproducible. Note
-that specifying <code>seed</code> calls <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> and
-replaces the global random-number state, while without <code>seed</code>
-the global stream is used and advanced as usual.</p>
-</div>
-<div class="section level2">
-<h2 id="asymmetric-and-euclidean-problems">Asymmetric and Euclidean problems<a class="anchor" aria-label="anchor" href="#asymmetric-and-euclidean-problems"></a>
-</h2>
-<p>All heuristics above work directly with asymmetric problems
-(<code>ATSP</code>). Solvers that only handle symmetric problems use an
-automatic reformulation as a symmetric TSP with twice as many cities
-(see <code><a href="../reference/reformulate_ATSP_as_TSP.html">?reformulate_ATSP_as_TSP</a></code>). Euclidean problems
-(<code>ETSP</code>) are converted into distance matrices for the
-built-in heuristics, which needs memory proportional to the square of
-the number of cities. Only <code>"concorde"</code> and
-<code>"linkern"</code> work with <code>ETSP</code> objects directly.</p>
+<span><span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, two_opt <span class="op">=</span> <span class="cn">TRUE</span>, rep <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<p>For parallel repetitions, one random number per repetition is drawn
+from R’s global stream in the main R process and used to seed the
+iteration (on the main process or a worker). The results are therefore
+reproducible with <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> independent of the backend and
+the number of workers.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

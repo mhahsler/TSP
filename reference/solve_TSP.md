@@ -5,16 +5,16 @@ Common interface to all TSP solvers in this package.
 ## Usage
 
 ``` r
-solve_TSP(x, method = NULL, control = NULL, ..., seed = NULL)
+solve_TSP(x, method = NULL, control = NULL, ...)
 
 # S3 method for class 'TSP'
-solve_TSP(x, method = NULL, control = NULL, ..., seed = NULL)
+solve_TSP(x, method = NULL, control = NULL, ...)
 
 # S3 method for class 'ATSP'
-solve_TSP(x, method = NULL, control = NULL, as_TSP = FALSE, ..., seed = NULL)
+solve_TSP(x, method = NULL, control = NULL, as_TSP = FALSE, ...)
 
 # S3 method for class 'ETSP'
-solve_TSP(x, method = NULL, control = NULL, ..., seed = NULL)
+solve_TSP(x, method = NULL, control = NULL, ...)
 ```
 
 ## Arguments
@@ -35,12 +35,6 @@ solve_TSP(x, method = NULL, control = NULL, ..., seed = NULL)
 - ...:
 
   additional arguments are added to `control`.
-
-- seed:
-
-  an optional non-negative integer seed for reproducible randomized
-  solvers and repetitions. The named argument takes precedence over a
-  seed in `control`.
 
 - as_TSP:
 
@@ -67,13 +61,6 @@ addition to the parameters specified below:
 - "rep": an integer indicating how many replications (random restarts)
   should be performed. The best result is returned. The replications can
   be performed in parallel (see Section Parallel Execution Support).
-
-- "seed": a non-negative integer used to make randomized solvers and
-  repetitions reproducible. Each repetition uses a deterministic seed
-  derived from this value, independent of the registered parallel
-  backend. For "concorde" and "linkern" the seed must be at most
-  `.Machine$integer.max`; if it is missing, one is drawn from R's random
-  number generator.
 
 - "two_opt": a logical indicating if two-opt refinement should be
   performed on the constructed tour. This is just for convenience so a
@@ -231,10 +218,14 @@ The following tour improvement heuristics are available:
     uses
     [`write_TSPLIB()`](https://michael.hahsler.net/TSP/reference/TSPLIB.md).
 
-  - "seed" a whole number between 0 and `.Machine$integer.max` passed to
-    Concorde's `-s` option to make its randomized components
-    reproducible. If missing, a seed is drawn from R's random number
-    generator (see `seed` below).
+  - "seed" an optional whole number between 0 and `.Machine$integer.max`
+    that is passed on to Concorde's `-s` option to make its randomized
+    components reproducible. **If no seed is specified, Concorde is
+    still seeded:** one random number is drawn from R's random number
+    generator and passed on as the seed. Therefore, calling
+    [`set.seed()`](https://rdrr.io/r/base/Random.html) before
+    `solve_TSP()` also makes Concorde reproducible (see Section
+    Reproducible Results). Do not combine `seed` with `-s` in `clo`.
 
   - "verbose" logical; `FALSE` suppresses the output printed to the
     terminal.
@@ -248,7 +239,9 @@ The following tour improvement heuristics are available:
   separately (see
   [Concorde](https://michael.hahsler.net/TSP/reference/Concorde.md)).
 
-  Additional control options: see Concorde above.
+  Additional control options: see Concorde above. This includes `seed`,
+  which is passed on to linkern's `-s` option and is drawn from R's
+  random number generator if it is not specified.
 
 ## Treatment of `NA`s and Infinite Values in `x`
 
@@ -290,29 +283,25 @@ appropriate parallel backend needs to be registered (e.g.,
 
 ## Reproducible Results
 
-Set the `seed` argument to make randomized solvers and repetitions
-reproducible across sequential and parallel foreach backends. Each
-repetition uses a deterministic seed derived from `seed`. The seed
-affects all randomized methods implemented in this package. For methods
-`"concorde"` and `"linkern"`, the seed is also passed on to the
-executable via its `-s` command line option. If no `seed` is specified,
-a seed for the executable is drawn from R's random number generator (so
-[`set.seed()`](https://rdrr.io/r/base/Random.html) also makes these
-methods reproducible). The seed must be a whole number between 0 and
-`.Machine$integer.max`. Do not combine `seed` with `-s` in `clo`.
+All randomized methods implemented in this package (e.g., `"random"`,
+`"nn"`, `"arbitrary_insertion"`, `"sa"`, and repetitions with `rep`) use
+R's global random number generator. Call
+[`set.seed()`](https://rdrr.io/r/base/Random.html) before `solve_TSP()`
+to make the results reproducible, and note that every call advances the
+global random-number stream. If a parallel backend is used for
+repetitions (`rep > 1` and `"repetitive_nn"`), one random number per
+repetition is drawn from the global random number generator of the main
+R process and used as the seed of the iteration.
 
-**Effect on the global random-number state:** If `seed` is specified,
-`solve_TSP()` calls [`set.seed()`](https://rdrr.io/r/base/Random.html),
-which *replaces* R's global random-number state. The state after the
-call is therefore determined by `seed` and not by the state before the
-call. With a parallel foreach backend, the repetitions set their seeds
-in the worker processes, so the global state after the call can differ
-between sequential and parallel backends. If `seed` is not specified, no
-seed is set. Randomized methods then use (and advance) the current
-global random-number stream as usual, and `"concorde"` and `"linkern"`
-draw one random number from it to seed the executable. Use
-[`set.seed()`](https://rdrr.io/r/base/Random.html) before the call to
-make the result reproducible.
+Concorde and linkern are external programs with their own random number
+generators. The programs are seeded with with one random number is drawn
+from R's global random number generator. This means that
+[`set.seed()`](https://rdrr.io/r/base/Random.html) also makes their
+results reproducible. In the unlikely evenet, that a specific seed value
+for these programs is needed, then it can be set via the control option
+`seed` (a whole number between 0 and `.Machine$integer.max`, e.g.,
+`control = list(seed = 1234)`), which is passed on to the program via
+its `-s` command line option.
 
 ## References
 
@@ -362,9 +351,9 @@ tour <- solve_TSP(etsp)
 tour
 #> object of class ‘TOUR’ 
 #> result of method ‘arbitrary_insertion+two_opt’ for 20 cities
-#> tour length: 4.010121 
+#> tour length: 3.837619 
 tour_length(tour)
-#> [1] 4.010121
+#> [1] 3.837619
 plot(etsp, tour)
 
 
@@ -374,13 +363,13 @@ tour_constr <- solve_TSP(etsp, method = "nn")
 tour_constr
 #> object of class ‘TOUR’ 
 #> result of method ‘nn’ for 20 cities
-#> tour length: 4.710893 
+#> tour length: 4.155962 
 
 tour_improved <- solve_TSP(etsp, method = "sa", tour = tour_constr)
 tour_improved
 #> object of class ‘TOUR’ 
 #> result of method ‘sa’ for 20 cities
-#> tour length: 3.776177 
+#> tour length: 3.895906 
 
 ## compare methods
 data("USCA50")

@@ -2,14 +2,34 @@
 
 ## TSP 1.2.8.1 (unpublished)
 
+### Changes
+
+- write_TSPLIB() and the Concorde interface now round distances to the
+  nearest integer instead of truncating them and warns if precision is
+  too small.
+- Removed the `seed` argument (and control option) of
+  [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
+  that was added in 1.2.8. Randomized methods rely again on R’s global
+  random number generator, so use
+  [`set.seed()`](https://rdrr.io/r/base/Random.html) before calling
+  [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md).
+  The solvers no longer replace the global random-number state.
+- Repetitions (`rep` and method “repetitive_nn”) now draw one seed per
+  repetition from the random number generator of the main R process and
+  seed each foreach iteration with it, so results are reproducible with
+  [`set.seed()`](https://rdrr.io/r/base/Random.html) independent of the
+  foreach backend and the number of workers.
+- Concorde and linkern: `seed` is now an optional control parameter,
+  e.g., `control = list(seed = 1234)`, that is passed on to the
+  executables (option `-s`) and is checked to be a valid non-negative
+  integer. Without a seed, one is drawn from the R random number
+  generator, so [`set.seed()`](https://rdrr.io/r/base/Random.html) makes
+  them reproducible.
+
+### Bug fixes
+
 - Fixed Concorde and linkern for ETSP: coordinates are now scaled to
   integers (using `precision`) before they are written.
-- The `seed` argument is now passed on to the Concorde and linkern
-  executables (checked to be a valid non-negative integer). Without a
-  seed, one is drawn from the R random number generator, so
-  [`set.seed()`](https://rdrr.io/r/base/Random.html) makes them
-  reproducible.
-- Added R Markdown vignettes.
 
 ## TSP 1.2.8 (09/30/2026)
 

@@ -140,7 +140,8 @@ first.</p>
 permutation giving the order in which the cities are visited. The
 default combines arbitrary insertion with 2-opt improvement.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tour</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">problem</span>, seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">tour</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">problem</span><span class="op">)</span></span>
 <span><span class="va">tour</span></span>
 <span><span class="co">#&gt; object of class 'TOUR' </span></span>
 <span><span class="co">#&gt; result of method 'arbitrary_insertion+two_opt' for 8 cities</span></span>
