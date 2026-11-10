@@ -57,7 +57,7 @@ test_that("ATSP reformulation preserves tour lengths", {
 })
 
 test_that("Concorde solves reformulated ATSP instances", {
-  skip_if(Sys.which("concorde") == "", "Concorde is not installed")
+  skip_if_no_concorde()
   data("USCA50")
   atsp <- as.ATSP(USCA50)
   tsp <- reformulate_ATSP_as_TSP(atsp, cheap = 0)

@@ -191,7 +191,7 @@ test_that("seed is passed on to Concorde and linkern as option -s", {
 })
 
 test_that("linkern with the same seed is reproducible", {
-  skip_if_not(Sys.which("linkern") != "")
+  skip_if_no_linkern()
   set.seed(1)
   etsp <- ETSP(data.frame(x = runif(60), y = runif(60)))
   control <- list(seed = 1, verbose = FALSE, clo = "-R 10")
@@ -216,14 +216,13 @@ test_that("ETSP coordinates are scaled to integers for Concorde and linkern", {
 })
 
 test_that("Concorde and linkern find good tours for ETSP in the unit square", {
-  skip_if_not(Sys.which("concorde") != "" || !inherits(try(concorde_path(), silent = TRUE), "try-error"))
-  skip_if_not(file.exists(file.path(concorde_path(), "concorde")))
+  skip_if_no_concorde()
   set.seed(1)
   etsp <- ETSP(data.frame(x = runif(100), y = runif(100)))
   t_concorde <- solve_TSP(etsp, method = "concorde", verbose = FALSE)
   t_nn <- solve_TSP(etsp, method = "two_opt")
   expect_lt(tour_length(t_concorde), tour_length(t_nn))
-  if (file.exists(file.path(concorde_path(), "linkern")))
+  if (has_exe("linkern"))
     expect_lt(tour_length(solve_TSP(etsp, method = "linkern", verbose = FALSE)),
       tour_length(t_nn))
 })
@@ -271,9 +270,7 @@ test_that("ETSP coordinate preparation handles negative, tiny, and huge ranges",
 })
 
 test_that("Concorde and linkern give the same tours for shifted and rescaled ETSP", {
-  skip_if_not(file.exists(file.path(concorde_path(), "concorde")) &&
-      file.exists(file.path(concorde_path(), "linkern")),
-    "concorde/linkern not installed")
+  skip_if_no_concorde_and_linkern()
 
   set.seed(2)
   pts <- cbind(x = runif(25), y = runif(25))
@@ -305,8 +302,7 @@ test_that("Concorde and linkern give the same tours for shifted and rescaled ETS
 })
 
 test_that("Concorde solves a TSP with negative distances", {
-  skip_if_not(file.exists(file.path(concorde_path(), "concorde")),
-    "concorde not installed")
+  skip_if_no_concorde()
 
   set.seed(3)
   tsp <- TSP(dist(matrix(runif(24), ncol = 2)))

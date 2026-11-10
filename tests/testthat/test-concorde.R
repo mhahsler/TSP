@@ -1,10 +1,3 @@
-skip_if_no_concorde <- function() {
-  skip_if_not(
-    Sys.which("concorde") != "" &&
-      Sys.which("linkern") != "",
-    message = "skipped test for concorde/linkern. Not installed.")
-}
-
 v <- FALSE
 
 m <- rbind(
@@ -63,7 +56,7 @@ test_that("Concorde scales and rounds distances correctly", {
 })
 
 test_that("linkern solves a TSP with infinite distances", {
-  skip_if_no_concorde()
+  skip_if_no_linkern()
 
   o <- solve_TSP(tsp, method = "linkern", verbose = v)
   expect_equal(tour_length(tsp, o), 4, ignore_attr = TRUE)
@@ -86,7 +79,7 @@ test_that("Concorde solves an ATSP via reformulation", {
 })
 
 test_that("linkern solves an ATSP via reformulation", {
-  skip_if_no_concorde()
+  skip_if_no_linkern()
 
   ## warning for automatic reformulation as TSP
   expect_warning(
