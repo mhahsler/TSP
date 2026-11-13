@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/mhahsler/TSP/blob/master/inst/CITATION)
+[`inst/CITATION`](https://github.com/mhahsler/TSP/blob/tsp_1.3.0/inst/CITATION)
 
 Hahsler M, Hornik K (2026). *TSP: Infrastructure for the Traveling
 Salesperson Problem*. R package version 1.3.0,
