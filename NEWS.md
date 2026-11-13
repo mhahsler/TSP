@@ -1,4 +1,4 @@
-# TSP 1.3.0 (unpublished)
+# TSP 1.3.0 (2026/11/13)
 
 ## New Features
 * Added the improvement methods "or_opt" (Or-opt segment insertion with

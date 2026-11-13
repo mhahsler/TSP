@@ -72,8 +72,11 @@ optimal, it is not guaranteed that the dummy cities represent the best cluster
 boundaries.
 
 ```{r solve}
+library(doParallel)
+registerDoParallel()
 set.seed(100)
-tour <- solve_TSP(tsp_dummy, rep = 10)
+
+tour <- solve_TSP(tsp_dummy, opt = "three", rep = 10)
 tour
 ```
 

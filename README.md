@@ -21,13 +21,13 @@ salesman problems (symmetric, asymmetric, and Euclidean TSPs). The
 package provides some fast implementations of simple algorithms
 including:
 
-- **Tour construction heuristics**
+- Tour construction heuristics
   - **Insertion algorithms**: nearest insertion, farthest insertion,
     cheapest insertion, arbitrary insertion ([Rosenkrantz et al.
     1977](#ref-Rosenkrantz1977))
   - **Nearest neighbor methods**: Nearest neighbor and repetitive
     nearest neighbor ([Rosenkrantz et al. 1977](#ref-Rosenkrantz1977))
-- **Tour improvement methods**
+- Tour improvement methods
   - **Two-opt heuristic** ([Croes 1958](#ref-Croes1958))
   - **Or-opt heuristic**: moves short segments of cities to better
     positions ([Or 1976](#ref-Or1976))
@@ -35,11 +35,15 @@ including:
     1965](#ref-Lin1965))
   - **Simulated annealing** ([Kirkpatrick et al.
     1983](#ref-Kirkpatrick1983))
-- **State-of-the-art solver interfaces**
+- State-of-the-art solver interfaces
   - **Concorde TSP solver interface** ([Applegate et al.
     2000](#ref-Applegate2000), [2006](#ref-Applegate2006))
   - **Concorde Chained-Lin-Kernighan heuristic interface** ([Applegate
     et al. 2003](#ref-Applegate2003))
+
+Most algorithms are optimized to work on symmetric TSPs stored as
+distance matrices, but asymmetric TSPs (ATSPs) and Euclidean TSPs
+(ETSPs) are also supported.
 
 The package can read and write the TSPLIB format ([Reinelt
 1991](#ref-Reinelt1991)) and it can solve many of the problems in the
@@ -127,7 +131,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40837
+    ## tour length: 40632
 
 Show the first few cities in the tour.
 
@@ -135,10 +139,12 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ##    Dayton, OH      Lima, OH    Toledo, OH Ann Arbor, MI   Detroit, MI 
-    ##            71           149           280             9            76 
-    ##   Windsor, ON Cleveland, OH     Akron, OH    Canton, OH      Erie, PA 
-    ##           304            61             2            47            86
+    ##    Santa Cruz, CA      San Jose, CA      Stockton, CA   Carson City, NV 
+    ##               245               242               268                48 
+    ##          Reno, NV    Sacramento, CA      Berkeley, CA       Oakland, CA 
+    ##               219               225                26               186 
+    ## San Francisco, CA          Hilo, HI 
+    ##               241               119
 
 Visualize the complete tour.
 
