@@ -79,8 +79,7 @@
 </h2>
 <p>The TSP package (<a href="#ref-Hahsler+Hornik2007">Hahsler and Hornik 2007</a>) provides the basic infrastructure and some algorithms for traveling salesman problems (symmetric, asymmetric, and Euclidean TSPs). The package provides some fast implementations of simple algorithms including:</p>
 <ul>
-<li>
-<strong>Tour construction heuristics</strong>
+<li>Tour construction heuristics
 <ul>
 <li>
 <strong>Insertion algorithms</strong>: nearest insertion, farthest insertion, cheapest insertion, arbitrary insertion (<a href="#ref-Rosenkrantz1977">Rosenkrantz et al. 1977</a>)</li>
@@ -88,8 +87,7 @@
 <strong>Nearest neighbor methods</strong>: Nearest neighbor and repetitive nearest neighbor (<a href="#ref-Rosenkrantz1977">Rosenkrantz et al. 1977</a>)</li>
 </ul>
 </li>
-<li>
-<strong>Tour improvement methods</strong>
+<li>Tour improvement methods
 <ul>
 <li>
 <strong>Two-opt heuristic</strong> (<a href="#ref-Croes1958">Croes 1958</a>)</li>
@@ -101,8 +99,7 @@
 <strong>Simulated annealing</strong> (<a href="#ref-Kirkpatrick1983">Kirkpatrick et al. 1983</a>)</li>
 </ul>
 </li>
-<li>
-<strong>State-of-the-art solver interfaces</strong>
+<li>State-of-the-art solver interfaces
 <ul>
 <li>
 <strong>Concorde TSP solver interface</strong> (<a href="#ref-Applegate2000">Applegate et al. 2000</a>, <a href="#ref-Applegate2006">2006</a>)</li>
@@ -111,6 +108,7 @@
 </ul>
 </li>
 </ul>
+<p>Most algorithms are optimized to work on symmetric TSPs stored as distance matrices, but asymmetric TSPs (ATSPs) and Euclidean TSPs (ETSPs) are also supported.</p>
 <p>The package can read and write the TSPLIB format (<a href="#ref-Reinelt1991">Reinelt 1991</a>) and it can solve many of the problems in the <a href="https://github.com/mhahsler/TSP/tree/master/TSPLIB95" class="external-link">TSPLIB95 problem library (local copy of the archive)</a>.</p>
 <p>The following R packages use <code>TSP</code>: <a href="https://CRAN.R-project.org/package=archetypes" class="external-link">archetypes</a>, <a href="https://CRAN.R-project.org/package=cholera" class="external-link">cholera</a>, <a href="https://CRAN.R-project.org/package=condvis" class="external-link">condvis</a>, <a href="https://CRAN.R-project.org/package=CRTspat" class="external-link">CRTspat</a>, <a href="https://CRAN.R-project.org/package=ForagingOrg" class="external-link">ForagingOrg</a>, <a href="https://CRAN.R-project.org/package=ggEDA" class="external-link">ggEDA</a>, <a href="https://CRAN.R-project.org/package=isocir" class="external-link">isocir</a>, <a href="https://CRAN.R-project.org/package=MLCOPULA" class="external-link">MLCOPULA</a>, <a href="https://CRAN.R-project.org/package=nilde" class="external-link">nilde</a>, <a href="https://CRAN.R-project.org/package=nlnet" class="external-link">nlnet</a>, <a href="https://CRAN.R-project.org/package=PairViz" class="external-link">PairViz</a>, <a href="https://CRAN.R-project.org/package=sensitivity" class="external-link">sensitivity</a>, <a href="https://CRAN.R-project.org/package=seriation" class="external-link">seriation</a>, <a href="https://CRAN.R-project.org/package=sfnetworks" class="external-link">sfnetworks</a>, <a href="https://CRAN.R-project.org/package=tspmeta" class="external-link">tspmeta</a>, <a href="https://CRAN.R-project.org/package=VineCopula" class="external-link">VineCopula</a>, <a href="https://CRAN.R-project.org/package=wompwomp" class="external-link">wompwomp</a></p>
 <p>To cite package ‘TSP’ in publications use:</p>
@@ -160,14 +158,16 @@
 <span><span class="va">tour</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="do">## object of class 'TOUR' </span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="do">## result of method 'arbitrary_insertion+two_opt' for 312 cities</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="do">## tour length: 40837</span></span></code></pre></div>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="do">## tour length: 40632</span></span></code></pre></div>
 <p>Show the first few cities in the tour.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tour</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">##    Dayton, OH      Lima, OH    Toledo, OH Ann Arbor, MI   Detroit, MI </span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="do">##            71           149           280             9            76 </span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="do">##   Windsor, ON Cleveland, OH     Akron, OH    Canton, OH      Erie, PA </span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="do">##           304            61             2            47            86</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">##    Santa Cruz, CA      San Jose, CA      Stockton, CA   Carson City, NV </span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="do">##               245               242               268                48 </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="do">##          Reno, NV    Sacramento, CA      Berkeley, CA       Oakland, CA </span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="do">##               219               225                26               186 </span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="do">## San Francisco, CA          Hilo, HI </span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="do">##               241               119</span></span></code></pre></div>
 <p>Visualize the complete tour.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/adeckmyn/maps" class="external-link">maps</a></span><span class="op">)</span></span>

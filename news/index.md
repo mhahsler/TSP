@@ -1,6 +1,6 @@
 # Changelog
 
-## TSP 1.3.0 (unpublished)
+## TSP 1.3.0 (2026/11/13)
 
 ### New Features
 

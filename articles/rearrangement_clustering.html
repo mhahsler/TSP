@@ -130,13 +130,18 @@ better results.</p>
 is not optimal, it is not guaranteed that the dummy cities represent the
 best cluster boundaries.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
-<span><span class="va">tour</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">tsp_dummy</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: executing %dopar% sequentially: no parallel backend registered</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RevolutionAnalytics/doparallel" class="external-link">doParallel</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: foreach</span></span>
+<span><span class="co">#&gt; Loading required package: iterators</span></span>
+<span><span class="co">#&gt; Loading required package: parallel</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html" class="external-link">registerDoParallel</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">tour</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_TSP.html">solve_TSP</a></span><span class="op">(</span><span class="va">tsp_dummy</span>, opt <span class="op">=</span> <span class="st">"three"</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">tour</span></span>
 <span><span class="co">#&gt; object of class 'TOUR' </span></span>
-<span><span class="co">#&gt; result of method 'arbitrary_insertion+two_opt_rep_10' for 153 cities</span></span>
-<span><span class="co">#&gt; tour length: 47.58385</span></span></code></pre></div>
+<span><span class="co">#&gt; result of method 'arbitrary_insertion+three_opt_rep_10' for 153 cities</span></span>
+<span><span class="co">#&gt; tour length: 46.39598</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualizing-the-result">Visualizing the result<a class="anchor" aria-label="anchor" href="#visualizing-the-result"></a>
@@ -164,7 +169,7 @@ excluded).</p>
 <code class="sourceCode R"><span><span class="va">clusters</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cut_tour.html">cut_tour</a></span><span class="op">(</span><span class="va">tour</span>, cut <span class="op">=</span> <span class="st">"boundary"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lengths.html" class="external-link">lengths</a></span><span class="op">(</span><span class="va">clusters</span><span class="op">)</span></span>
 <span><span class="co">#&gt; boundary boundary boundary </span></span>
-<span><span class="co">#&gt;       50       88       12</span></span></code></pre></div>
+<span><span class="co">#&gt;       96       50        4</span></span></code></pre></div>
 <p>Because the tour is a cycle, the part of the tour after the last
 dummy city is connected to the beginning of the tour, and
 <code><a href="../reference/cut_tour.html">cut_tour()</a></code> takes care of this. The cluster assignment can
@@ -177,9 +182,9 @@ be converted into a label vector and compared to the known species.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">cl</span>, species <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        species</span></span>
 <span><span class="co">#&gt; cluster setosa versicolor virginica</span></span>
-<span><span class="co">#&gt;       1     50          0         0</span></span>
-<span><span class="co">#&gt;       2      0         38        50</span></span>
-<span><span class="co">#&gt;       3      0         12         0</span></span></code></pre></div>
+<span><span class="co">#&gt;       1      0         46        50</span></span>
+<span><span class="co">#&gt;       2     50          0         0</span></span>
+<span><span class="co">#&gt;       3      0          4         0</span></span></code></pre></div>
 <p>With the random numbers used here, the three dummy cities split the
 data into groups of 93, 50 and 7 flowers. One boundary separates
 <em>Setosa</em> perfectly from the other two species, but the second

@@ -60,13 +60,18 @@ best cluster boundaries.
 
 ``` r
 
+library(doParallel)
+#> Loading required package: foreach
+#> Loading required package: iterators
+#> Loading required package: parallel
+registerDoParallel()
 set.seed(100)
-tour <- solve_TSP(tsp_dummy, rep = 10)
-#> Warning: executing %dopar% sequentially: no parallel backend registered
+
+tour <- solve_TSP(tsp_dummy, opt = "three", rep = 10)
 tour
 #> object of class 'TOUR' 
-#> result of method 'arbitrary_insertion+two_opt_rep_10' for 153 cities
-#> tour length: 47.58385
+#> result of method 'arbitrary_insertion+three_opt_rep_10' for 153 cities
+#> tour length: 46.39598
 ```
 
 ## Visualizing the result
@@ -98,7 +103,7 @@ original data (the dummy cities are excluded).
 clusters <- cut_tour(tour, cut = "boundary")
 lengths(clusters)
 #> boundary boundary boundary 
-#>       50       88       12
+#>       96       50        4
 ```
 
 Because the tour is a cycle, the part of the tour after the last dummy
@@ -116,9 +121,9 @@ for (i in seq_along(clusters)) cl[clusters[[i]]] <- i
 table(cluster = cl, species = iris$Species)
 #>        species
 #> cluster setosa versicolor virginica
-#>       1     50          0         0
-#>       2      0         38        50
-#>       3      0         12         0
+#>       1      0         46        50
+#>       2     50          0         0
+#>       3      0          4         0
 ```
 
 With the random numbers used here, the three dummy cities split the data

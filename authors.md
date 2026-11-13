@@ -13,13 +13,14 @@
 Source:
 [`inst/CITATION`](https://github.com/mhahsler/TSP/blob/master/inst/CITATION)
 
-Hahsler M, Hornik K (????). *TSP: Infrastructure for the Traveling
+Hahsler M, Hornik K (2026). *TSP: Infrastructure for the Traveling
 Salesperson Problem*. R package version 1.3.0,
 <https://github.com/mhahsler/TSP>.
 
     @Manual{,
       title = {TSP: Infrastructure for the Traveling Salesperson Problem},
       author = {Michael Hahsler and Kurt Hornik},
+      year = {2026},
       note = {R package version 1.3.0},
       url = {https://github.com/mhahsler/TSP},
     }
