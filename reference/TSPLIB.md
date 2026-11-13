@@ -100,7 +100,7 @@ drill <- read_TSPLIB(system.file("examples/d493.tsp", package = "TSP"))
 drill
 #> object of class ‘ETSP’ 
 #> 493 cities (Euclidean TSP)
-tour <- solve_TSP(drill, method = "nn", two_opt = TRUE)
+tour <- solve_TSP(drill, method = "nn", opt = "two")
 tour
 #> object of class ‘TOUR’ 
 #> result of method ‘nn+two_opt’ for 493 cities

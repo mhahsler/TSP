@@ -62,10 +62,15 @@ addition to the parameters specified below:
   should be performed. The best result is returned. The replications can
   be performed in parallel (see Section Parallel Execution Support).
 
-- "two_opt": a logical indicating if two-opt refinement should be
+- "opt": a character string selecting a local-search refinement that is
   performed on the constructed tour. This is just for convenience so a
-  constructive heuristic can be followed by two-opt refinement in a
-  single call.
+  constructive heuristic can be followed by refinement in a single call.
+  Available values are `"two"` (2-opt), `"or"` (Or-opt), `"three"`
+  (3-opt), and `"two+or"` (2-opt and Or-opt alternately until neither
+  improves the tour). The default is no refinement. See the methods
+  `"two_opt"`, `"or_opt"` and `"three_opt"` below.
+
+- "two_opt": **deprecated**. Use `opt = "two"` instead.
 
 - "verbose": a logical. Most implementations provide verbose output to
   monitor progress. This argument can also be helpful to see what
@@ -177,7 +182,8 @@ The following tour improvement heuristics are available:
   This is a tour refinement procedure which systematically exchanges two
   edges in the graph represented by the distance matrix until no
   improvements are possible. Exchanging two edges is equal to reversing
-  part of the tour. The resulting tour is called *2-optimal.*
+  part of the tour. The resulting tour is called *2-optimal.* This
+  heuristic takes \\O(n^2)\\ time.
 
   Additional control options:
 
@@ -186,6 +192,40 @@ The following tour improvement heuristics are available:
 
   - "two_opt_repetitions" number of times to try with random restarts
     (default: 1).
+
+- **"or_opt"** Or-opt segment insertion (Or 1976). \[TSP, ATSP\]
+
+  This is a tour refinement procedure which moves segments of 1 to
+  `max_segment` consecutive cities to a better position in the tour
+  until no improvement is possible. For symmetric problems, segments may
+  also be reinserted in reverse order. Or-opt can move a misplaced city
+  or small group of cities in a single step, which 2-opt cannot. It is
+  often also used as an additional improvement step after "two_opt" (see
+  Examples). This heuristic also takes \\O(n^2)\\ time.
+
+  Additional control options:
+
+  - "tour" an existing tour which should be improved. If no tour is
+    given, a random tour is used.
+
+  - "max_segment" maximum number of cities in a moved segment (default:
+    3).
+
+- **"three_opt"** Three-edge exchange improvement procedure (Bock 1958;
+  Lin 1965). \[TSP, ATSP\]
+
+  This is a tour refinement procedure which removes three edges and
+  reconnects the three resulting parts of the tour in the best possible
+  way until no improvements are possible. The resulting tour is called
+  *3-optimal.* The search checks all triples of edges and each pass
+  takes \\O(n^3)\\ time, so it is only practical for small to medium
+  problems. For ATSPs, only the reconnection that does not reverse any
+  part of the tour is used.
+
+  Additional control options:
+
+  - "tour" an existing tour which should be improved. If no tour is
+    given, a random tour is used.
 
 ### State-of-the-art Solvers Interfaces
 
@@ -315,6 +355,10 @@ Large Traveling Salesman Problems. *INFORMS Journal on Computing*,
 15(1):82–92.
 [doi:10.1287/ijoc.15.1.82.15157](https://doi.org/10.1287/ijoc.15.1.82.15157)
 
+F. Bock (1958): An algorithm for solving traveling-salesman and related
+network optimization problems. Unpublished manuscript presented at the
+14th ORSA meeting, Saint Louis.
+
 G.A. Croes (1958): A method for solving traveling-salesman problems.
 *Operations Research*, 6(6):791–812.
 [doi:10.1287/opre.6.6.791](https://doi.org/10.1287/opre.6.6.791)
@@ -326,6 +370,14 @@ Simulated Annealing. *Science* 220 (4598): 671–80
 S. Lin and B. Kernighan (1973): An effective heuristic algorithm for the
 traveling-salesman problem. *Operations Research*, 21(2): 498–516.
 [doi:10.1287/opre.21.2.498](https://doi.org/10.1287/opre.21.2.498)
+
+S. Lin (1965): Computer solutions of the traveling salesman problem.
+*Bell System Technical Journal*, 44(10):2245–2269.
+[doi:10.1002/j.1538-7305.1965.tb04146.x](https://doi.org/10.1002/j.1538-7305.1965.tb04146.x)
+
+I. Or (1976): Traveling salesman-type combinatorial problems and their
+relation to the logistics of regional blood banking. PhD thesis,
+Northwestern University, Evanston, IL.
 
 D.J. Rosenkrantz, R. E. Stearns, and Philip M. Lewis II (1977): An
 analysis of several heuristics for the traveling salesman problem. *SIAM
@@ -371,6 +423,15 @@ tour_improved
 #> result of method ‘sa’ for 20 cities
 #> tour length: 3.895906 
 
+## chain improvement heuristics: 2-opt, then Or-opt, then 3-opt
+tour_2 <- solve_TSP(etsp, method = "two_opt", tour = tour_constr)
+tour_or <- solve_TSP(etsp, method = "or_opt", tour = tour_2)
+tour_3 <- solve_TSP(etsp, method = "three_opt", tour = tour_or)
+c(nn = tour_length(tour_constr), two_opt = tour_length(tour_2),
+  or_opt = tour_length(tour_or), three_opt = tour_length(tour_3))
+#>        nn   two_opt    or_opt three_opt 
+#>  4.155962  4.155962  3.837619  3.837619 
+
 ## compare methods
 data("USCA50")
 USCA50
@@ -378,7 +439,7 @@ USCA50
 #> 50 cities (distance ‘euclidean’) 
 methods <- c("identity", "random", "nearest_insertion",
   "cheapest_insertion", "farthest_insertion", "arbitrary_insertion",
-  "nn", "repetitive_nn", "two_opt", "sa")
+  "nn", "repetitive_nn", "two_opt", "or_opt", "three_opt", "sa")
 
 ## calculate tours
 tours <- lapply(methods, FUN = function(m) solve_TSP(USCA50, method = m))
@@ -397,9 +458,10 @@ registerDoParallel()
 } # }
 
 ## add some tours using repetition and two_opt refinements
-tours$'nn+two_opt' <- solve_TSP(USCA50, method = "nn", two_opt = TRUE)
+tours$'nn+two_opt' <- solve_TSP(USCA50, method = "nn", opt = "two")
+tours$'nn+two_opt+or_opt' <- solve_TSP(USCA50, method = "nn", opt = "two+or")
 tours$'nn+rep_10' <- solve_TSP(USCA50, method = "nn", rep = 10)
-tours$'nn+two_opt+rep_10' <- solve_TSP(USCA50, method = "nn", two_opt = TRUE, rep = 10)
+tours$'nn+two_opt+rep_10' <- solve_TSP(USCA50, method = "nn", opt = "two", rep = 10)
 tours$'arbitrary_insertion+two_opt' <- solve_TSP(USCA50)
 
 ## show first tour

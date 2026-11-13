@@ -1,6 +1,27 @@
 # Changelog
 
-## TSP 1.2.8.1 (unpublished)
+## TSP 1.3.0 (unpublished)
+
+### New Features
+
+- Added the improvement methods “or_opt” (Or-opt segment insertion with
+  the control parameter `max_segment`) and “three_opt” (3-opt exchange
+  of three edges) to
+  [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md).
+  Like “two_opt”, they work on distance matrices for TSPs and ATSPs and
+  improve a given `tour` or a random tour. For ATSPs, no segments are
+  reversed.
+- Added the control parameter `opt` to
+  [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
+  to refine a constructed tour with `"two"` (2-opt), `"or"` (Or-opt),
+  `"three"` (3-opt), or `"two+or"` (2-opt and Or-opt alternately). The
+  default method still uses 2-opt.
+
+### Deprecated
+
+- The control parameter `two_opt` of
+  [`solve_TSP()`](https://michael.hahsler.net/TSP/reference/solve_TSP.md)
+  is deprecated with a message. Use `opt = "two"` instead.
 
 ### Changes
 

@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="index.html">TSP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,7 @@
  R package TSP - Infrastructure for the Traveling Salesperson Problem<a class="anchor" aria-label="anchor" href="#id_-r-package-tsp---infrastructure-for-the-traveling-salesperson-problem"></a>
 </h1>
 </div>
-<p><a href="https://CRAN.R-project.org/package=TSP" class="external-link"><img src="https://www.r-pkg.org/badges/version/TSP" alt="Package on CRAN"></a> <a href="https://CRAN.R-project.org/package=TSP" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/TSP" alt="CRAN RStudio mirror downloads"></a> <img src="https://img.shields.io/cran/l/TSP" alt="License"><a href="https://anaconda.org/conda-forge/r-tsp" class="external-link"><img src="https://anaconda.org/conda-forge/r-tsp/badges/version.svg" alt="Anaconda.org"></a> <a href="https://mhahsler.r-universe.dev/TSP" class="external-link"><img src="https://mhahsler.r-universe.dev/badges/TSP" alt="r-universe status"></a> <a href="https://stackoverflow.com/questions/tagged/traveling-salesman+R" class="external-link"><img src="https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg" alt="StackOverflow"></a></p>
+<p><a href="https://CRAN.R-project.org/package=TSP" class="external-link"><img src="https://www.r-pkg.org/badges/version/TSP" alt="Package on CRAN"></a> <a href="https://CRAN.R-project.org/package=TSP" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/TSP" alt="CRAN RStudio mirror downloads"></a> <img src="https://img.shields.io/cran/l/TSP" alt="License"><a href="https://anaconda.org/conda-forge/r-tsp" class="external-link"><img src="https://anaconda.org/conda-forge/r-tsp/badges/version.svg" alt="Anaconda.org"></a> <a href="https://mhahsler.r-universe.dev/TSP" class="external-link"><img src="https://mhahsler.r-universe.dev/badges/TSP" alt="r-universe status"></a> <a href="https://stackoverflow.com/questions/tagged/TSP+R" class="external-link"><img src="https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg" alt="StackOverflow"></a></p>
 <p><strong>Maintainer:</strong> <a href="https://michael.hahsler.net" class="external-link">Michael Hahsler</a></p>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
@@ -93,6 +93,10 @@
 <ul>
 <li>
 <strong>Two-opt heuristic</strong> (<a href="#ref-Croes1958">Croes 1958</a>)</li>
+<li>
+<strong>Or-opt heuristic</strong>: moves short segments of cities to better positions (<a href="#ref-Or1976">Or 1976</a>)</li>
+<li>
+<strong>Three-opt heuristic</strong> (<a href="#ref-Bock1958">Bock 1958</a>; <a href="#ref-Lin1965">Lin 1965</a>)</li>
 <li>
 <strong>Simulated annealing</strong> (<a href="#ref-Kirkpatrick1983">Kirkpatrick et al. 1983</a>)</li>
 </ul>
@@ -156,14 +160,14 @@
 <span><span class="va">tour</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="do">## object of class 'TOUR' </span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="do">## result of method 'arbitrary_insertion+two_opt' for 312 cities</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="do">## tour length: 40954</span></span></code></pre></div>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="do">## tour length: 40837</span></span></code></pre></div>
 <p>Show the first few cities in the tour.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">tour</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">## Sioux Falls, SD  Sioux City, IA     Lincoln, NE       Omaha, NE  Des Moines, IA </span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="do">##             258             257             150             189              75 </span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="do">##    Waterloo, IA   Rochester, MN  Saint Paul, MN Minneapolis, MN Saint Cloud, MN </span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="do">##             295             222             233             166             228</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="do">##    Dayton, OH      Lima, OH    Toledo, OH Ann Arbor, MI   Detroit, MI </span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="do">##            71           149           280             9            76 </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="do">##   Windsor, ON Cleveland, OH     Akron, OH    Canton, OH      Erie, PA </span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="do">##           304            61             2            47            86</span></span></code></pre></div>
 <p>Visualize the complete tour.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/adeckmyn/maps" class="external-link">maps</a></span><span class="op">)</span></span>
@@ -188,9 +192,12 @@
 <li><p><span id="ref-Applegate2000"></span>Applegate, David, Robert E. Bixby, Vasek Chvátal, and William Cook. 2000. “TSP Cuts Which Do Not Conform to the Template Paradigm.” In <em>Computational Combinatorial Optimization, Optimal or Provably Near-Optimal Solutions</em>, edited by M. Junger and D. Naddef, vol. 2241. Lecture Notes in Computer Science. Springer-Verlag. <a href="https://doi.org/10.1007/3-540-45586-8_7" class="external-link uri">https://doi.org/10.1007/3-540-45586-8_7</a>.</p></li>
 <li><p><span id="ref-Applegate2006"></span>Applegate, David, Robert Bixby, Vasek Chvátal, and William Cook. 2006. <em>Concorde TSP Solver</em>. <a href="https://www.math.uwaterloo.ca/tsp/concorde.html" class="external-link uri">https://www.math.uwaterloo.ca/tsp/concorde.html</a>.</p></li>
 <li><p><span id="ref-Applegate2003"></span>Applegate, David, William Cook, and Andre Rohe. 2003. “Chained Lin-Kernighan for Large Traveling Salesman Problems.” <em>INFORMS Journal on Computing</em> 15 (1): 82–92. <a href="https://doi.org/10.1287/ijoc.15.1.82.15157" class="external-link uri">https://doi.org/10.1287/ijoc.15.1.82.15157</a>.</p></li>
+<li><p><span id="ref-Bock1958"></span>Bock, F. 1958. “An Algorithm for Solving “Traveling-Salesman” and Related Network Optimization Problems.” Unpublished manuscript.</p></li>
 <li><p><span id="ref-Croes1958"></span>Croes, G. A. 1958. “A Method for Solving Traveling-Salesman Problems.” <em>Operations Research</em> 6 (6): 791–812. <a href="https://doi.org/10.1287/opre.6.6.791" class="external-link uri">https://doi.org/10.1287/opre.6.6.791</a>.</p></li>
 <li><p><span id="ref-Hahsler+Hornik2007"></span>Hahsler, Michael, and Kurt Hornik. 2007. “TSP – Infrastructure for the Traveling Salesperson Problem.” <em>Journal of Statistical Software</em> 23 (2): 1–21. <a href="https://doi.org/10.18637/jss.v023.i02" class="external-link uri">https://doi.org/10.18637/jss.v023.i02</a>.</p></li>
 <li><p><span id="ref-Kirkpatrick1983"></span>Kirkpatrick, S., C. D. Gelatt, and M. P. Vecchi. 1983. “Optimization by Simulated Annealing.” <em>Science</em> 220 (4598): 671–80. <a href="https://doi.org/10.1126/science.220.4598.671" class="external-link uri">https://doi.org/10.1126/science.220.4598.671</a>.</p></li>
+<li><p><span id="ref-Lin1965"></span>Lin, S. 1965. “Computer Solutions of the Traveling-Salesman Problem.” <em>Bell System Technology Journal</em> 44: 2245–69.</p></li>
+<li><p><span id="ref-Or1976"></span>Or, I. 1976. “Traveling Salesman-Type Combinatorial Problems and Their Relation to the Logistics of Regional Blood Banking.” PhD thesis, Northwestern University.</p></li>
 <li><p><span id="ref-Reinelt1991"></span>Reinelt, Gerhard. 1991. “TSPLIB—a Traveling Salesman Problem Library.” <em>ORSA Journal on Computing</em> 3 (4): 376–84. <a href="https://doi.org/10.1287/ijoc.3.4.376" class="external-link uri">https://doi.org/10.1287/ijoc.3.4.376</a>.</p></li>
 <li><p><span id="ref-Rosenkrantz1977"></span>Rosenkrantz, Daniel J., Richard E. Stearns, and Philip M. Lewis II. 1977. “An Analysis of Several Heuristics for the Traveling Salesman Problem.” <em>SIAM Journal on Computing</em> 6 (3): 563–81. <a href="https://doi.org/10.1007/978-1-4020-9688-4_3" class="external-link uri">https://doi.org/10.1007/978-1-4020-9688-4_3</a>.</p></li>
 </ul>

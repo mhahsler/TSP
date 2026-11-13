@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TSP</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.2.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,9 +105,14 @@ heuristic, then an initial tour (e.g., a random tour) is automatically created.<
 to the parameters specified below:</p><ul><li><p>"rep": an integer indicating how many replications (random restarts) should be performed.
 The best result is returned. The replications can be performed in parallel
 (see Section Parallel Execution Support).</p></li>
-<li><p>"two_opt": a logical indicating if two-opt refinement should be performed on the
-constructed tour. This is just for convenience so a constructive heuristic can be
-followed by two-opt refinement in a single call.</p></li>
+<li><p>"opt": a character string selecting a local-search refinement that is
+performed on the constructed tour. This is just for convenience so a
+constructive heuristic can be followed by refinement in a single call.
+Available values are <code>"two"</code> (2-opt), <code>"or"</code> (Or-opt), <code>"three"</code> (3-opt),
+and <code>"two+or"</code> (2-opt and Or-opt alternately until neither improves the
+tour). The default is no refinement. See the methods
+<code>"two_opt"</code>, <code>"or_opt"</code> and <code>"three_opt"</code> below.</p></li>
+<li><p>"two_opt": <strong>deprecated</strong>. Use <code>opt = "two"</code> instead.</p></li>
 <li><p>"verbose": a logical. Most implementations provide verbose output to monitor progress.
 This argument can also be helpful to see what heuristics are used and what the
 default parameters are.</p></li>
@@ -183,11 +188,35 @@ by the number of cities.</p></li>
 <p>This is a tour refinement procedure which systematically exchanges two edges
 in the graph represented by the distance matrix until no improvements are
 possible. Exchanging two edges is equal to reversing part of the tour. The
-resulting tour is called <em>2-optimal.</em></p>
+resulting tour is called <em>2-optimal.</em> This heuristic takes \(O(n^2)\) time.</p>
 <p>Additional control options:</p><ul><li><p>"tour" an existing tour which should be improved.
 If no tour is given, a random tour is used.</p></li>
 <li><p>"two_opt_repetitions" number of times to try with random restarts
 (default: 1).</p></li>
+</ul></li>
+<li><p><strong>"or_opt"</strong> Or-opt segment insertion (Or 1976). [TSP, ATSP]</p>
+<p>This is a tour refinement procedure which moves segments of 1 to
+<code>max_segment</code> consecutive cities to a better position in the tour until
+no improvement is possible. For symmetric problems, segments may also be
+reinserted in reverse order. Or-opt can move a misplaced city or small
+group of cities in a single step, which 2-opt cannot. It is often also
+used as an additional improvement step after "two_opt" (see Examples).
+This heuristic also takes \(O(n^2)\) time.</p>
+<p>Additional control options:</p><ul><li><p>"tour" an existing tour which should be improved.
+If no tour is given, a random tour is used.</p></li>
+<li><p>"max_segment" maximum number of cities in a moved segment (default: 3).</p></li>
+</ul></li>
+<li><p><strong>"three_opt"</strong> Three-edge exchange improvement procedure
+(Bock 1958; Lin 1965). [TSP, ATSP]</p>
+<p>This is a tour refinement procedure which removes three edges and
+reconnects the three resulting parts of the tour in the best possible way
+until no improvements are possible. The resulting tour is called
+<em>3-optimal.</em> The search checks all triples of edges and each pass
+takes \(O(n^3)\) time, so it is only practical for small to medium
+problems. For ATSPs, only the reconnection that does not reverse any part
+of the tour is used.</p>
+<p>Additional control options:</p><ul><li><p>"tour" an existing tour which should be improved.
+If no tour is given, a random tour is used.</p></li>
 </ul></li>
 </ul></div>
 
@@ -293,6 +322,9 @@ Springer.<a href="https://doi.org/10.1007/3-540-45586-8_7" class="external-link"
 <p>D. Applegate, W. Cook and A. Rohe (2003): Chained Lin-Kernighan for Large
 Traveling Salesman Problems.  <em>INFORMS Journal on Computing</em>,
 15(1):82–92. <a href="https://doi.org/10.1287/ijoc.15.1.82.15157" class="external-link">doi:10.1287/ijoc.15.1.82.15157</a></p>
+<p>F. Bock (1958): An algorithm for solving traveling-salesman and related
+network optimization problems. Unpublished manuscript presented at the 14th
+ORSA meeting, Saint Louis.</p>
 <p>G.A. Croes (1958): A method for solving traveling-salesman problems.
 <em>Operations Research</em>, 6(6):791–812. <a href="https://doi.org/10.1287/opre.6.6.791" class="external-link">doi:10.1287/opre.6.6.791</a></p>
 <p>Kirkpatrick, S., C. D. Gelatt, and M. P. Vecchi (1983):
@@ -301,6 +333,12 @@ Optimization by Simulated Annealing. <em>Science</em> 220 (4598): 671–80
 <p>S. Lin and B. Kernighan (1973): An effective heuristic algorithm for the
 traveling-salesman problem. <em>Operations Research</em>, 21(2): 498–516.
 <a href="https://doi.org/10.1287/opre.21.2.498" class="external-link">doi:10.1287/opre.21.2.498</a></p>
+<p>S. Lin (1965): Computer solutions of the traveling salesman problem.
+<em>Bell System Technical Journal</em>, 44(10):2245–2269.
+<a href="https://doi.org/10.1002/j.1538-7305.1965.tb04146.x" class="external-link">doi:10.1002/j.1538-7305.1965.tb04146.x</a></p>
+<p>I. Or (1976): Traveling salesman-type combinatorial problems and their
+relation to the logistics of regional blood banking. PhD thesis,
+Northwestern University, Evanston, IL.</p>
 <p>D.J. Rosenkrantz, R. E. Stearns, and Philip M. Lewis II (1977): An analysis
 of several heuristics for the traveling salesman problem.  <em>SIAM
 Journal on Computing</em>, 6(3):563–581. <a href="https://doi.org/10.1007/978-1-4020-9688-4_3" class="external-link">doi:10.1007/978-1-4020-9688-4_3</a></p>
@@ -344,6 +382,15 @@ Journal on Computing</em>, 6(3):563–581. <a href="https://doi.org/10.1007/978-
 <span class="r-out co"><span class="r-pr">#&gt;</span> result of method ‘sa’ for 20 cities</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tour length: 3.895906 </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## chain improvement heuristics: 2-opt, then Or-opt, then 3-opt</span></span></span>
+<span class="r-in"><span><span class="va">tour_2</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">etsp</span>, method <span class="op">=</span> <span class="st">"two_opt"</span>, tour <span class="op">=</span> <span class="va">tour_constr</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tour_or</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">etsp</span>, method <span class="op">=</span> <span class="st">"or_opt"</span>, tour <span class="op">=</span> <span class="va">tour_2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tour_3</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">etsp</span>, method <span class="op">=</span> <span class="st">"three_opt"</span>, tour <span class="op">=</span> <span class="va">tour_or</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>nn <span class="op">=</span> <span class="fu"><a href="tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">tour_constr</span><span class="op">)</span>, two_opt <span class="op">=</span> <span class="fu"><a href="tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">tour_2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  or_opt <span class="op">=</span> <span class="fu"><a href="tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">tour_or</span><span class="op">)</span>, three_opt <span class="op">=</span> <span class="fu"><a href="tour_length.html">tour_length</a></span><span class="op">(</span><span class="va">tour_3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        nn   two_opt    or_opt three_opt </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4.155962  4.155962  3.837619  3.837619 </span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## compare methods</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"USCA50"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">USCA50</span></span></span>
@@ -351,7 +398,7 @@ Journal on Computing</em>, 6(3):563–581. <a href="https://doi.org/10.1007/978-
 <span class="r-out co"><span class="r-pr">#&gt;</span> 50 cities (distance ‘euclidean’) </span>
 <span class="r-in"><span><span class="va">methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"identity"</span>, <span class="st">"random"</span>, <span class="st">"nearest_insertion"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"cheapest_insertion"</span>, <span class="st">"farthest_insertion"</span>, <span class="st">"arbitrary_insertion"</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"nn"</span>, <span class="st">"repetitive_nn"</span>, <span class="st">"two_opt"</span>, <span class="st">"sa"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="st">"nn"</span>, <span class="st">"repetitive_nn"</span>, <span class="st">"two_opt"</span>, <span class="st">"or_opt"</span>, <span class="st">"three_opt"</span>, <span class="st">"sa"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## calculate tours</span></span></span>
 <span class="r-in"><span><span class="va">tours</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">methods</span>, FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">m</span><span class="op">)</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="va">m</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -370,9 +417,10 @@ Journal on Computing</em>, 6(3):563–581. <a href="https://doi.org/10.1007/978-
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## add some tours using repetition and two_opt refinements</span></span></span>
-<span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'nn+two_opt'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, two_opt <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'nn+two_opt'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, opt <span class="op">=</span> <span class="st">"two"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'nn+two_opt+or_opt'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, opt <span class="op">=</span> <span class="st">"two+or"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'nn+rep_10'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'nn+two_opt+rep_10'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, two_opt <span class="op">=</span> <span class="cn">TRUE</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'nn+two_opt+rep_10'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span>, method <span class="op">=</span> <span class="st">"nn"</span>, opt <span class="op">=</span> <span class="st">"two"</span>, rep <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tours</span><span class="op">$</span><span class="st">'arbitrary_insertion+two_opt'</span> <span class="op">&lt;-</span> <span class="fu">solve_TSP</span><span class="op">(</span><span class="va">USCA50</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## show first tour</span></span></span>

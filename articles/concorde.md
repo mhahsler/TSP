@@ -172,7 +172,7 @@ to Concorde and linkern using `control` or directly as arguments to
   as a  
   whole number between 0 and `.Machine$integer.max` (2147483647). Do not
   use `-s` in `clo` to set the seed.
-- `rep` and `two_opt` are not available for these methods.
+- `rep` and `opt` are not available for these methods.
 
 ``` r
 

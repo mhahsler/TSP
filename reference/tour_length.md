@@ -83,5 +83,5 @@ tour
 tour_length(tour)
 #> [1] NA
 tour_length(tour, USCA50)
-#> [1] 61196
+#> [1] 61490
 ```
