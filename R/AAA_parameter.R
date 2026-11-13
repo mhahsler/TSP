@@ -66,9 +66,25 @@
   x
 }
 
+## values of the control parameter opt (tour refinement after construction)
+.opt_values <- c("two", "or", "three", "two+or")
+
+.validate_opt <- function(opt) {
+  if (is.null(opt))
+    return(invisible(opt))
+  .validate_scalar(opt, "opt", "character")
+  if (!opt %in% .opt_values)
+    stop("opt must be one of ", paste(dQuote(.opt_values, FALSE), collapse = ", "),
+      ".", call. = FALSE)
+  invisible(opt)
+}
+
 .validate_control <- function(control) {
   .validate_scalar(control$verbose, "verbose", "logical")
-  .validate_scalar(control$two_opt, "two_opt", "logical")
+  ## note: use [[ ]] since $ would partially match two_opt_repetitions
+  if (!is.null(control[["two_opt"]]))
+    .validate_scalar(control[["two_opt"]], "two_opt", "logical")
+  .validate_opt(control$opt)
   .validate_scalar(control$rep, "rep", integer = TRUE, lower = 1)
 
   if (!is.null(control$two_opt_repetitions))
@@ -100,7 +116,7 @@
 .get_parameters <- function(parameter, defaults, method = NA) {
   # add standard parameters
   defaults <- utils::modifyList(
-    list(verbose = FALSE, two_opt = FALSE, rep = 1L),
+    list(verbose = FALSE, opt = NULL, max_segment = NULL, rep = 1L),
     as.list(defaults),
     keep.null = TRUE
   )

@@ -9,7 +9,7 @@ downloads](https://cranlogs.r-pkg.org/badges/TSP)](https://CRAN.R-project.org/pa
 [![Anaconda.org](https://anaconda.org/conda-forge/r-tsp/badges/version.svg)](https://anaconda.org/conda-forge/r-tsp)
 [![r-universe
 status](https://mhahsler.r-universe.dev/badges/TSP)](https://mhahsler.r-universe.dev/TSP)
-[![StackOverflow](https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg)](https://stackoverflow.com/questions/tagged/traveling-salesman+R)
+[![StackOverflow](https://img.shields.io/badge/stackoverflow-TSP+R-orange.svg)](https://stackoverflow.com/questions/tagged/TSP+R)
 
 **Maintainer:** [Michael Hahsler](https://michael.hahsler.net)
 
@@ -29,6 +29,10 @@ including:
     nearest neighbor ([Rosenkrantz et al. 1977](#ref-Rosenkrantz1977))
 - **Tour improvement methods**
   - **Two-opt heuristic** ([Croes 1958](#ref-Croes1958))
+  - **Or-opt heuristic**: moves short segments of cities to better
+    positions ([Or 1976](#ref-Or1976))
+  - **Three-opt heuristic** ([Bock 1958](#ref-Bock1958); [Lin
+    1965](#ref-Lin1965))
   - **Simulated annealing** ([Kirkpatrick et al.
     1983](#ref-Kirkpatrick1983))
 - **State-of-the-art solver interfaces**
@@ -123,7 +127,7 @@ tour
 
     ## object of class 'TOUR' 
     ## result of method 'arbitrary_insertion+two_opt' for 312 cities
-    ## tour length: 40954
+    ## tour length: 40837
 
 Show the first few cities in the tour.
 
@@ -131,10 +135,10 @@ Show the first few cities in the tour.
 head(tour, n = 10)
 ```
 
-    ## Sioux Falls, SD  Sioux City, IA     Lincoln, NE       Omaha, NE  Des Moines, IA 
-    ##             258             257             150             189              75 
-    ##    Waterloo, IA   Rochester, MN  Saint Paul, MN Minneapolis, MN Saint Cloud, MN 
-    ##             295             222             233             166             228
+    ##    Dayton, OH      Lima, OH    Toledo, OH Ann Arbor, MI   Detroit, MI 
+    ##            71           149           280             9            76 
+    ##   Windsor, ON Cleveland, OH     Akron, OH    Canton, OH      Erie, PA 
+    ##           304            61             2            47            86
 
 Visualize the complete tour.
 
@@ -177,6 +181,10 @@ Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
   Salesman Problems.” *INFORMS Journal on Computing* 15 (1): 82–92.
   <https://doi.org/10.1287/ijoc.15.1.82.15157>.
 
+- <span id="ref-Bock1958"></span>Bock, F. 1958. “An Algorithm for
+  Solving "Traveling-Salesman" and Related Network Optimization
+  Problems.” Unpublished manuscript.
+
 - <span id="ref-Croes1958"></span>Croes, G. A. 1958. “A Method for
   Solving Traveling-Salesman Problems.” *Operations Research* 6 (6):
   791–812. <https://doi.org/10.1287/opre.6.6.791>.
@@ -190,6 +198,14 @@ Please submit bug reports to <https://github.com/mhahsler/TSP/issues>
   and M. P. Vecchi. 1983. “Optimization by Simulated Annealing.”
   *Science* 220 (4598): 671–80.
   <https://doi.org/10.1126/science.220.4598.671>.
+
+- <span id="ref-Lin1965"></span>Lin, S. 1965. “Computer Solutions of the
+  Traveling-Salesman Problem.” *Bell System Technology Journal* 44:
+  2245–69.
+
+- <span id="ref-Or1976"></span>Or, I. 1976. “Traveling Salesman-Type
+  Combinatorial Problems and Their Relation to the Logistics of Regional
+  Blood Banking.” PhD thesis, Northwestern University.
 
 - <span id="ref-Reinelt1991"></span>Reinelt, Gerhard. 1991. “TSPLIB—a
   Traveling Salesman Problem Library.” *ORSA Journal on Computing* 3

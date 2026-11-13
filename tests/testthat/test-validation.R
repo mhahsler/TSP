@@ -98,7 +98,9 @@ test_that("control parameters are scalar values in valid ranges", {
 
   invalid <- list(
     list(method = "nn", control = list(verbose = 1)),
-    list(method = "nn", control = list(two_opt = NA)),
+    list(method = "nn", control = list(opt = NA)),
+    list(method = "nn", control = list(opt = "four")),
+    list(method = "nn", control = list(opt = c("two", "or"))),
     list(method = "nn", control = list(rep = 0)),
     list(method = "nn", control = list(rep = 1.5)),
     list(method = "two_opt", control = list(two_opt_repetitions = 0)),

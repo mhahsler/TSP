@@ -70,7 +70,7 @@
 #' ## Drilling problem from TSP
 #' drill <- read_TSPLIB(system.file("examples/d493.tsp", package = "TSP"))
 #' drill
-#' tour <- solve_TSP(drill, method = "nn", two_opt = TRUE)
+#' tour <- solve_TSP(drill, method = "nn", opt = "two")
 #' tour
 #' plot(drill, tour, cex=.6, col = "red", pch= 3, main = "TSPLIB: d493")
 #'

@@ -47,7 +47,7 @@ test_that("repetitions and two-opt controls produce valid tours", {
   repeated <- solve_TSP(tsp, rep = 10)
   expect_true(attr(repeated, "tour_length") %in% c(4, Inf))
 
-  unrefined <- solve_TSP(tsp, two_opt = FALSE)
+  unrefined <- solve_TSP(tsp, opt = NULL)
   expect_true(attr(unrefined, "tour_length") %in% c(4, Inf))
 })
 

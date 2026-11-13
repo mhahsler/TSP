@@ -28,11 +28,16 @@ The package provides some fast implementations of simple algorithms including:
 
 * __Tour improvement methods__
   * __Two-opt heuristic__ [@Croes1958]
+  * __Or-opt heuristic__: moves short segments of cities to better positions [@Or1976]
+  * __Three-opt heuristic__ [@Bock1958; @Lin1965]
   * __Simulated annealing__ [@Kirkpatrick1983]
 
 * __State-of-the-art solver interfaces__
   * __Concorde TSP solver interface__ [@Applegate2000; @Applegate2006]
   * __Concorde Chained-Lin-Kernighan heuristic interface__ [@Applegate2003]
+
+Most algorithms are optimized to work on symmetric TSPs stored as distance matrices, 
+but asymmetric TSPs (ATSPs) and Euclidean TSPs (ETSPs) are also supported. 
 
 The package can read and write the TSPLIB format [@Reinelt1991] and it can solve many of the 
 problems in the [TSPLIB95 problem library (local copy of the archive)](https://github.com/mhahsler/TSP/tree/master/TSPLIB95).
